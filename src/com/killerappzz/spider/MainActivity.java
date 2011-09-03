@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
+import com.killerappzz.spider.engine.Engine;
 import com.killerappzz.spider.engine.Game;
 import com.killerappzz.spider.rendering.CanvasSurfaceView;
 
@@ -19,7 +20,10 @@ public class MainActivity extends Activity {
         game = new Game(this);
         // load the game
         game.load(this);
+        // register the engine
+        Engine engine = new Engine(game);
         mCanvasSurfaceView.setRenderer(game.getRenderer());
+        mCanvasSurfaceView.setEvent(engine);
         setContentView(mCanvasSurfaceView);
     }
     
@@ -30,7 +34,6 @@ public class MainActivity extends Activity {
         super.onDestroy();
         mCanvasSurfaceView.clearEvent();
         mCanvasSurfaceView.stopDrawing();
-        
         game.cleanup();
     }
     

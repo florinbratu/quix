@@ -1,5 +1,6 @@
 package com.killerappzz.spider.engine;
 
+import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.ProfileRecorder;
 import com.killerappzz.spider.R;
 import com.killerappzz.spider.objects.Background;
@@ -63,6 +64,7 @@ public class Game {
         int centerX = (this.screenWidth - (int)spider.width) / 2;
         spider.x = centerX;
         spider.y = 0;
+        spider.speed = Constants.DEFAULT_SPIDER_SPEED;
         manager.addSpider(spider);
 
         // Now's a good time to run the GC.  Since we won't do any explicit
@@ -90,6 +92,10 @@ public class Game {
 	
 	public GestureDetector getTouchHandler() {
 		return this.touchHandler;
+	}
+	
+	public ObjectManager getObjectManager() {
+		return this.manager;
 	}
 	
 }

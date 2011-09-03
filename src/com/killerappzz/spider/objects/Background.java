@@ -22,8 +22,8 @@ public class Background extends Sprite{
 		super(context, bitmapOptions, resourceId);
 		this.originalBitmap = mBitmap;
 		this.mBitmap = Bitmap.createScaledBitmap(originalBitmap, width, height, true);
-		this.x = this.y = this.z = 0;
-		this.velocityX = this.velocityY = this.velocityZ = 0;
+		this.x = this.y = 0;
+		setVelocity(0, 0);
 		this.width = width;
 		this.height = height;
 	}

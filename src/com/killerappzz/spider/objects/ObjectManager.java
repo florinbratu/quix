@@ -59,8 +59,7 @@ public class ObjectManager extends SimpleOnGestureListener{
 		float touchY = (float)game.getScreenHeight() - e1.getY();
 		if(spiderTouched(touchX, touchY)) {
 			Log.d("SPIDER", "Spider touched!");
-			spider.velocityX = e2.getX();
-			spider.velocityY = e2.getY();
+			spider.setVelocity(e2.getX() - e1.getX(), - e2.getY() + e1.getY() );
 		}
 		return true;
 	}
@@ -72,6 +71,13 @@ public class ObjectManager extends SimpleOnGestureListener{
 		double distance = Math.sqrt( (x - spider.x - spider.width * 0.5f) * (x - spider.x - spider.width * 0.5f) 
 				+ (y - spider.y) * (y - spider.y) );
 		return (float)distance < range;
+	}
+
+	public void updatePositions(float timeDeltaSeconds) {
+		for(DrawableObject object : objects) {
+			if(object.speed!=0 && !(object.getVelocityX() == 0 && object.getVelocityY() == 0))
+				object.updatePosition(timeDeltaSeconds);
+		}
 	}
 
 }
