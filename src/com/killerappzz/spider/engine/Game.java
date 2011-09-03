@@ -12,6 +12,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector;
 
 /**
  * This will encapsulate the logic of the game
@@ -28,6 +29,7 @@ public class Game {
     private final GameRenderer renderer;
     private static BitmapFactory.Options sBitmapOptions 
       = new BitmapFactory.Options();
+    private GestureDetector touchHandler;
 	
 	public Game(Activity parentActivity) {
 		// We need to know the width and height of the display pretty soon,
@@ -40,8 +42,9 @@ public class Game {
         // Clear out any old profile results.
         ProfileRecorder.sSingleton.resetAll();
         
-        manager = new ObjectManager();
+        manager = new ObjectManager(this);
 		renderer = new GameRenderer(manager);
+		touchHandler = new GestureDetector(parentActivity, manager);
 	}
 	
 	public void load(Context context) {
@@ -60,7 +63,7 @@ public class Game {
         int centerX = (this.screenWidth - (int)spider.width) / 2;
         spider.x = centerX;
         spider.y = 0;
-        manager.addObject(spider);
+        manager.addSpider(spider);
 
         // Now's a good time to run the GC.  Since we won't do any explicit
         // allocation during the test, the GC should stay dormant and not
@@ -83,6 +86,10 @@ public class Game {
 	
 	public GameRenderer getRenderer() {
 		return renderer;
+	}
+	
+	public GestureDetector getTouchHandler() {
+		return this.touchHandler;
 	}
 	
 }

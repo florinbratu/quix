@@ -2,6 +2,7 @@ package com.killerappzz.spider;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 
 import com.killerappzz.spider.engine.Game;
 import com.killerappzz.spider.rendering.CanvasSurfaceView;
@@ -31,6 +32,11 @@ public class MainActivity extends Activity {
         mCanvasSurfaceView.stopDrawing();
         
         game.cleanup();
+    }
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+    	return game.getTouchHandler().onTouchEvent(event);
     }
 
 }

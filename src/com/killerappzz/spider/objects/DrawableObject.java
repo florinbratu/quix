@@ -13,10 +13,13 @@ public abstract class DrawableObject {
     public float y;
     public float z;
     
-    // Velocity.
+    // Velocity. Prin velocity eu inteleg directia in care tre sa se miste
     public float velocityX;
     public float velocityY;
     public float velocityZ;
+    
+    // Movement speed
+    public float speed;
     
     // Size.
     public float width;
