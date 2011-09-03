@@ -16,10 +16,13 @@
 
 package com.killerappzz.spider.rendering;
 
-import com.killerappzz.spider.objects.Sprite;
-import com.killerappzz.spider.rendering.CanvasSurfaceView.Renderer;
+import java.util.LinkedList;
+import java.util.List;
 
 import android.graphics.Canvas;
+
+import com.killerappzz.spider.objects.DrawableObject;
+import com.killerappzz.spider.rendering.CanvasSurfaceView.Renderer;
 
 /**
  * An extremely simple renderer based on the CanvasSurfaceView drawing
@@ -28,24 +31,24 @@ import android.graphics.Canvas;
  */
 public class GameRenderer implements Renderer {
 
-    private Sprite[] mSprites;
+    private final List<DrawableObject> objects; 
     
-    public void setSprites(Sprite[] sprites) {
-        mSprites = sprites;
+    public GameRenderer() {
+    	this.objects = new LinkedList<DrawableObject>();
+	}
+    
+    public void addObject(DrawableObject object) {
+    	this.objects.add(object);
     }
     
     public void drawFrame(Canvas canvas) {
-        if (mSprites != null) {
-
-            for (int x = 0; x < mSprites.length; x++) {
-                mSprites[x].draw(canvas);
-            }
-        }
-        
+    	for(DrawableObject object : objects) {
+    		object.draw(canvas);
+    	}
     }
 
     public void sizeChanged(int width, int height) {
-        
+        // huh???
     }
 
 }

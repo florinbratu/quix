@@ -34,9 +34,6 @@ public class MainActivity extends Activity {
         // Clear out any old profile results.
         ProfileRecorder.sSingleton.resetAll();
         
-        // Allocate space for the robot sprites + one background sprite.
-        Sprite[] spriteArray = new Sprite[2];    
-        
         mBitmaps = new Bitmap[2];
         mBitmaps[0] = loadBitmap(this, R.drawable.background);
         mBitmaps[1] = loadBitmap(this, R.drawable.spider);
@@ -52,7 +49,7 @@ public class MainActivity extends Activity {
         Sprite background = new Sprite(mBitmaps[0]);
         background.width = mBitmaps[0].getWidth();
         background.height = mBitmaps[0].getHeight();
-        spriteArray[0] = background;
+        spriteRenderer.addObject(background);
         
         // This list of things to move. It points to the same content as
         // spriteArray except for the background.
@@ -63,7 +60,7 @@ public class MainActivity extends Activity {
         int centerX = (dm.widthPixels - (int)spider.width) / 2;
         spider.x = centerX;//(float)(Math.random() * dm.widthPixels);
         spider.y = 0;//(float)(Math.random() * dm.heightPixels);
-        spriteArray[1] = spider;
+        spriteRenderer.addObject(spider);
        
         // Now's a good time to run the GC.  Since we won't do any explicit
         // allocation during the test, the GC should stay dormant and not
@@ -71,9 +68,7 @@ public class MainActivity extends Activity {
         Runtime r = Runtime.getRuntime();
         r.gc();
         
-        spriteRenderer.setSprites(spriteArray);
         mCanvasSurfaceView.setRenderer(spriteRenderer);
-
         setContentView(mCanvasSurfaceView);
     }
     
