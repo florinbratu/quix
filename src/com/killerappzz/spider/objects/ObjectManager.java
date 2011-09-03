@@ -75,8 +75,10 @@ public class ObjectManager extends SimpleOnGestureListener{
 
 	public void updatePositions(float timeDeltaSeconds) {
 		for(DrawableObject object : objects) {
-			if(object.speed!=0 && !(object.getVelocityX() == 0 && object.getVelocityY() == 0))
+			if(object.speed!=0 && !(object.getVelocityX() == 0 && object.getVelocityY() == 0)) {
 				object.updatePosition(timeDeltaSeconds);
+				object.boundsCheck(game.getScreenWidth(), game.getScreenHeight());
+			}
 		}
 	}
 
