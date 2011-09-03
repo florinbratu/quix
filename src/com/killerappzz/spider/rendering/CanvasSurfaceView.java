@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.killerappzz.spider;
+package com.killerappzz.spider.rendering;
+
+import com.killerappzz.spider.ProfileRecorder;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -107,12 +109,12 @@ public class CanvasSurfaceView extends SurfaceView
     }
 
     @Override
-    protected void onDetachedFromWindow() {
+    public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mCanvasThread.requestExitAndWait();
     }
     
-    protected void stopDrawing() {
+    public void stopDrawing() {
         mCanvasThread.requestExitAndWait();
     }
 

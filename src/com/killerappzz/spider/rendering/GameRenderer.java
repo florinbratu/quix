@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package com.killerappzz.spider;
+package com.killerappzz.spider.rendering;
 
-import com.killerappzz.spider.CanvasSurfaceView.Renderer;
+import com.killerappzz.spider.objects.Sprite;
+import com.killerappzz.spider.rendering.CanvasSurfaceView.Renderer;
 
 import android.graphics.Canvas;
 
 /**
  * An extremely simple renderer based on the CanvasSurfaceView drawing
  * framework.  Simply draws a list of sprites to a canvas every frame.
+ * Do we need more ???
  */
-public class SimpleCanvasRenderer implements Renderer {
+public class GameRenderer implements Renderer {
 
-    private CanvasSprite[] mSprites;
+    private Sprite[] mSprites;
     
-    public void setSprites(CanvasSprite[] sprites) {
+    public void setSprites(Sprite[] sprites) {
         mSprites = sprites;
     }
     

@@ -3,6 +3,10 @@ package com.killerappzz.spider;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.killerappzz.spider.objects.Sprite;
+import com.killerappzz.spider.rendering.CanvasSurfaceView;
+import com.killerappzz.spider.rendering.GameRenderer;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,7 +26,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCanvasSurfaceView = new CanvasSurfaceView(this);
-        SimpleCanvasRenderer spriteRenderer = new SimpleCanvasRenderer();
+        GameRenderer spriteRenderer = new GameRenderer();
        
         // Sets our preferred image format to 16-bit, 565 format.
         sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
@@ -31,7 +35,7 @@ public class MainActivity extends Activity {
         ProfileRecorder.sSingleton.resetAll();
         
         // Allocate space for the robot sprites + one background sprite.
-        CanvasSprite[] spriteArray = new CanvasSprite[2];    
+        Sprite[] spriteArray = new Sprite[2];    
         
         mBitmaps = new Bitmap[2];
         mBitmaps[0] = loadBitmap(this, R.drawable.background);
@@ -45,19 +49,20 @@ public class MainActivity extends Activity {
         // Make the background.
         // Note that the background image is larger than the screen, 
         // so some clipping will occur when it is drawn.
-        CanvasSprite background = new CanvasSprite(mBitmaps[0]);
+        Sprite background = new Sprite(mBitmaps[0]);
         background.width = mBitmaps[0].getWidth();
         background.height = mBitmaps[0].getHeight();
         spriteArray[0] = background;
         
         // This list of things to move. It points to the same content as
         // spriteArray except for the background.
-        CanvasSprite spider = new CanvasSprite(mBitmaps[1]);
+        Sprite spider = new Sprite(mBitmaps[1]);
         spider.width = 32;
         spider.height = 32;
         // Pick a random location for this sprite.
-        spider.x = (float)(Math.random() * dm.widthPixels);
-        spider.y = (float)(Math.random() * dm.heightPixels);
+        int centerX = (dm.widthPixels - (int)spider.width) / 2;
+        spider.x = centerX;//(float)(Math.random() * dm.widthPixels);
+        spider.y = 0;//(float)(Math.random() * dm.heightPixels);
         spriteArray[1] = spider;
        
         // Now's a good time to run the GC.  Since we won't do any explicit

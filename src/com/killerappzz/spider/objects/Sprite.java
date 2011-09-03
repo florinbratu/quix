@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-package com.killerappzz.spider;
+package com.killerappzz.spider.objects;
+
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -23,13 +24,14 @@ import android.graphics.Canvas;
  * The Canvas version of a sprite.  This class keeps a pointer to a bitmap
  * and draws it at the Sprite's current location.
  */
-public class CanvasSprite extends Renderable {
+public class Sprite extends DrawableObject {
     private Bitmap mBitmap;
     
-    public CanvasSprite(Bitmap bitmap) {
+    public Sprite(Bitmap bitmap) {
         mBitmap = bitmap;
     }
     
+    @Override
     public void draw(Canvas canvas) {
         // The Canvas system uses a screen-space coordinate system, that is,
         // 0,0 is the top-left point of the canvas.  But in order to align
