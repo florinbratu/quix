@@ -64,7 +64,7 @@ public class Game {
         int centerX = (this.screenWidth - (int)spider.width) / 2;
         spider.x = centerX;
         spider.y = 0;
-        spider.speed = Constants.DEFAULT_SPIDER_SPEED;
+        spider.speed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
         manager.addSpider(spider);
 
         // Now's a good time to run the GC.  Since we won't do any explicit
