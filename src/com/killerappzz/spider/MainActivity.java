@@ -1,42 +1,34 @@
 package com.killerappzz.spider;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import com.killerappzz.spider.objects.Sprite;
-import com.killerappzz.spider.rendering.CanvasSurfaceView;
-import com.killerappzz.spider.rendering.GameRenderer;
-
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
+import com.killerappzz.spider.objects.ObjectManager;
+import com.killerappzz.spider.objects.Sprite;
+import com.killerappzz.spider.rendering.CanvasSurfaceView;
+import com.killerappzz.spider.rendering.GameRenderer;
+
 public class MainActivity extends Activity {
 	
     private CanvasSurfaceView mCanvasSurfaceView;
-    // Describes the image format our bitmaps should be converted to.
+    private ObjectManager manager;
     private static BitmapFactory.Options sBitmapOptions 
-        = new BitmapFactory.Options();
-    private Bitmap[] mBitmaps;
+      = new BitmapFactory.Options();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCanvasSurfaceView = new CanvasSurfaceView(this);
-        GameRenderer spriteRenderer = new GameRenderer();
-       
+        manager = new ObjectManager();
         // Sets our preferred image format to 16-bit, 565 format.
-        sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-
+		sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+        GameRenderer spriteRenderer = new GameRenderer(manager);
+       
         // Clear out any old profile results.
         ProfileRecorder.sSingleton.resetAll();
-        
-        mBitmaps = new Bitmap[2];
-        mBitmaps[0] = loadBitmap(this, R.drawable.background);
-        mBitmaps[1] = loadBitmap(this, R.drawable.spider);
         
         // We need to know the width and height of the display pretty soon,
         // so grab the information now.
@@ -46,22 +38,17 @@ public class MainActivity extends Activity {
         // Make the background.
         // Note that the background image is larger than the screen, 
         // so some clipping will occur when it is drawn.
-        Sprite background = new Sprite(mBitmaps[0]);
-        background.width = mBitmaps[0].getWidth();
-        background.height = mBitmaps[0].getHeight();
-        spriteRenderer.addObject(background);
+        manager.addObject(
+        		new Sprite(this, sBitmapOptions, R.drawable.background));
         
-        // This list of things to move. It points to the same content as
-        // spriteArray except for the background.
-        Sprite spider = new Sprite(mBitmaps[1]);
-        spider.width = 32;
-        spider.height = 32;
-        // Pick a random location for this sprite.
+        // Make the spider
+        Sprite spider = new Sprite(this, sBitmapOptions, R.drawable.spider);
+        // Spider location.
         int centerX = (dm.widthPixels - (int)spider.width) / 2;
-        spider.x = centerX;//(float)(Math.random() * dm.widthPixels);
-        spider.y = 0;//(float)(Math.random() * dm.heightPixels);
-        spriteRenderer.addObject(spider);
-       
+        spider.x = centerX;
+        spider.y = 0;
+        manager.addObject(spider);
+
         // Now's a good time to run the GC.  Since we won't do any explicit
         // allocation during the test, the GC should stay dormant and not
         // influence our results.
@@ -80,38 +67,7 @@ public class MainActivity extends Activity {
         mCanvasSurfaceView.clearEvent();
         mCanvasSurfaceView.stopDrawing();
         
-        for (int x = 0; x < mBitmaps.length; x++) {
-            mBitmaps[x].recycle();
-            mBitmaps[x] = null;
-        }
+        manager.cleanup();
     }
 
-
-    /**
-     * Loads a bitmap from a resource and converts it to a bitmap.  This is
-     * a much-simplified version of the loadBitmap() that appears in
-     * SimpleGLRenderer.
-     * @param context  The application context.
-     * @param resourceId  The id of the resource to load.
-     * @return  A bitmap containing the image contents of the resource, or null
-     *     if there was an error.
-     */
-    protected Bitmap loadBitmap(Context context, int resourceId) {
-        Bitmap bitmap = null;
-        if (context != null) {
-          
-            InputStream is = context.getResources().openRawResource(resourceId);
-            try {
-                bitmap = BitmapFactory.decodeStream(is, null, sBitmapOptions);
-            } finally {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    // Ignore.
-                }
-            }
-        }
-
-        return bitmap;
-    }
 }

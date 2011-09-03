@@ -1,23 +1,12 @@
-/*
- * Copyright (C) 2009 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.killerappzz.spider.objects;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 /**
@@ -31,6 +20,32 @@ public class Sprite extends DrawableObject {
         mBitmap = bitmap;
     }
     
+    /**
+     * Creates Sprite directly from given resource.
+     * Automatically assigns size from image options.
+     * 
+     * @param context the Context providing the underlying resource
+     * @param resourceId the image resource
+     */
+    public Sprite(Context context, BitmapFactory.Options bitmapOptions, int resourceId) {
+    	if (context != null) {
+            
+            InputStream is = context.getResources().openRawResource(resourceId);
+            try {
+                mBitmap = BitmapFactory.decodeStream(is, null, bitmapOptions);
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    // Ignore.
+                }
+            }
+        }
+    	
+    	this.width = bitmapOptions.outWidth;
+    	this.height = bitmapOptions.outHeight;
+    }
+    
     @Override
     public void draw(Canvas canvas) {
         // The Canvas system uses a screen-space coordinate system, that is,
@@ -39,4 +54,15 @@ public class Sprite extends DrawableObject {
         // for this test I flip the y coordinate.
         canvas.drawBitmap(mBitmap, x, canvas.getHeight() - (y + height), null);
     }
+    
+
+    /**
+     * Release resources. Especially the most important one: the underlying bitmap
+     */
+    @Override
+    public void cleanup() {
+    	mBitmap.recycle();
+    	mBitmap = null;
+    }
+    
 }
