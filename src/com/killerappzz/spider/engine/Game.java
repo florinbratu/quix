@@ -1,19 +1,19 @@
 package com.killerappzz.spider.engine;
 
-import com.killerappzz.spider.Constants;
-import com.killerappzz.spider.ProfileRecorder;
-import com.killerappzz.spider.R;
-import com.killerappzz.spider.objects.Background;
-import com.killerappzz.spider.objects.ObjectManager;
-import com.killerappzz.spider.objects.Sprite;
-import com.killerappzz.spider.rendering.GameRenderer;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
+
+import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.ProfileRecorder;
+import com.killerappzz.spider.R;
+import com.killerappzz.spider.objects.Background;
+import com.killerappzz.spider.objects.ObjectManager;
+import com.killerappzz.spider.objects.Spider;
+import com.killerappzz.spider.rendering.GameRenderer;
 
 /**
  * This will encapsulate the logic of the game
@@ -59,7 +59,7 @@ public class Game {
         manager.addObject(background);
         
         // Make the spider
-        Sprite spider = new Sprite(context, sBitmapOptions, R.drawable.spider);
+        Spider spider = new Spider(context, sBitmapOptions, R.drawable.spider);
         // Spider location.
         int centerX = (this.screenWidth - (int)spider.width) / 2;
         spider.x = centerX;

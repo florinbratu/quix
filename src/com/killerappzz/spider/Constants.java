@@ -13,4 +13,7 @@ public interface Constants {
 	 * sa traverseze tot ecranul!
 	 */
 	public static final int DEFAULT_SPIDER_SPEED_FACTOR = 4;
+	public static final int TRAILING_LINE_COLOR = 0xFF0000FF;
+	public static final int TRAILING_LINE_WIDTH = 3;
+	
 }
