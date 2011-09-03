@@ -14,7 +14,7 @@ import android.graphics.Canvas;
  * and draws it at the Sprite's current location.
  */
 public class Sprite extends DrawableObject {
-    private Bitmap mBitmap;
+    protected Bitmap mBitmap;
     
     public Sprite(Bitmap bitmap) {
         mBitmap = bitmap;

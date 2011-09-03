@@ -2,6 +2,7 @@ package com.killerappzz.spider.engine;
 
 import com.killerappzz.spider.ProfileRecorder;
 import com.killerappzz.spider.R;
+import com.killerappzz.spider.objects.Background;
 import com.killerappzz.spider.objects.ObjectManager;
 import com.killerappzz.spider.objects.Sprite;
 import com.killerappzz.spider.rendering.GameRenderer;
@@ -49,8 +50,9 @@ public class Game {
 		// Make the background.
         // Note that the background image is larger than the screen, 
         // so some clipping will occur when it is drawn.
-        manager.addObject(
-        		new Sprite(context, sBitmapOptions, R.drawable.background));
+		Background background = new Background(context, sBitmapOptions, 
+				R.drawable.background, screenWidth, screenHeight );
+        manager.addObject(background);
         
         // Make the spider
         Sprite spider = new Sprite(context, sBitmapOptions, R.drawable.spider);
