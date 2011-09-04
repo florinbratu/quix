@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
 
 import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.engine.Game;
 
 /**
@@ -34,13 +35,7 @@ public class ObjectManager extends SimpleOnGestureListener{
 		this.objects = new LinkedList<DrawableObject>();
 		this.game = theGame;
 		this.claimedPath = new Path();
-		this.claimedPathPaint = new Paint();
-		// initialize the paint
-        claimedPathPaint.setAntiAlias(true);
-        claimedPathPaint.setDither(true);
-        claimedPathPaint.setColor(Constants.CLAIMED_COLOR);
-        claimedPathPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        claimedPathPaint.setStrokeWidth(Constants.CLAIMED_STROKE_WIDTH);
+		this.claimedPathPaint = Customization.getClaimedPathPaint();
 	}
 	
 	public void addObject(DrawableObject object) {

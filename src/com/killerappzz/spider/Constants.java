@@ -25,7 +25,7 @@ public interface Constants {
 	/*
 	 * look and feel-ul teritoriului claimed de spider
 	 */
-	public static final int CLAIMED_COLOR = Color.GREEN;
+	public static final int CLAIMED_COLOR = Color.BLUE;
 	public static final float CLAIMED_STROKE_WIDTH = 2;
 	
 }

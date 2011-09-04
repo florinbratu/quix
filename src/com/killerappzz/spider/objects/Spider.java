@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.BitmapFactory.Options;
 
-import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.engine.Game;
 
 /**
@@ -25,26 +25,17 @@ public class Spider extends Sprite{
     private float lastY = -1;
     
     // line color
-    private final Paint trailingLinePaint;
+    private final Paint trailingPathPaint;
     // recent path took by spider
     private final Path trailingPath;
     // path claimed so far
     private Path claimedPath;
 
-	public Spider(Game theGame, Context context, Options bitmapOptions, int resourceId) {
+	public Spider(Game theGame, Context context, 
+			Options bitmapOptions, int resourceId) {
 		super(context, bitmapOptions, resourceId);
 		this.game = theGame;
-		
-		// initialize the paint
-		trailingLinePaint = new Paint();
-        trailingLinePaint.setAntiAlias(true);
-        trailingLinePaint.setDither(true);
-        trailingLinePaint.setColor(Constants.TRAILING_LINE_COLOR);
-        trailingLinePaint.setStyle(Paint.Style.STROKE);
-        trailingLinePaint.setStrokeJoin(Paint.Join.ROUND);
-        trailingLinePaint.setStrokeCap(Paint.Cap.BUTT);
-        trailingLinePaint.setStrokeWidth(Constants.TRAILING_LINE_WIDTH);
-
+		this.trailingPathPaint = Customization.getTrailingPathPaint();
         this.trailingPath = new SpiderPath(this);
 	}
 	
@@ -60,11 +51,11 @@ public class Spider extends Sprite{
 	@Override
 	public void draw(Canvas canvas) {
 		// draw trailing path
-		canvas.drawPath(this.trailingPath, trailingLinePaint);
+		canvas.drawPath(this.trailingPath, trailingPathPaint);
 		// draw trailing line
 		if(lastX != -1 && lastY != -1) {
 			canvas.drawLine(toScreenX(lastX), toScreenY(lastY),
-					toScreenX(x), toScreenY(y), trailingLinePaint);
+					toScreenX(x), toScreenY(y), trailingPathPaint);
 		}
 		super.draw(canvas);
 	}
