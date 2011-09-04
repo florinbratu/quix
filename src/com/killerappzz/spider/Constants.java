@@ -1,5 +1,7 @@
 package com.killerappzz.spider;
 
+import android.graphics.Color;
+
 /**
  * The constants
  * @author florin
@@ -13,7 +15,17 @@ public interface Constants {
 	 * sa traverseze tot ecranul!
 	 */
 	public static final int DEFAULT_SPIDER_SPEED_FACTOR = 4;
-	public static final int TRAILING_LINE_COLOR = 0xFF0000FF;
+	
+	/*
+	 * look and feel-ul darei lasate de spider
+	 */
+	public static final int TRAILING_LINE_COLOR = Color.BLUE;
 	public static final int TRAILING_LINE_WIDTH = 3;
+	
+	/*
+	 * look and feel-ul teritoriului claimed de spider
+	 */
+	public static final int CLAIMED_COLOR = Color.GREEN;
+	public static final float CLAIMED_STROKE_WIDTH = 2;
 	
 }

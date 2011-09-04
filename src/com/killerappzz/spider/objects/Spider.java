@@ -1,13 +1,13 @@
 package com.killerappzz.spider.objects;
 
-import com.killerappzz.spider.Constants;
-import com.killerappzz.spider.engine.Game;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.BitmapFactory.Options;
+
+import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.engine.Game;
 
 /**
  * The Spider.
@@ -28,6 +28,8 @@ public class Spider extends Sprite{
     private final Paint trailingLinePaint;
     // recent path took by spider
     private final Path trailingPath;
+    // path claimed so far
+    private Path claimedPath;
 
 	public Spider(Game theGame, Context context, Options bitmapOptions, int resourceId) {
 		super(context, bitmapOptions, resourceId);
@@ -75,6 +77,10 @@ public class Spider extends Sprite{
 	public final float toScreenY(float worldY) {
 		return game.getScreenHeight() - (worldY + height/2);
 	}
+	
+	public void setClaimedPath(Path claimed) {
+		this.claimedPath = claimed;
+	}
 
 	@Override
 	public void boundsTouchBehaviour() {
@@ -85,6 +91,8 @@ public class Spider extends Sprite{
 		this.lastX = this.lastY = -1;
 		// close path
 		this.trailingPath.close();
+		this.claimedPath.addPath(this.trailingPath);
+		this.trailingPath.rewind();
 	}
-
+	
 }

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -25,13 +26,21 @@ public class ObjectManager extends SimpleOnGestureListener{
 	// spider is a special role
 	private Spider spider;
 	// the Path built by the Spider movement so far
-	private final Path path;
+	private final Path claimedPath;
+	private final Paint claimedPathPaint;
 	private final Game game;
 	
 	public ObjectManager(Game theGame) {
 		this.objects = new LinkedList<DrawableObject>();
 		this.game = theGame;
-		this.path = new Path();
+		this.claimedPath = new Path();
+		this.claimedPathPaint = new Paint();
+		// initialize the paint
+        claimedPathPaint.setAntiAlias(true);
+        claimedPathPaint.setDither(true);
+        claimedPathPaint.setColor(Constants.CLAIMED_COLOR);
+        claimedPathPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        claimedPathPaint.setStrokeWidth(Constants.CLAIMED_STROKE_WIDTH);
 	}
 	
 	public void addObject(DrawableObject object) {
@@ -41,12 +50,15 @@ public class ObjectManager extends SimpleOnGestureListener{
 	public void addSpider(Spider spider){
 		this.objects.add(spider);
 		this.spider = spider;
+		this.spider.setClaimedPath(claimedPath);
 	}
 	
 	public void draw(Canvas canvas) {
 		for(DrawableObject object : objects) {
     		object.draw(canvas);
     	}
+		// draw claimed path
+		canvas.drawPath(claimedPath, claimedPathPaint);
 	}
 	
 	public void cleanup() {
