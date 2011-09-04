@@ -75,4 +75,9 @@ public class Spider extends Sprite{
 		return game.getScreenHeight() - (worldY + height/2);
 	}
 
+	@Override
+	public void boundsTouchBehaviour() {
+		setVelocity(0, 0);
+	}
+
 }

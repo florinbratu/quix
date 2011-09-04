@@ -34,4 +34,9 @@ public class Background extends Sprite{
 		this.originalBitmap.recycle();
 	}
 
+	@Override
+	public void boundsTouchBehaviour() {
+		// nothing special for the moment TODO maybe add a special effect?
+	}
+
 }

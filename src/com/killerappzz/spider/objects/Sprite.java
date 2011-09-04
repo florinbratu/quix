@@ -13,7 +13,7 @@ import android.graphics.Canvas;
  * The Canvas version of a sprite.  This class keeps a pointer to a bitmap
  * and draws it at the Sprite's current location.
  */
-public class Sprite extends DrawableObject {
+public abstract class Sprite extends DrawableObject {
     protected Bitmap mBitmap;
     
     public Sprite(Bitmap bitmap) {

@@ -60,12 +60,10 @@ public abstract class DrawableObject {
     	if ((this.x < 0.0f && this.velocityX < 0.0f) 
                 || (this.x > screenWidth- this.width 
                         && this.velocityX > 0.0f)) {
-    		// TODO different behaviour for different objects
-    		// spider will "stick" to margins. the styx will bounce.
-    		// for the moment we have only spider behaviour
-            this.x = Math.max(0.0f, 
+    		this.x = Math.max(0.0f, 
                     Math.min(this.x, screenWidth - this.width));
-            this.velocityX = this.velocityY = 0;
+    		// border behaviour, object-specific
+            boundsTouchBehaviour();
         }
         
         if ((this.y < 0.0f && this.velocityY < 0.0f) 
@@ -73,11 +71,14 @@ public abstract class DrawableObject {
                         && this.velocityY > 0.0f)) {
             this.y = Math.max(0.0f, 
                     Math.min(this.y, screenHeight - this.height));
-            this.velocityX = this.velocityY = 0;
+            // bound behaviour
+            boundsTouchBehaviour();
         }
 	}
     
     public abstract void draw(Canvas canvas);
     public abstract void cleanup();
+    // specific behaviour when object touches the bounds
+    public abstract void boundsTouchBehaviour();
 
 }
