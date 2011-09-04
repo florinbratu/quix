@@ -18,7 +18,7 @@ import android.graphics.BitmapFactory.Options;
 public class Spider extends Sprite{
 	
 	// the game reference
-    private Game game;
+    final Game game;
 	
     // Last Position
     private float lastX = -1;
@@ -43,7 +43,7 @@ public class Spider extends Sprite{
         trailingLinePaint.setStrokeCap(Paint.Cap.BUTT);
         trailingLinePaint.setStrokeWidth(Constants.TRAILING_LINE_WIDTH);
 
-        this.trailingPath = new Path();
+        this.trailingPath = new SpiderPath(this);
 	}
 	
 	public void setLastPosition(float lastX, float lastY) {
