@@ -49,9 +49,10 @@ public class Spider extends Sprite{
 	public void setLastPosition(float lastX, float lastY) {
 		if(this.lastX != -1 && this.lastY != -1) 
 			this.trailingPath.lineTo(toScreenX(lastX), toScreenY(lastY));
+		else
+			this.trailingPath.moveTo(toScreenX(lastX), toScreenY(lastY));
 		this.lastX = lastX;
 		this.lastY = lastY;
-		this.trailingPath.moveTo(toScreenX(this.lastX), toScreenY(this.lastY));
 	}
 	
 	@Override
@@ -78,6 +79,12 @@ public class Spider extends Sprite{
 	@Override
 	public void boundsTouchBehaviour() {
 		setVelocity(0, 0);
+		// add last line to path
+		this.trailingPath.lineTo(toScreenX(x), toScreenY(y));
+		// last line reset
+		this.lastX = this.lastY = -1;
+		// close path
+		this.trailingPath.close();
 	}
 
 }
