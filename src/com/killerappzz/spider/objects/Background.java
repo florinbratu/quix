@@ -39,4 +39,9 @@ public class Background extends Sprite{
 		// nothing special for the moment TODO maybe add a special effect?
 	}
 
+	@Override
+	public void claimedPathTouch() {
+		// nothing special for the moment TODO maybe add a special effect?
+	}
+
 }

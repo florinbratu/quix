@@ -27,9 +27,9 @@ public class Spider extends Sprite{
     // line color
     private final Paint trailingPathPaint;
     // recent path took by spider
-    private final Path trailingPath;
+    private final GeometricPath trailingPath;
     // path claimed so far
-    private Path claimedPath;
+    private GeometricPath claimedPath;
 
 	public Spider(Game theGame, Context context, 
 			Options bitmapOptions, int resourceId) {
@@ -69,7 +69,7 @@ public class Spider extends Sprite{
 		return game.getScreenHeight() - (worldY + height/2);
 	}
 	
-	public void setClaimedPath(Path claimed) {
+	public void setClaimedPath(GeometricPath claimed) {
 		this.claimedPath = claimed;
 	}
 
@@ -82,8 +82,15 @@ public class Spider extends Sprite{
 		this.lastX = this.lastY = -1;
 		// close path
 		this.trailingPath.close();
-		this.claimedPath.addPath(this.trailingPath);
+		// merge into claimed path
+		this.claimedPath.merge(this.trailingPath);
+		// reset trailing path - new adventures await us!
 		this.trailingPath.rewind();
+	}
+
+	@Override
+	public void claimedPathTouch() {
+		// TODO TODO TODO!
 	}
 	
 }

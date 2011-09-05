@@ -1,13 +1,12 @@
 package com.killerappzz.spider.objects;
 
-import android.graphics.Path;
 
 /**
  * Extra functionality for our Paths
  * @author florin
  *
  */
-public class SpiderPath extends Path {
+public class SpiderPath extends GeometricPath {
 	
 	private float firstPointX;
 	private float firstPointY;

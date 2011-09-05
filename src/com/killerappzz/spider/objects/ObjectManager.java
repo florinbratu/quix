@@ -27,14 +27,14 @@ public class ObjectManager extends SimpleOnGestureListener{
 	// spider is a special role
 	private Spider spider;
 	// the Path built by the Spider movement so far
-	private final Path claimedPath;
+	private final GeometricPath claimedPath;
 	private final Paint claimedPathPaint;
 	private final Game game;
 	
 	public ObjectManager(Game theGame) {
 		this.objects = new LinkedList<DrawableObject>();
 		this.game = theGame;
-		this.claimedPath = new Path();
+		this.claimedPath = new GeometricPath();
 		this.claimedPathPaint = Customization.getClaimedPathPaint();
 	}
 	
@@ -89,7 +89,10 @@ public class ObjectManager extends SimpleOnGestureListener{
 		for(DrawableObject object : objects) {
 			if(object.speed!=0 && !(object.getVelocityX() == 0 && object.getVelocityY() == 0)) {
 				object.updatePosition(timeDeltaSeconds);
+				// test for object touching the screen bounds
 				object.boundsCheck(game.getScreenWidth(), game.getScreenHeight());
+				// test for object reaching the region claimed by the spider
+				object.claimedPathCheck(claimedPath);
 			}
 		}
 	}

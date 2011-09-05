@@ -76,9 +76,17 @@ public abstract class DrawableObject {
         }
 	}
     
+    public void claimedPathCheck(GeometricPath claimedPath) {
+		if(claimedPath.contains(this.x, this.y)) 
+			// object-specific behaviour
+			claimedPathTouch();
+	}
+    
     public abstract void draw(Canvas canvas);
     public abstract void cleanup();
     // specific behaviour when object touches the bounds
     public abstract void boundsTouchBehaviour();
+    // specific behaviour when object touches the already-claimed path
+    public abstract void claimedPathTouch();
 
 }
