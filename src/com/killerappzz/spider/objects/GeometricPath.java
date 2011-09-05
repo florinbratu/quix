@@ -60,6 +60,7 @@ public class GeometricPath extends Path {
 	private void loadFromArea(Area area) {
 		rewind();
 		PathIterator it = area.getPathIterator(null);
+		float[] coords = new float[6];
 		/**
 		 * For a polygonal shape, iteration goes as follows:
 		 * - first segment is of type SEG_MOVETO with first point
@@ -67,16 +68,19 @@ public class GeometricPath extends Path {
 		 *  on the path except first one. Last one is included!
 		 * - then a final SEG_CLOSE segment, with the values of last point
 		 */
-		float[] coords = new float[6];
-		it.currentSegment(coords);
-		moveTo(coords[0], coords[1]);
-		it.next();
 		while(!it.isDone()){
-			it.currentSegment(coords);
-			lineTo(coords[0], coords[1]);
+			switch(it.currentSegment(coords)){
+			case PathIterator.SEG_MOVETO:
+				moveTo(coords[0], coords[1]);
+				break;
+			case PathIterator.SEG_LINETO:
+				lineTo(coords[0], coords[1]);
+				break;
+			case PathIterator.SEG_CLOSE:
+				close();
+			}
 			it.next();
 		}
-		close();
 	}
 
 	public boolean contains(float x, float y) {
