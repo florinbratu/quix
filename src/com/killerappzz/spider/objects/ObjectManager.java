@@ -4,14 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
 
 import com.killerappzz.spider.Constants;
-import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.engine.Game;
 
 /**
@@ -26,16 +23,11 @@ public class ObjectManager extends SimpleOnGestureListener{
 	private final List<DrawableObject> objects; 
 	// spider is a special role
 	private Spider spider;
-	// the Path built by the Spider movement so far
-	private final GeometricPath claimedPath;
-	private final Paint claimedPathPaint;
 	private final Game game;
 	
 	public ObjectManager(Game theGame) {
 		this.objects = new LinkedList<DrawableObject>();
 		this.game = theGame;
-		this.claimedPath = new GeometricPath();
-		this.claimedPathPaint = Customization.getClaimedPathPaint();
 	}
 	
 	public void addObject(DrawableObject object) {
@@ -45,15 +37,12 @@ public class ObjectManager extends SimpleOnGestureListener{
 	public void addSpider(Spider spider){
 		this.objects.add(spider);
 		this.spider = spider;
-		this.spider.setClaimedPath(claimedPath);
 	}
 	
 	public void draw(Canvas canvas) {
 		for(DrawableObject object : objects) {
     		object.draw(canvas);
     	}
-		// draw claimed path
-		canvas.drawPath(claimedPath, claimedPathPaint);
 	}
 	
 	public void cleanup() {
@@ -92,7 +81,7 @@ public class ObjectManager extends SimpleOnGestureListener{
 				// test for object touching the screen bounds
 				object.boundsCheck(game.getScreenWidth(), game.getScreenHeight());
 				// test for object reaching the region claimed by the spider
-				object.claimedPathCheck(claimedPath);
+				object.claimedPathCheck(spider.getClaimedPath());
 			}
 		}
 	}

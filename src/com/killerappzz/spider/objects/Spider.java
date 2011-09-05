@@ -29,7 +29,8 @@ public class Spider extends Sprite{
     // recent path took by spider
     private final GeometricPath trailingPath;
     // path claimed so far
-    private GeometricPath claimedPath;
+    private final GeometricPath claimedPath;
+    private final Paint claimedPathPaint;
 
 	public Spider(Game theGame, Context context, 
 			Options bitmapOptions, int resourceId) {
@@ -37,6 +38,8 @@ public class Spider extends Sprite{
 		this.game = theGame;
 		this.trailingPathPaint = Customization.getTrailingPathPaint();
         this.trailingPath = new SpiderPath(this);
+        this.claimedPathPaint = Customization.getClaimedPathPaint();
+        this.claimedPath = new GeometricPath();
 	}
 	
 	public void setLastPosition(float lastX, float lastY) {
@@ -50,6 +53,8 @@ public class Spider extends Sprite{
 	
 	@Override
 	public void draw(Canvas canvas) {
+		// draw claimed path
+		canvas.drawPath(claimedPath, claimedPathPaint);
 		// draw trailing path
 		canvas.drawPath(this.trailingPath, trailingPathPaint);
 		// draw trailing line
@@ -69,8 +74,8 @@ public class Spider extends Sprite{
 		return game.getScreenHeight() - (worldY + height/2);
 	}
 	
-	public void setClaimedPath(GeometricPath claimed) {
-		this.claimedPath = claimed;
+	public GeometricPath getClaimedPath() {
+		return this.claimedPath;
 	}
 
 	@Override
