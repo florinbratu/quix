@@ -1,6 +1,15 @@
 package com.killerappzz.spider;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Paint;
+import android.graphics.BitmapFactory.Options;
+import android.graphics.Shader.TileMode;
 
 /**
  * All customization prefs are gathered here
@@ -24,7 +33,25 @@ public final class Customization {
         return trailingLinePaint;
 	}
 	
-	public static final Paint getClaimedPathPaint() {
+	public static final Bitmap loadFromRes(Context context, Options bitmapOptions, int resourceId) {
+		Bitmap ret = null;
+		if (context != null) {
+
+			InputStream is = context.getResources().openRawResource(resourceId);
+			try {
+				ret = BitmapFactory.decodeStream(is, null, bitmapOptions);
+			} finally {
+				try {
+					is.close();
+				} catch (IOException e) {
+					// Ignore.
+				}
+			}
+		}
+		return ret;
+	}
+	
+	public static final Paint getClaimedPathPaint(Context context, Options bitmapOptions) {
 		Paint claimedPathPaint = new Paint();
 		// initialize the paint
         claimedPathPaint.setAntiAlias(true);
@@ -32,6 +59,12 @@ public final class Customization {
         claimedPathPaint.setColor(Constants.CLAIMED_COLOR);
         claimedPathPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         claimedPathPaint.setStrokeWidth(Constants.CLAIMED_STROKE_WIDTH);
+        // set the spider texture
+        claimedPathPaint.setShader(
+        		new BitmapShader(
+        				loadFromRes(context, bitmapOptions, R.drawable.spiderweb), 
+        				TileMode.REPEAT, TileMode.REPEAT));
+        claimedPathPaint.setFilterBitmap(true);
         return claimedPathPaint;
 	}
 

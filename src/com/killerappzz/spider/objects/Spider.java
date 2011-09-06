@@ -33,7 +33,7 @@ public class Spider extends Sprite{
 		super(context, bitmapOptions, resourceId, scrW, scrH);
 		this.trailingPathPaint = Customization.getTrailingPathPaint();
         this.trailingPath = new SpiderPath(this.width, this.height, this.screenWidth, this.screenHeight);
-        this.claimedPathPaint = Customization.getClaimedPathPaint();
+        this.claimedPathPaint = Customization.getClaimedPathPaint(context,bitmapOptions);
         this.claimedPath = new GeometricPath();
 	}
 	
