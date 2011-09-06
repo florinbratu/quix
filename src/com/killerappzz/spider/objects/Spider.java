@@ -82,7 +82,7 @@ public class Spider extends Sprite{
 	@Override
 	public void claimedPathTouch() {
 		// TODO TODO TODO!
-		// setVelocity(0,0);
+		setVelocity(0,0);
 	}
 	
 }

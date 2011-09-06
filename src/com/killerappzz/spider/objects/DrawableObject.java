@@ -95,7 +95,7 @@ public abstract class DrawableObject {
 	}
     
     public void claimedPathCheck(GeometricPath claimedPath) {
-		if(claimedPath.contains(this.x, this.y)) 
+		if(claimedPath.contains( toScreenX(this.x), toScreenY(this.y) )) 
 			// object-specific behaviour
 			claimedPathTouch();
 	}
