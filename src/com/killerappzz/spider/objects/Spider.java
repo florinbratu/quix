@@ -3,7 +3,6 @@ package com.killerappzz.spider.objects;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.BitmapFactory.Options;
 
 import com.killerappzz.spider.Customization;
@@ -17,9 +16,6 @@ import com.killerappzz.spider.engine.Game;
  */
 public class Spider extends Sprite{
 	
-	// the game reference
-    final Game game;
-	
     // Last Position
     private float lastX = -1;
     private float lastY = -1;
@@ -32,12 +28,11 @@ public class Spider extends Sprite{
     private final GeometricPath claimedPath;
     private final Paint claimedPathPaint;
 
-	public Spider(Game theGame, Context context, 
-			Options bitmapOptions, int resourceId) {
-		super(context, bitmapOptions, resourceId);
-		this.game = theGame;
+	public Spider(Context context, Options bitmapOptions, int resourceId,
+			int scrW, int scrH) {
+		super(context, bitmapOptions, resourceId, scrW, scrH);
 		this.trailingPathPaint = Customization.getTrailingPathPaint();
-        this.trailingPath = new SpiderPath(this);
+        this.trailingPath = new SpiderPath(this.width, this.height, this.screenWidth, this.screenHeight);
         this.claimedPathPaint = Customization.getClaimedPathPaint();
         this.claimedPath = new GeometricPath();
 	}
@@ -65,15 +60,6 @@ public class Spider extends Sprite{
 		super.draw(canvas);
 	}
 	
-	// coordinate conversion methods
-	public final float toScreenX(float worldX) {
-		return worldX + width/2;
-	}
-	
-	public final float toScreenY(float worldY) {
-		return game.getScreenHeight() - (worldY + height/2);
-	}
-	
 	public GeometricPath getClaimedPath() {
 		return this.claimedPath;
 	}
@@ -96,6 +82,7 @@ public class Spider extends Sprite{
 	@Override
 	public void claimedPathTouch() {
 		// TODO TODO TODO!
+		// setVelocity(0,0);
 	}
 	
 }

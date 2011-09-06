@@ -16,6 +16,31 @@ public abstract class DrawableObject {
     private float velocityX;
     private float velocityY;
     
+    // Movement speed
+    public float speed;
+    
+    // Size.
+    public float width;
+    public float height;
+    
+    // screen dimensions
+    protected final int screenWidth;
+    protected final int screenHeight;
+    
+    public DrawableObject(int scrW, int scrH) {
+    	screenWidth = scrW;
+    	screenHeight = scrH;
+	}
+    
+	// coordinate conversion methods
+	public final float toScreenX(float worldX) {
+		return worldX + width/2;
+	}
+	
+	public final float toScreenY(float worldY) {
+		return this.screenHeight - (worldY + height/2);
+	}
+    
     public void setVelocity(float velocityX, float velocityY) {
     	// store the velocities in normalized format
     	if(velocityX == 0 && velocityY == 0) {
@@ -37,13 +62,6 @@ public abstract class DrawableObject {
     	return velocityY;
     }
     
-    // Movement speed
-    public float speed;
-    
-    // Size.
-    public float width;
-    public float height;
-    
     public void updatePosition(float timeDeltaSeconds) {
     	this.x = this.x + (this.velocityX * this.speed * timeDeltaSeconds);
     	this.y = this.y + (this.velocityY * this.speed * timeDeltaSeconds);
@@ -56,7 +74,7 @@ public abstract class DrawableObject {
      * @param screenWidth
      * @param screenHeight
      */
-    public void boundsCheck(int screenWidth, int screenHeight) {
+    public void boundsCheck() {
     	if ((this.x < 0.0f && this.velocityX < 0.0f) 
                 || (this.x > screenWidth- this.width 
                         && this.velocityX > 0.0f)) {

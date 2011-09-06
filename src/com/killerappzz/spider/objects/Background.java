@@ -19,7 +19,7 @@ public class Background extends Sprite{
 
 	public Background(Context context, Options bitmapOptions, int resourceId,
 			int width, int height) {
-		super(context, bitmapOptions, resourceId);
+		super(context, bitmapOptions, resourceId, width, height);
 		this.originalBitmap = mBitmap;
 		this.mBitmap = Bitmap.createScaledBitmap(originalBitmap, width, height, true);
 		this.x = this.y = 0;

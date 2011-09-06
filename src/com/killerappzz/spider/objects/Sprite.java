@@ -16,7 +16,8 @@ import android.graphics.Canvas;
 public abstract class Sprite extends DrawableObject {
     protected Bitmap mBitmap;
     
-    public Sprite(Bitmap bitmap) {
+    public Sprite(Bitmap bitmap, int scrW, int scrH) {
+    	super(scrW, scrH);
         mBitmap = bitmap;
     }
     
@@ -27,7 +28,9 @@ public abstract class Sprite extends DrawableObject {
      * @param context the Context providing the underlying resource
      * @param resourceId the image resource
      */
-    public Sprite(Context context, BitmapFactory.Options bitmapOptions, int resourceId) {
+    public Sprite(Context context, BitmapFactory.Options bitmapOptions, int resourceId,
+    		int scrW, int scrH) {
+    	super(scrW,scrH);
     	if (context != null) {
             
             InputStream is = context.getResources().openRawResource(resourceId);

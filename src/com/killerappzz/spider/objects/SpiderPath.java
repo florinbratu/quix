@@ -20,14 +20,15 @@ public class SpiderPath extends GeometricPath {
 	private final float leftX;
 	private final float rightX;
 	
-	public SpiderPath(Spider theSpider) {
+	public SpiderPath(float spiderWidth, float spiderHeight, float screenWidth,
+			float screenHeight) {
 		super();
-		this.bottomY = theSpider.game.getScreenHeight() - theSpider.height / 2;
-		this.topY = theSpider.height / 2;
-		this.leftX = theSpider.width / 2;
-		this.rightX = theSpider.game.getScreenWidth() - theSpider.width / 2;
+		this.bottomY = screenHeight - spiderHeight / 2;
+		this.topY = spiderHeight / 2;
+		this.leftX = spiderWidth / 2;
+		this.rightX = screenWidth - spiderWidth / 2;
 	}
-	
+
 	/** 
 	 * Note the first point
 	 */
