@@ -55,6 +55,9 @@ public class GeometricPath extends Path {
 		Area b = new Area(path.getGeometry());
 		a.add(b);
 		loadFromArea(a);
+		// cleanup
+		a.reset();
+		b.reset();
 	}
 
 	private void loadFromArea(Area area) {
