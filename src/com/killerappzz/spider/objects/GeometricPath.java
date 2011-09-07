@@ -5,6 +5,7 @@ import android.graphics.Path;
 import com.killerappzz.spider.geometry.Area;
 import com.killerappzz.spider.geometry.Path2D;
 import com.killerappzz.spider.geometry.PathIterator;
+import com.killerappzz.spider.geometry.Point2D;
 
 /**
  * An Android Path, but augmented with geometrical information,
@@ -17,20 +18,29 @@ public class GeometricPath extends Path {
 	
 	// so we can do advanced ops on it
 	private final Path2D geometry;
+	// store the start point and end point
+	private final Point2D.Float startPoint;
+	private final Point2D.Float endPoint;
 	
 	public GeometricPath() {
 		this.geometry = new Path2D.Float();
+		this.startPoint = new Point2D.Float();
+		this.endPoint = new Point2D.Float();
 	}
 	
 	@Override
 	public void moveTo(float x, float y) {
 		this.geometry.moveTo(x, y);
+		this.startPoint.x = x;
+		this.startPoint.y = y;
 		super.moveTo(x, y);
 	}
 	
 	@Override
 	public void lineTo(float x, float y) {
 		this.geometry.lineTo(x, y);
+		this.endPoint.x = x;
+		this.endPoint.y = y;
 		super.lineTo(x, y);
 	}
 	
@@ -92,6 +102,14 @@ public class GeometricPath extends Path {
 	
 	public Path2D getGeometry() {
 		return geometry;
+	}
+	
+	public Point2D.Float getStartPoint() {
+		return this.startPoint;
+	}
+	
+	public Point2D.Float getEndPoint() {
+		return this.endPoint;
 	}
 
 }

@@ -25,7 +25,7 @@ public class Spider extends AnimatedSprite{
     // recent path took by spider
     private final GeometricPath trailingPath;
     // path claimed so far
-    private final GeometricPath claimedPath;
+    private final ClaimedPath claimedPath;
     private final Paint claimedPathPaint;
 
 	public Spider(Context context, Options bitmapOptions, int resourceId,
@@ -34,7 +34,7 @@ public class Spider extends AnimatedSprite{
 		this.trailingPathPaint = Customization.getTrailingPathPaint();
         this.trailingPath = new SpiderPath(this.width, this.height, this.screenWidth, this.screenHeight);
         this.claimedPathPaint = Customization.getClaimedPathPaint(context,bitmapOptions);
-        this.claimedPath = new GeometricPath();
+        this.claimedPath = new ClaimedPath();
 	}
 	
 	public void setLastPosition(float lastX, float lastY) {
@@ -81,8 +81,19 @@ public class Spider extends AnimatedSprite{
 
 	@Override
 	public void claimedPathTouch() {
-		// TODO TODO TODO!
 		setVelocity(0,0);
+		// add last line to path
+		this.trailingPath.lineTo(toScreenX(x), toScreenY(y));
+		// last line reset
+		this.lastX = this.lastY = -1;
+		// merge into claimed path
+		this.claimedPath.reduceToBounds(this.trailingPath);
+		// close path
+		this.trailingPath.close();
+		// merge into claimed path
+		this.claimedPath.merge(this.trailingPath);
+		// reset trailing path - new adventures await us!
+		this.trailingPath.rewind();
 	}
 	
 }
