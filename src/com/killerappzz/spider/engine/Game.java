@@ -60,7 +60,7 @@ public class Game {
         
         // Make the spider
         Spider spider = new Spider(context, sBitmapOptions, 
-        		R.drawable.spider, screenWidth, screenHeight );
+        		R.drawable.row6, 3, screenWidth, screenHeight );
         // Spider location.
         int centerX = (this.screenWidth - (int)spider.width) / 2;
         spider.x = centerX;

@@ -14,7 +14,7 @@ import com.killerappzz.spider.engine.Game;
  * @author florin
  *
  */
-public class Spider extends Sprite{
+public class Spider extends AnimatedSprite{
 	
     // Last Position
     private float lastX = -1;
@@ -29,8 +29,8 @@ public class Spider extends Sprite{
     private final Paint claimedPathPaint;
 
 	public Spider(Context context, Options bitmapOptions, int resourceId,
-			int scrW, int scrH) {
-		super(context, bitmapOptions, resourceId, scrW, scrH);
+			int framesNo, int scrW, int scrH ) {
+		super(context, bitmapOptions, resourceId, scrW, scrH, framesNo);
 		this.trailingPathPaint = Customization.getTrailingPathPaint();
         this.trailingPath = new SpiderPath(this.width, this.height, this.screenWidth, this.screenHeight);
         this.claimedPathPaint = Customization.getClaimedPathPaint(context,bitmapOptions);
