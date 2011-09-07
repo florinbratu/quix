@@ -29,8 +29,8 @@ public class Spider extends AnimatedSprite{
     private final Paint claimedPathPaint;
 
 	public Spider(Context context, Options bitmapOptions, int resourceId,
-			int framesNo, int scrW, int scrH ) {
-		super(context, bitmapOptions, resourceId, scrW, scrH, framesNo);
+			int framesNo, int fps, int scrW, int scrH ) {
+		super(context, bitmapOptions, resourceId, scrW, scrH, framesNo, fps);
 		this.trailingPathPaint = Customization.getTrailingPathPaint();
         this.trailingPath = new SpiderPath(this.width, this.height, this.screenWidth, this.screenHeight);
         this.claimedPathPaint = Customization.getClaimedPathPaint(context,bitmapOptions);

@@ -28,4 +28,10 @@ public interface Constants {
 	public static final int CLAIMED_COLOR = Color.BLUE;
 	public static final float CLAIMED_STROKE_WIDTH = 2;
 	
+	/*
+	 * Animation options
+	 */
+	public static final int SPIDER_ANIMATION_FRAMES_COUNT = 3;
+	public static final int SPIDER_ANIMATION_FPS = 30;
+	
 }
