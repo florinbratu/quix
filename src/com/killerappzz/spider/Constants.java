@@ -66,6 +66,7 @@ public interface Constants {
 					return Direction.EAST;
 				if(angle > - 3 * pi_8)
 					return Direction.SOUTHEAST;
+				else return Direction.SOUTH;
 			}
 			else {
 				if(angle > 3 * pi_8)
@@ -76,8 +77,8 @@ public interface Constants {
 					return Direction.WEST;
 				if(angle > - 3 * pi_8)
 					return Direction.NORTHWEST;
+				else return Direction.NORTH;
 			}
-			return Direction.NORTH;
 		}
 	};
 	
