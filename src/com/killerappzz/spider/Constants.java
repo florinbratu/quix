@@ -9,8 +9,6 @@ import android.graphics.Color;
  */
 public interface Constants {
 
-	public static final int TOUCH_ERROR_TOLERANCE_PERCENTILE = 10;
-	
 	/* vitezele le masor in felul urmator: cate secunde ii ia
 	 * sa traverseze tot ecranul!
 	 */

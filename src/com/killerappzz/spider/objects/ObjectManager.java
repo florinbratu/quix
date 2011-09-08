@@ -54,24 +54,9 @@ public class ObjectManager extends SimpleOnGestureListener{
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		float touchX = e1.getX();
-		// need to flip Y position
-		float touchY = (float)game.getScreenHeight() - e1.getY();
-		if(spiderTouched(touchX, touchY)) {
-			Log.d("SPIDER", "Spider touched!");
-			spider.setLastPosition(spider.x, spider.y);
-			spider.setVelocity(e2.getX() - e1.getX(), - e2.getY() + e1.getY() );
-		}
+		spider.setLastPosition(spider.x, spider.y);
+		spider.setVelocity(e2.getX() - e1.getX(), - e2.getY() + e1.getY() );
 		return true;
-	}
-
-	private boolean spiderTouched(float x, float y) {
-		float range = (1.0f * (this.game.getScreenHeight() + this.game.getScreenWidth()) 
-			* Constants.TOUCH_ERROR_TOLERANCE_PERCENTILE) / 200.0f;
-		// calculate the distance from touch point to spider
-		double distance = Math.sqrt( (x - spider.x - spider.width * 0.5f) * (x - spider.x - spider.width * 0.5f) 
-				+ (y - spider.y) * (y - spider.y) );
-		return (float)distance < range;
 	}
 
 	public void updatePositions(float timeDeltaSeconds) {
