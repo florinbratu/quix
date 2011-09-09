@@ -1,6 +1,7 @@
 package com.killerappzz.spider.objects;
 
 import android.graphics.Path;
+import android.graphics.RectF;
 
 import com.killerappzz.spider.geometry.Area;
 import com.killerappzz.spider.geometry.Path2D;
@@ -54,6 +55,11 @@ public class GeometricPath extends Path {
 	public void rewind() {
 		this.geometry.reset();
 		super.rewind();
+	}
+	
+	public void addGeometricPath(GeometricPath src) {
+		this.geometry.append(src.getGeometry(), false);
+		super.addPath(src);
 	}
 
 	/**
@@ -110,6 +116,15 @@ public class GeometricPath extends Path {
 	
 	public Point2D.Float getEndPoint() {
 		return this.endPoint;
+	}
+	
+	protected boolean boundsTest(RectF bounds, float x, float y) {
+		return bounds.bottom == y || bounds.top == y 
+			|| bounds.left == x || bounds.right == x;
+	}
+	
+	protected boolean boundsTest(RectF bounds, Point2D.Float point) {
+		return boundsTest(bounds, point.x, point.y);
 	}
 
 }

@@ -3,6 +3,10 @@ package com.killerappzz.spider.objects;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.killerappzz.spider.geometry.Point2D;
+import com.killerappzz.spider.util.CircularLinkedList;
+
+import android.graphics.RectF;
 import android.util.Pair;
 
 /**
@@ -23,25 +27,30 @@ public class Polygon extends GeometricPath {
 	private Pair<Float, Float> borderPoint;
 	// for comparison. faster than comparing all vertices!
 	private final int ID;
+	private final RectF screenRect;
 	
-	public Polygon(int ID) {
+	public Polygon(int ID, RectF screenRect) {
 		this.ID = ID;
-		this.vertices = new LinkedList<Pair<Float,Float>>();
+		this.vertices = new CircularLinkedList<Pair<Float,Float>>();
 		this.borderPoint = null;
+		this.screenRect = screenRect;
 	}
 	
 	@Override
 	public void moveTo(float x, float y) {
-		if(borderPoint != null)
-			throw new IllegalStateException("A polygon needs to have a single contour!");
-		this.borderPoint = new Pair<Float, Float>(x, y);
-		this.vertices.add(borderPoint);
+		Pair<Float, Float> point = new Pair<Float, Float>(x, y);
+		if(boundsTest(this.screenRect, x,y))
+			this.borderPoint = point;
+		this.vertices.add(point);
 		super.moveTo(x, y);
 	}
 	
 	@Override
 	public void lineTo(float x, float y) {
-		this.vertices.add(new Pair<Float, Float>(x, y));
+		Pair<Float, Float> point = new Pair<Float, Float>(x, y);
+		if(boundsTest(this.screenRect, x,y))
+			this.borderPoint = point;
+		this.vertices.add(point);
 		super.lineTo(x, y);
 	}
 	
@@ -65,6 +74,10 @@ public class Polygon extends GeometricPath {
 			return false;
 		Polygon other = (Polygon)o;
 		return other.ID == this.ID;
+	}
+	
+	public Point2D.Float getBorderPoint() {
+		return new Point2D.Float(this.borderPoint.first, this.borderPoint.second);
 	}
 	
 }

@@ -1,5 +1,7 @@
 package com.killerappzz.spider.objects;
 
+import android.graphics.RectF;
+
 
 /**
  * Extra functionality for our Paths
@@ -20,13 +22,12 @@ public class SpiderPath extends GeometricPath {
 	private final float leftX;
 	private final float rightX;
 	
-	public SpiderPath(float spiderWidth, float spiderHeight, float screenWidth,
-			float screenHeight) {
+	public SpiderPath(RectF screenRect) {
 		super();
-		this.bottomY = screenHeight - spiderHeight / 2;
-		this.topY = spiderHeight / 2;
-		this.leftX = spiderWidth / 2;
-		this.rightX = screenWidth - spiderWidth / 2;
+		this.bottomY = screenRect.bottom;
+		this.topY = screenRect.top;
+		this.leftX = screenRect.left;
+		this.rightX = screenRect.right;
 	}
 
 	/** 

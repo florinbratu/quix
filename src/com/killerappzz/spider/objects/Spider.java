@@ -3,10 +3,10 @@ package com.killerappzz.spider.objects;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.BitmapFactory.Options;
 
 import com.killerappzz.spider.Customization;
-import com.killerappzz.spider.engine.Game;
 
 /**
  * The Spider.
@@ -27,14 +27,18 @@ public class Spider extends AnimatedSprite{
     // path claimed so far
     private final ClaimedPath claimedPath;
     private final Paint claimedPathPaint;
+    // the rectangle defining the screen area
+    private final RectF screenRect;
 
 	public Spider(Context context, Options bitmapOptions, int resourceId,
 			int framesNo, int fps, int scrW, int scrH ) {
 		super(context, bitmapOptions, resourceId, scrW, scrH, framesNo, fps);
+		this.screenRect = new RectF(this.width / 2 , this.height / 2, 
+        		this.screenWidth - this.width / 2, this.screenHeight - this.height / 2);
 		this.trailingPathPaint = Customization.getTrailingPathPaint();
-        this.trailingPath = new SpiderPath(this.width, this.height, this.screenWidth, this.screenHeight);
+        this.trailingPath = new SpiderPath(this.screenRect);
         this.claimedPathPaint = Customization.getClaimedPathPaint(context,bitmapOptions);
-        this.claimedPath = new ClaimedPath();
+        this.claimedPath = new ClaimedPath(this.screenRect);
 	}
 	
 	public void setLastPosition(float lastX, float lastY) {
@@ -71,6 +75,8 @@ public class Spider extends AnimatedSprite{
 		this.trailingPath.lineTo(toScreenX(x), toScreenY(y));
 		// last line reset
 		this.lastX = this.lastY = -1;
+		// add to trailing path segments until bounds
+		this.claimedPath.reduceToBounds(this.trailingPath, this.screenRect);
 		// close path
 		this.trailingPath.close();
 		// merge into claimed path
@@ -86,8 +92,8 @@ public class Spider extends AnimatedSprite{
 		this.trailingPath.lineTo(toScreenX(x), toScreenY(y));
 		// last line reset
 		this.lastX = this.lastY = -1;
-		// merge into claimed path
-		this.claimedPath.reduceToBounds(this.trailingPath);
+		// add to trailing path segments until bounds
+		this.claimedPath.reduceToBounds(this.trailingPath, this.screenRect);
 		// close path
 		this.trailingPath.close();
 		// merge into claimed path
