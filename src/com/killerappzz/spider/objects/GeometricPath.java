@@ -102,7 +102,25 @@ public class GeometricPath extends Path {
 		}
 	}
 
+	/**
+	 * Tests if the given point is inside out path.
+	 * It relies mostly on the contains method of our Geometry.
+	 * HOWEVER! we need to test ourselves for path vertices
+	 * as unfortunately! our geometry reports these as NOT contained.
+	 * HOWEVER! points on the border of our Geometry are correctly 
+	 * reported as contained! Also see the {@link Shape} javadoc
+	 */
 	public boolean contains(float x, float y) {
+		// test for polygon vertices.
+		// this is not tested by Path2D
+		PathIterator it = this.geometry.getPathIterator(null);
+		float[] coords = new float[6];
+		while(!it.isDone()) {
+			it.currentSegment(coords);
+			if(coords[0] == x && coords[1] == y)
+				return true;
+			it.next();
+		}
 		return this.geometry.contains(x, y);
 	}
 	
@@ -125,6 +143,20 @@ public class GeometricPath extends Path {
 	
 	protected boolean boundsTest(RectF bounds, Point2D.Float point) {
 		return boundsTest(bounds, point.x, point.y);
+	}
+	
+	@Override
+	public String toString() {
+		PathIterator it = this.geometry.getPathIterator(null);
+		float[] coords = new float[6];
+		StringBuilder sb = new StringBuilder();
+		while(!it.isDone()) {
+			int type = it.currentSegment(coords);
+			sb.append("Segment type:" + type);
+			sb.append(";Coords:(" + coords[0] + "," + coords[1] + ");");
+			it.next();
+		}
+		return sb.toString();
 	}
 
 }

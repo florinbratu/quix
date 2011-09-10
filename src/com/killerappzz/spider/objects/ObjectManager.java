@@ -64,7 +64,7 @@ public class ObjectManager extends SimpleOnGestureListener{
 			if(object.speed!=0 && !(object.getVelocityX() == 0 && object.getVelocityY() == 0)) {
 				object.updatePosition(timeDeltaSeconds);
 				// test for object touching the screen bounds
-				object.boundsCheck();
+				if(!object.boundsCheck())
 				// test for object reaching the region claimed by the spider
 				object.claimedPathCheck(spider.getClaimedPath());
 			}

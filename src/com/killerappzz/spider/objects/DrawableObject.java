@@ -74,7 +74,7 @@ public abstract class DrawableObject {
      * @param screenWidth
      * @param screenHeight
      */
-    public void boundsCheck() {
+    public boolean boundsCheck() {
     	if ((this.x < 0.0f && this.velocityX < 0.0f) 
                 || (this.x > screenWidth- this.width 
                         && this.velocityX > 0.0f)) {
@@ -82,6 +82,7 @@ public abstract class DrawableObject {
                     Math.min(this.x, screenWidth - this.width));
     		// border behaviour, object-specific
             boundsTouchBehaviour();
+            return true;
         }
         
         if ((this.y < 0.0f && this.velocityY < 0.0f) 
@@ -91,7 +92,10 @@ public abstract class DrawableObject {
                     Math.min(this.y, screenHeight - this.height));
             // bound behaviour
             boundsTouchBehaviour();
+            return true;
         }
+        
+        return false;
 	}
     
     public void claimedPathCheck(GeometricPath claimedPath) {
