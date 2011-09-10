@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.BitmapFactory.Options;
+import android.util.Log;
 
 import com.killerappzz.spider.Customization;
 
@@ -76,11 +77,12 @@ public class Spider extends AnimatedSprite{
 		// last line reset
 		this.lastX = this.lastY = -1;
 		// add to trailing path segments until bounds
-		this.claimedPath.reduceToBounds(this.trailingPath, this.screenRect);
+		GeometricPath boundedPath = 
+			this.claimedPath.reduceToBounds(this.trailingPath, this.screenRect);
 		// close path
-		this.trailingPath.close();
+		boundedPath.close();
 		// merge into claimed path
-		this.claimedPath.merge(this.trailingPath);
+		this.claimedPath.merge(boundedPath);
 		// reset trailing path - new adventures await us!
 		this.trailingPath.rewind();
 	}
@@ -93,11 +95,18 @@ public class Spider extends AnimatedSprite{
 		// last line reset
 		this.lastX = this.lastY = -1;
 		// add to trailing path segments until bounds
-		this.claimedPath.reduceToBounds(this.trailingPath, this.screenRect);
+		Log.d("QUIX", "Paths before reduce:");
+		Log.d("QUIX", "Claimed path:" + this.claimedPath.toString());
+		Log.d("QUIX", "Trailing path:" + this.trailingPath.toString());
+		GeometricPath boundedPath = 
+			this.claimedPath.reduceToBounds(this.trailingPath, this.screenRect);
+		Log.d("QUIX", "Paths after reduce:");
+		Log.d("QUIX", "Claimed path:" + this.claimedPath.toString());
+		Log.d("QUIX", "Trailing path:" + boundedPath.toString());
 		// close path
-		this.trailingPath.close();
+		boundedPath.close();
 		// merge into claimed path
-		this.claimedPath.merge(this.trailingPath);
+		this.claimedPath.merge(boundedPath);
 		// reset trailing path - new adventures await us!
 		this.trailingPath.rewind();
 	}
