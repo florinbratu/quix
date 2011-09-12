@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Paint;
 import android.graphics.BitmapFactory.Options;
+import android.graphics.Paint.Align;
 import android.graphics.Shader.TileMode;
 
 /**
@@ -66,6 +67,40 @@ public final class Customization {
         				TileMode.REPEAT, TileMode.REPEAT));
         claimedPathPaint.setFilterBitmap(true);
         return claimedPathPaint;
+	}
+	
+	public static final Paint getScorePaint() {
+		Paint scorePaint = newTextPain();
+        scorePaint.setColor(Constants.SCORE_TEXT_COLOR);
+		return scorePaint;
+	}
+
+	public static final Paint getTimeTextPaint() {
+		Paint timePaint = newTextPain();
+		timePaint.setColor(Constants.TIME_TEXT_COLOR);
+		return timePaint;
+	}
+
+	public static Paint getSurfaceTextPaint() {
+		Paint surfacePaint = newTextPain();
+        surfacePaint.setColor(Constants.SURFACE_TEXT_COLOR);
+		return surfacePaint;
+	}
+
+	public static Paint getLivesTextPaint() {
+		Paint livesPaint = newTextPain();
+        livesPaint.setColor(Constants.LIVES_TEXT_COLOR);
+		return livesPaint;
+	}
+	
+	private static final Paint newTextPain() {
+		Paint textPaint = new Paint();
+		textPaint.setAntiAlias(true);
+        textPaint.setDither(true);
+        textPaint.setStyle(Paint.Style.FILL);
+        // TODO font size needs to depend on screen size
+        textPaint.setTextSize(18);
+        return textPaint;
 	}
 
 }

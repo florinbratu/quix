@@ -27,10 +27,23 @@ public interface Constants {
 	public static final float CLAIMED_STROKE_WIDTH = 2;
 	
 	/*
+	 * statistic banner look and feel
+	 */
+	public static final String SCORE_TEXT = "Score: ";
+	public static final int SCORE_TEXT_COLOR = Color.YELLOW;
+	public static final String TIME_TEXT = "Time: ";
+	public static final int TIME_TEXT_COLOR = Color.GREEN;
+	public static final String SURFACE_TEXT = "Area: ";
+	public static final int SURFACE_TEXT_COLOR = Color.BLUE;
+	public static final String LIVES_TEXT = "Lives: ";
+	public static final int LIVES_TEXT_COLOR = Color.YELLOW; // orange
+	
+	/*
 	 * Animation options
 	 */
 	public static final int SPIDER_ANIMATION_FRAMES_COUNT = 3;
 	public static final int SPIDER_ANIMATION_FPS = 30;
+
 	/**
 	 * The sprites will be available only for certain
 	 * movement directions. The list of these is available below.

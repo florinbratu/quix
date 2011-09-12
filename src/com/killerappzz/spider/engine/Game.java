@@ -11,6 +11,7 @@ import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.ProfileRecorder;
 import com.killerappzz.spider.R;
 import com.killerappzz.spider.objects.Background;
+import com.killerappzz.spider.objects.Banner;
 import com.killerappzz.spider.objects.ObjectManager;
 import com.killerappzz.spider.objects.Spider;
 import com.killerappzz.spider.rendering.GameRenderer;
@@ -68,6 +69,10 @@ public class Game {
         spider.y = 0;
         spider.speed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
         manager.addSpider(spider);
+        
+        // make the statistics banner
+        Banner banner = new Banner(this.screenWidth	, (int)(spider.height / 2));
+        manager.addBanner(banner);
 
         // Now's a good time to run the GC.  Since we won't do any explicit
         // allocation during the test, the GC should stay dormant and not

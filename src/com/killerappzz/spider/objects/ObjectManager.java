@@ -19,6 +19,8 @@ public class ObjectManager extends SimpleOnGestureListener{
 	private final List<DrawableObject> objects; 
 	// spider is a special role
 	private Spider spider;
+	// the statistics banner
+	private Banner banner;
 	
 	public ObjectManager() {
 		this.objects = new LinkedList<DrawableObject>();
@@ -33,10 +35,16 @@ public class ObjectManager extends SimpleOnGestureListener{
 		this.spider = spider;
 	}
 	
+	public void addBanner(Banner banner){
+		this.banner = banner;
+	}
+	
 	public void draw(Canvas canvas) {
 		for(DrawableObject object : objects) {
     		object.draw(canvas);
     	}
+		// draw banner on top of em all
+		this.banner.draw(canvas);
 	}
 	
 	public void cleanup() {
