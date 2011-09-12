@@ -74,12 +74,15 @@ public class ClaimedPath extends GeometricPath {
 			// nothing to be done
 			return path;
 		Polygon endPoly = null, startPoly = null;
+		Point2D.Float endClosest = null, startClosest = null;
 		for(Polygon p : polygons) {
 			if(p.contains(endPoint.x, endPoint.y)) {
 				endPoly = p;
+				endClosest = p.getClosestVertex(endPoint);
 			}
 			if(p.contains(startPoint.x, startPoint.y)) {
 				startPoly = p;
+				startClosest = p.getClosestVertex(startPoint);
 			}
 		}
 		if( endPoly == null) {
@@ -87,7 +90,9 @@ public class ClaimedPath extends GeometricPath {
 			if(startPoly != null) {
 				// the starting point is on a polygon
 				// get the path from the bound point on start polygon to the start point
-				GeometricPath ret = getPathToStartPoint(startPoly, startPoint);
+				GeometricPath ret = getPathToStartPoint(startPoly, startClosest);
+				// add the start point
+				ret.lineTo(startPoint.x, startPoint.y);
 				// add the path done by the spider
 				ret.addGeometricPath(path);
 				return ret;
@@ -97,23 +102,37 @@ public class ClaimedPath extends GeometricPath {
 				return path;
 		} else if( startPoly == null ) {
 			// the starting point is on the edge
+			// move to endpoint closest on end path
+			path.lineTo(endClosest.x, endClosest.y);
 			// it's enough to go from endpoint to edge
 			// by following the polygon line containing the endpoint
-			pushToBounds(path, endPoly, endPoint);
+			pushToBounds(path, endPoly, endClosest);
 			return path;
 		} else if(startPoly.equals(endPoly)) {
 			// start and end points are on the same polygon
 			// just connect them via polygon lines
-			pushEndpoint(path, endPoly, startPoint, endPoint);
-			return path;
+			// but first! get to the closest vertex
+			// start closest
+			GeometricPath ret = new GeometricPath();
+			ret.moveTo(startClosest.x, startClosest.y);
+			ret.lineTo(startPoint.x, startPoint.y);
+			ret.addGeometricPath(path);
+			// end closest
+			ret.lineTo(endClosest.x, endClosest.y);
+			pushEndpoint(ret, endPoly, startClosest, endClosest);
+			return ret;
 		} else {
 			// ugliest case: start and end points are on two different polygons
 			// get the path from the bound point on start polygon to the start point
-			GeometricPath ret = getPathToStartPoint(startPoly, startPoint);
+			GeometricPath ret = getPathToStartPoint(startPoly, startClosest);
+			// add the start point
+			ret.lineTo(startPoint.x, startPoint.y);
 			// add the path done by the spider
 			ret.addGeometricPath(path);
+			// goto closest vertex from endpoint
+			ret.lineTo(endClosest.x, endClosest.y);
 			// add the path to the bounds on the end polygon
-			pushToBounds(ret, endPoly, endPoint);
+			pushToBounds(ret, endPoly, endClosest);
 			return ret;
 		}
 	}
@@ -174,12 +193,6 @@ public class ClaimedPath extends GeometricPath {
 					found = true;
 			}
 		}
-	}
-	
-	/* Euclidean distance between two points */
-	private double distance(Pair<Float,Float> vertex, Point2D.Float point) {
-		return Math.sqrt( (vertex.first - point.x) * (vertex.first - point.x)
-				+ (vertex.second - point.y) * (vertex.second - point.y));
 	}
 	
 }

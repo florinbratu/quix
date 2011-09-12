@@ -1,13 +1,12 @@
 package com.killerappzz.spider.objects;
 
-import java.util.LinkedList;
 import java.util.List;
-
-import com.killerappzz.spider.geometry.Point2D;
-import com.killerappzz.spider.util.CircularLinkedList;
 
 import android.graphics.RectF;
 import android.util.Pair;
+
+import com.killerappzz.spider.geometry.Point2D;
+import com.killerappzz.spider.util.CircularLinkedList;
 
 /**
  * A Path having a single contour.
@@ -78,6 +77,28 @@ public class Polygon extends GeometricPath {
 	
 	public Point2D.Float getBorderPoint() {
 		return new Point2D.Float(this.borderPoint.first, this.borderPoint.second);
+	}
+	
+	/**
+	 * Get closest vertex to given point
+	 */
+	public Point2D.Float getClosestVertex(Point2D.Float point) {
+		double dist = Double.MAX_VALUE;
+		Pair<Float,Float> closestVertex = null;
+		for(Pair<Float,Float> vertex: this.vertices) {
+			double d = distance(vertex,point);
+			if( d < dist) {
+				dist = d;
+				closestVertex = vertex;
+			}
+		}
+		return new Point2D.Float(closestVertex.first, closestVertex.second);
+	}
+	
+	/* Euclidean distance between two points */
+	private double distance(Pair<Float,Float> vertex, Point2D.Float point) {
+		return Math.sqrt( (vertex.first - point.x) * (vertex.first - point.x)
+				+ (vertex.second - point.y) * (vertex.second - point.y));
 	}
 	
 }
