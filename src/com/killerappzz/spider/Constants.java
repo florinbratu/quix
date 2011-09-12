@@ -30,13 +30,17 @@ public interface Constants {
 	 * statistic banner look and feel
 	 */
 	public static final String SCORE_TEXT = "Score: ";
+	public static final String MAX_SCORE = "1000000";
 	public static final int SCORE_TEXT_COLOR = Color.YELLOW;
 	public static final String TIME_TEXT = "Time: ";
+	public static final String MAX_TIME = "99:99:99";
 	public static final int TIME_TEXT_COLOR = Color.GREEN;
 	public static final String SURFACE_TEXT = "Area: ";
+	public static final String MAX_SURFACE = "75 / 75%";
 	public static final int SURFACE_TEXT_COLOR = Color.BLUE;
 	public static final String LIVES_TEXT = "Lives: ";
 	public static final int LIVES_TEXT_COLOR = Color.YELLOW; // orange
+	public static final int FREE_SPACE_INTER_TO_BORDER_RATIO = 3;
 	
 	/*
 	 * Animation options
