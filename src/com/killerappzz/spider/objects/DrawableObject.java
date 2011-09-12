@@ -67,6 +67,10 @@ public abstract class DrawableObject {
     	this.y = this.y + (this.velocityY * this.speed * timeDeltaSeconds);
 	}
     
+    public boolean moves() {
+		return this.speed != 0 && !(this.velocityX == 0 && this.velocityY == 0);
+	}
+    
     /**
      * Determine how the object will react when
      * encountering the screen margins

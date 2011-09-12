@@ -30,6 +30,15 @@ public class Spider extends AnimatedSprite{
     private final Paint claimedPathPaint;
     // the rectangle defining the screen area
     private final RectF screenRect;
+    
+    // define spider movement type
+    public enum Movement {
+    	NONE,  // spider does not move
+    	CLAIM, // claim new land
+    	EDGE,  // move on the edge of the field + claimed land
+    };
+    
+    private Movement movement;
 
 	public Spider(Context context, Options bitmapOptions, int resourceId,
 			int framesNo, int fps, int scrW, int scrH ) {
@@ -40,6 +49,7 @@ public class Spider extends AnimatedSprite{
         this.trailingPath = new SpiderPath(this.screenRect);
         this.claimedPathPaint = Customization.getClaimedPathPaint(context,bitmapOptions);
         this.claimedPath = new ClaimedPath(this.screenRect);
+        this.movement = Movement.NONE;
 	}
 	
 	public void setLastPosition(float lastX, float lastY) {
@@ -49,6 +59,20 @@ public class Spider extends AnimatedSprite{
 			this.trailingPath.moveTo(toScreenX(lastX), toScreenY(lastY));
 		this.lastX = lastX;
 		this.lastY = lastY;
+	}
+	
+	@Override
+	public boolean moves() {
+		return !this.movement.equals(Movement.NONE);
+	}
+	
+	@Override
+	public void setVelocity(float velocityX, float velocityY) {
+		super.setVelocity(velocityX, velocityY);
+		if(velocityX == 0 && velocityY == 0) 
+			this.movement = Movement.NONE;
+		else 
+			this.movement = Movement.CLAIM;
 	}
 	
 	@Override
@@ -95,14 +119,8 @@ public class Spider extends AnimatedSprite{
 		// last line reset
 		this.lastX = this.lastY = -1;
 		// add to trailing path segments until bounds
-		Log.d("QUIX", "Paths before reduce:");
-		Log.d("QUIX", "Claimed path:" + this.claimedPath.toString());
-		Log.d("QUIX", "Trailing path:" + this.trailingPath.toString());
 		GeometricPath boundedPath = 
 			this.claimedPath.reduceToBounds(this.trailingPath, this.screenRect);
-		Log.d("QUIX", "Paths after reduce:");
-		Log.d("QUIX", "Claimed path:" + this.claimedPath.toString());
-		Log.d("QUIX", "Trailing path:" + boundedPath.toString());
 		// close path
 		boundedPath.close();
 		// merge into claimed path

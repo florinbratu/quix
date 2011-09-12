@@ -4,12 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
-
-import com.killerappzz.spider.Constants;
-import com.killerappzz.spider.engine.Game;
 
 /**
  * Handles objects which are displayed on the screen
@@ -23,11 +19,9 @@ public class ObjectManager extends SimpleOnGestureListener{
 	private final List<DrawableObject> objects; 
 	// spider is a special role
 	private Spider spider;
-	private final Game game;
 	
-	public ObjectManager(Game theGame) {
+	public ObjectManager() {
 		this.objects = new LinkedList<DrawableObject>();
-		this.game = theGame;
 	}
 	
 	public void addObject(DrawableObject object) {
@@ -61,7 +55,7 @@ public class ObjectManager extends SimpleOnGestureListener{
 
 	public void updatePositions(float timeDeltaSeconds) {
 		for(DrawableObject object : objects) {
-			if(object.speed!=0 && !(object.getVelocityX() == 0 && object.getVelocityY() == 0)) {
+			if( object.moves() ) {
 				object.updatePosition(timeDeltaSeconds);
 				// test for object touching the screen bounds
 				if(!object.boundsCheck())

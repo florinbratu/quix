@@ -43,7 +43,7 @@ public class Game {
         // Clear out any old profile results.
         ProfileRecorder.sSingleton.resetAll();
         
-        manager = new ObjectManager(this);
+        manager = new ObjectManager();
 		renderer = new GameRenderer(manager);
 		touchHandler = new GestureDetector(parentActivity, manager);
 	}
