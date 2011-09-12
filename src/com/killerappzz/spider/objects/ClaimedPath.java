@@ -159,7 +159,7 @@ public class ClaimedPath extends GeometricPath {
 	}
 
 	private void pushToBounds(GeometricPath path, Polygon bound, 
-			Point2D.Float endPoint, float tolerance) {
+			Point2D.Float endPoint) {
 		boolean found = false;
 		for(Pair<Float,Float> vertex : bound.vertices) {
 			if(found) {
