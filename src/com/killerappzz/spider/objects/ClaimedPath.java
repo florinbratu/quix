@@ -90,7 +90,7 @@ public class ClaimedPath extends GeometricPath {
 			if(startPoly != null) {
 				// the starting point is on a polygon
 				// get the path from the bound point on start polygon to the start point
-				GeometricPath ret = getPathToStartPoint(startPoly, startClosest);
+				GeometricPath ret = getPathToStartPoint(startPoly, startClosest, screenRect);
 				// add the start point
 				ret.lineTo(startPoint.x, startPoint.y);
 				// add the path done by the spider
@@ -113,7 +113,7 @@ public class ClaimedPath extends GeometricPath {
 			// just connect them via polygon lines
 			// but first! get to the closest vertex
 			// start closest
-			GeometricPath ret = new GeometricPath();
+			GeometricPath ret = new SpiderPath(screenRect);
 			ret.moveTo(startClosest.x, startClosest.y);
 			ret.lineTo(startPoint.x, startPoint.y);
 			ret.addGeometricPath(path);
@@ -124,7 +124,7 @@ public class ClaimedPath extends GeometricPath {
 		} else {
 			// ugliest case: start and end points are on two different polygons
 			// get the path from the bound point on start polygon to the start point
-			GeometricPath ret = getPathToStartPoint(startPoly, startClosest);
+			GeometricPath ret = getPathToStartPoint(startPoly, startClosest, screenRect);
 			// add the start point
 			ret.lineTo(startPoint.x, startPoint.y);
 			// add the path done by the spider
@@ -138,8 +138,8 @@ public class ClaimedPath extends GeometricPath {
 	}
 
 	private GeometricPath getPathToStartPoint(Polygon bound, 
-			Point2D.Float startPoint) {
-		GeometricPath path = new GeometricPath();
+			Point2D.Float startPoint, RectF screenRect) {
+		GeometricPath path = new SpiderPath(screenRect);
 		boolean found = false;
 		for(Pair<Float,Float> vertex : bound.vertices) {
 			if(found) {

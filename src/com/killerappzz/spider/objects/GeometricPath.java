@@ -57,8 +57,22 @@ public class GeometricPath extends Path {
 		super.rewind();
 	}
 	
+	/**
+	 * Adauga path-ul la configuratia curenta.
+	 * Fara a tine cont insa de moveTo-uri!
+	 * Practic, doar adauga vertices din src 
+	 * la path-ul nostru
+	 * 
+	 * @param src
+	 */
 	public void addGeometricPath(GeometricPath src) {
-		this.geometry.append(src.getGeometry(), false);
+		float[] coords = new float[6];
+		PathIterator it = src.getGeometry().getPathIterator(null);
+		while(!it.isDone()){
+			it.currentSegment(coords);
+			lineTo(coords[0], coords[1]);
+			it.next();
+		}
 		super.addPath(src);
 	}
 
