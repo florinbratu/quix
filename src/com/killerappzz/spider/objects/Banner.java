@@ -38,11 +38,13 @@ public class Banner {
 	private final int spaceToBorder;
 	private final int spaceBetweenText;
 	private final int fontSize;
+	private final int screenHeight;
 	
-	public Banner(int width, int height) {
+	public Banner(int width, int height, int screenHeight) {
 		super();
 		this.width = width;
 		this.height = height;
+		this.screenHeight = screenHeight;
 		this.fontSize = this.height / 2;
 		this.scorePaint = Customization.getScorePaint(fontSize);
 		this.timeTextPaint = Customization.getTimeTextPaint(fontSize);
@@ -53,16 +55,14 @@ public class Banner {
 			// TODO need to decrease font size
 		} 
 		float freeScreen = (float)this.width - totalTextSize;
-		this.spaceToBorder = (int)(freeScreen / ( 2.0f + 3.0f * Constants.FREE_SPACE_INTER_TO_BORDER_RATIO ));
+		this.spaceToBorder = (int)(freeScreen / ( 2.0f + 2.0f * Constants.FREE_SPACE_INTER_TO_BORDER_RATIO ));
 		this.spaceBetweenText = this.spaceToBorder * Constants.FREE_SPACE_INTER_TO_BORDER_RATIO;
 	}
 
 	private float precomputeTextSize() {
 		return scorePaint.measureText(Constants.SCORE_TEXT + Constants.MAX_SCORE) +
 			timeTextPaint.measureText(Constants.TIME_TEXT + Constants.MAX_TIME) +
-			surfaceTextPaint.measureText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE) +
-			livesTextPaint.measureText(Constants.LIVES_TEXT) + 3 * this.height 
-			// assume we have 3 lives each one is a square icon
+			surfaceTextPaint.measureText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE)
 			;
 	}
 
@@ -74,7 +74,10 @@ public class Banner {
 		canvas.drawText(Constants.TIME_TEXT + Constants.MAX_TIME, posX, posY, timeTextPaint);
 		posX += timeTextPaint.measureText(Constants.TIME_TEXT + Constants.MAX_TIME) + spaceBetweenText;
 		canvas.drawText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE, posX, posY, surfaceTextPaint);
-		posX += surfaceTextPaint.measureText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE) + spaceBetweenText;
+		// the lives text will be placed on the bottom banner
+		posX = this.width - (this.livesTextPaint.measureText(Constants.LIVES_TEXT) 
+				+ 3 * this.fontSize + this.spaceToBorder); // assume we have 3 lives each one is a square icon
+		posY = this.screenHeight - (this.height - this.fontSize) / 2;
 		canvas.drawText(Constants.LIVES_TEXT + "TODO", posX , posY, livesTextPaint);
 	}
 }
