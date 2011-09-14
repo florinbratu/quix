@@ -29,6 +29,7 @@ public interface Constants {
 	/*
 	 * statistic banner look and feel
 	 */
+	public static final String STATS_FONT_ASSET = "fonts/Starcraft Normal.ttf";
 	public static final String SCORE_TEXT = "Score: ";
 	public static final String MAX_SCORE = "1000000";
 	public static final int SCORE_TEXT_COLOR = Color.YELLOW;
@@ -47,8 +48,6 @@ public interface Constants {
 	 */
 	public static final int SPIDER_ANIMATION_FRAMES_COUNT = 3;
 	public static final int SPIDER_ANIMATION_FPS = 30;
-
-	public static final String STATS_FONT_ASSET = "fonts/SF_Collegiate.ttf";
 
 	/**
 	 * The sprites will be available only for certain
