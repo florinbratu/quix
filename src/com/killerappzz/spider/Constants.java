@@ -48,6 +48,8 @@ public interface Constants {
 	public static final int SPIDER_ANIMATION_FRAMES_COUNT = 3;
 	public static final int SPIDER_ANIMATION_FPS = 30;
 
+	public static final String STATS_FONT_ASSET = "fonts/SF_Collegiate.ttf";
+
 	/**
 	 * The sprites will be available only for certain
 	 * movement directions. The list of these is available below.

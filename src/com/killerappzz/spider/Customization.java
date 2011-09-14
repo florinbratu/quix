@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Paint.Align;
 import android.graphics.Shader.TileMode;
@@ -99,7 +100,15 @@ public final class Customization {
         textPaint.setDither(true);
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setTextSize(fontSize);
+        // set the font
+        textPaint.setTypeface(statisticsFont);
         return textPaint;
+	}
+	
+	private static Typeface statisticsFont;
+
+	public static void statsFont(Typeface createFromAsset) {
+		statisticsFont = createFromAsset;
 	}
 
 }

@@ -3,8 +3,10 @@ package com.killerappzz.spider.objects;
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 
 /**
  * The Statistics banner. Located on top of the screen.
@@ -40,12 +42,15 @@ public class Banner {
 	private final int fontSize;
 	private final int screenHeight;
 	
-	public Banner(int width, int height, int screenHeight) {
+	public Banner(Context context, String statsFontName, int width, int height, int screenHeight) {
 		super();
 		this.width = width;
 		this.height = height;
 		this.screenHeight = screenHeight;
 		this.fontSize = this.height / 2;
+		// the Banner font
+		Customization.statsFont(Typeface.createFromAsset(
+				context.getAssets(), statsFontName));
 		this.scorePaint = Customization.getScorePaint(fontSize);
 		this.timeTextPaint = Customization.getTimeTextPaint(fontSize);
 		this.surfaceTextPaint = Customization.getSurfaceTextPaint(fontSize);

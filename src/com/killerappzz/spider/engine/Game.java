@@ -71,7 +71,8 @@ public class Game {
         manager.addSpider(spider);
         
         // make the statistics banner
-        Banner banner = new Banner(this.screenWidth	, (int)(spider.height / 2), this.screenHeight);
+        Banner banner = new Banner(context, Constants.STATS_FONT_ASSET,
+        		this.screenWidth	, (int)(spider.height / 2), this.screenHeight);
         manager.addBanner(banner);
 
         // Now's a good time to run the GC.  Since we won't do any explicit
