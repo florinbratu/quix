@@ -82,7 +82,9 @@ public class Banner {
 		float posY = (this.height + this.fontSize) / 2; // center the font position on the border
 		canvas.drawText(Constants.SCORE_TEXT + data.getScore(), posX, posY, scorePaint);
 		posX += scorePaint.measureText(Constants.SCORE_TEXT + Constants.MAX_SCORE) + spaceBetweenText;
-		canvas.drawText(Constants.TIME_TEXT + Constants.MAX_TIME, posX, posY, timeTextPaint);
+		canvas.drawText(Constants.TIME_TEXT + this.data.getMinutes() + ":" 
+				+ (this.data.getSeconds() < 10 ? "0" + this.data.getSeconds() : this.data.getSeconds()) 
+				+ ":" + this.data.getDeciSeconds(), posX, posY, timeTextPaint);
 		posX += timeTextPaint.measureText(Constants.TIME_TEXT + Constants.MAX_TIME) + spaceBetweenText;
 		canvas.drawText(Constants.SURFACE_TEXT + (int)data.getClaimedPercentile() + Constants.SURFACE_PERCENTAGE, posX, posY, surfaceTextPaint);
 		// the lives text will be placed on the bottom banner

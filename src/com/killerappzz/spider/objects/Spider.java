@@ -98,26 +98,18 @@ public class Spider extends AnimatedSprite{
 
 	@Override
 	public void boundsTouchBehaviour() {
-		setVelocity(0, 0);
-		// add last line to path
-		this.trailingPath.lineTo(toScreenX(x), toScreenY(y));
-		// last line reset
-		this.lastX = this.lastY = -1;
-		// add to trailing path segments until bounds
-		GeometricPath boundedPath = 
-			this.claimedPath.reduceToBounds(this.trailingPath, this.screenRect);
-		// close path
-		boundedPath.close();
-		// merge into claimed path
-		this.claimedPath.merge(boundedPath);
-		// recalculate area!
-		this.data.setClaimedArea(this.claimedPath.area());
-		// reset trailing path - new adventures await us!
-		this.trailingPath.rewind();
+		contactBehaviour();
 	}
 
 	@Override
 	public void claimedPathTouch() {
+		contactBehaviour();
+	}
+	
+	/**
+	 * Common behaviour for border and claimed path touch
+	 */
+	private void contactBehaviour() {
 		setVelocity(0,0);
 		// add last line to path
 		this.trailingPath.lineTo(toScreenX(x), toScreenY(y));

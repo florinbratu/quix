@@ -21,6 +21,7 @@ public class Engine implements Runnable {
 	@Override
 	public void run() {
 		final float timeDeltaSeconds = getTimeDelta();
+		this.game.getData().addTime(timeDeltaSeconds);
 		// calculate new positions
 		this.game.getObjectManager().updatePositions(timeDeltaSeconds);
 	}

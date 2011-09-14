@@ -110,4 +110,8 @@ public class Game {
 		return this.manager;
 	}
 	
+	public GameData getData() {
+		return this.data;
+	}
+	
 }
