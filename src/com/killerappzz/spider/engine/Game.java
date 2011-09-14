@@ -29,6 +29,7 @@ public class Game {
 	
     private final ObjectManager manager;
     private final GameRenderer renderer;
+    private final GameData data;
     private static BitmapFactory.Options sBitmapOptions 
       = new BitmapFactory.Options();
     private GestureDetector touchHandler;
@@ -46,6 +47,7 @@ public class Game {
         
         manager = new ObjectManager();
 		renderer = new GameRenderer(manager);
+		data = new GameData();
 		touchHandler = new GestureDetector(parentActivity, manager);
 	}
 	
@@ -62,17 +64,19 @@ public class Game {
         // Make the spider
         Spider spider = new Spider(context, sBitmapOptions, 
         		R.drawable.spider, Constants.SPIDER_ANIMATION_FRAMES_COUNT, 
-        		Constants.SPIDER_ANIMATION_FPS, screenWidth, screenHeight );
+        		Constants.SPIDER_ANIMATION_FPS, screenWidth, screenHeight, data );
         // Spider location.
         int centerX = (this.screenWidth - (int)spider.width) / 2;
         spider.x = centerX;
         spider.y = 0;
         spider.speed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
         manager.addSpider(spider);
+        data.setTotalArea( (this.screenWidth - spider.width) * (this.screenHeight - spider.height) );
         
         // make the statistics banner
         Banner banner = new Banner(context, Constants.STATS_FONT_ASSET,
-        		this.screenWidth	, (int)(spider.height / 2), this.screenHeight);
+        		this.screenWidth	, (int)(spider.height / 2), this.screenHeight,
+        		data);
         manager.addBanner(banner);
 
         // Now's a good time to run the GC.  Since we won't do any explicit

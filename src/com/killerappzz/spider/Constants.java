@@ -37,7 +37,8 @@ public interface Constants {
 	public static final String MAX_TIME = "99:99:99";
 	public static final int TIME_TEXT_COLOR = Color.GREEN;
 	public static final String SURFACE_TEXT = "Area: ";
-	public static final String MAX_SURFACE = "75 / 75%";
+	public static final int MAX_SURFACE = 75;
+	public static final String SURFACE_PERCENTAGE = "/ 75%";
 	public static final int SURFACE_TEXT_COLOR = Color.BLUE;
 	public static final String LIVES_TEXT = "Lives: ";
 	public static final int LIVES_TEXT_COLOR = Color.YELLOW; // orange

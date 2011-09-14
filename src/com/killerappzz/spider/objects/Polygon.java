@@ -101,4 +101,23 @@ public class Polygon extends GeometricPath {
 				+ (vertex.second - point.y) * (vertex.second - point.y));
 	}
 	
+	/**
+	 * Polygon area. We are obviously working with simple polygons
+	 * Then the area is calculated with the formula from wikipedia:
+	 * http://en.wikipedia.org/wiki/Polygon#Area_and_centroid
+	 */
+	public float area() {
+		float area = 0;
+		Pair<Float, Float> currentVertex;
+		Pair<Float, Float> nextVertex;
+		for( int i = 0 ; i < this.vertices.size() - 1; i++) {
+			currentVertex = this.vertices.get(i);
+			nextVertex = this.vertices.get(i+1);
+			area += currentVertex.first * nextVertex.second - 
+				currentVertex.second * nextVertex.first;
+		}
+		area = Math.abs( 0.5f * area);
+		return area;
+	}
+	
 }

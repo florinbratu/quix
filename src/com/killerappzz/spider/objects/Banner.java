@@ -2,6 +2,7 @@ package com.killerappzz.spider.objects;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
+import com.killerappzz.spider.engine.GameData;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -42,8 +43,13 @@ public class Banner {
 	private final int fontSize;
 	private final int screenHeight;
 	
-	public Banner(Context context, String statsFontName, int width, int height, int screenHeight) {
+	// the game data. stats will draw its freeds from here
+	private final GameData data;
+	
+	public Banner(Context context, String statsFontName, 
+			int width, int height, int screenHeight, GameData data) {
 		super();
+		this.data = data;
 		this.width = width;
 		this.height = height;
 		this.screenHeight = screenHeight;
@@ -67,18 +73,18 @@ public class Banner {
 	private float precomputeTextSize() {
 		return scorePaint.measureText(Constants.SCORE_TEXT + Constants.MAX_SCORE) +
 			timeTextPaint.measureText(Constants.TIME_TEXT + Constants.MAX_TIME) +
-			surfaceTextPaint.measureText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE)
+			surfaceTextPaint.measureText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE + Constants.SURFACE_PERCENTAGE)
 			;
 	}
 
 	public void draw(Canvas canvas) {
 		float posX = spaceToBorder;
 		float posY = (this.height + this.fontSize) / 2; // center the font position on the border
-		canvas.drawText(Constants.SCORE_TEXT + Constants.MAX_SCORE, posX, posY, scorePaint);
+		canvas.drawText(Constants.SCORE_TEXT + data.getScore(), posX, posY, scorePaint);
 		posX += scorePaint.measureText(Constants.SCORE_TEXT + Constants.MAX_SCORE) + spaceBetweenText;
 		canvas.drawText(Constants.TIME_TEXT + Constants.MAX_TIME, posX, posY, timeTextPaint);
 		posX += timeTextPaint.measureText(Constants.TIME_TEXT + Constants.MAX_TIME) + spaceBetweenText;
-		canvas.drawText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE, posX, posY, surfaceTextPaint);
+		canvas.drawText(Constants.SURFACE_TEXT + (int)data.getClaimedPercentile() + Constants.SURFACE_PERCENTAGE, posX, posY, surfaceTextPaint);
 		// the lives text will be placed on the bottom banner
 		posX = this.width - (this.livesTextPaint.measureText(Constants.LIVES_TEXT) 
 				+ 3 * this.fontSize + this.spaceToBorder); // assume we have 3 lives each one is a square icon

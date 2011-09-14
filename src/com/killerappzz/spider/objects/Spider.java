@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import android.graphics.BitmapFactory.Options;
 
 import com.killerappzz.spider.Customization;
+import com.killerappzz.spider.engine.GameData;
 
 /**
  * The Spider.
@@ -29,6 +30,8 @@ public class Spider extends AnimatedSprite{
     private final Paint claimedPathPaint;
     // the rectangle defining the screen area
     private final RectF screenRect;
+    // the game data
+    private final GameData data;
     
     // define spider movement type
     public enum Movement {
@@ -40,8 +43,9 @@ public class Spider extends AnimatedSprite{
     private Movement movement;
 
 	public Spider(Context context, Options bitmapOptions, int resourceId,
-			int framesNo, int fps, int scrW, int scrH ) {
+			int framesNo, int fps, int scrW, int scrH, GameData data ) {
 		super(context, bitmapOptions, resourceId, scrW, scrH, framesNo, fps);
+		this.data = data;
 		this.screenRect = new RectF(this.width / 2 , this.height / 2, 
         		this.screenWidth - this.width / 2, this.screenHeight - this.height / 2);
 		this.trailingPathPaint = Customization.getTrailingPathPaint();
@@ -106,6 +110,8 @@ public class Spider extends AnimatedSprite{
 		boundedPath.close();
 		// merge into claimed path
 		this.claimedPath.merge(boundedPath);
+		// recalculate area!
+		this.data.setClaimedArea(this.claimedPath.area());
 		// reset trailing path - new adventures await us!
 		this.trailingPath.rewind();
 	}
@@ -124,6 +130,8 @@ public class Spider extends AnimatedSprite{
 		boundedPath.close();
 		// merge into claimed path
 		this.claimedPath.merge(boundedPath);
+		// recalculate area!
+		this.data.setClaimedArea(this.claimedPath.area());
 		// reset trailing path - new adventures await us!
 		this.trailingPath.rewind();
 	}

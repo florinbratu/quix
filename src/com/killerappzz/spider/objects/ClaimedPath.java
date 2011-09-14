@@ -195,4 +195,15 @@ public class ClaimedPath extends GeometricPath {
 		}
 	}
 	
+	/**
+	 * Calculate area. It is practically the sum of areas of the list of polygons
+	 * @return
+	 */
+	public float area() {
+		float area = 0 ;
+		for(Polygon poly : this.polygons) 
+			area += poly.area();
+		return area;
+	}
+	
 }
