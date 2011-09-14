@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.BitmapFactory.Options;
 
 /**
  * The Statistics banner. Located on top of the screen.
@@ -42,12 +43,15 @@ public class Banner {
 	private final int spaceBetweenText;
 	private final int fontSize;
 	private final int screenHeight;
+	// the image for Life
+	private final Sprite lifeImg;
 	
 	// the game data. stats will draw its freeds from here
 	private final GameData data;
 	
 	public Banner(Context context, String statsFontName, 
-			int width, int height, int screenHeight, GameData data) {
+			int width, int height, int screenHeight, 
+			Options bitmapOptions, int resourceId, GameData data) {
 		super();
 		this.data = data;
 		this.width = width;
@@ -68,6 +72,8 @@ public class Banner {
 		float freeScreen = (float)this.width - totalTextSize;
 		this.spaceToBorder = (int)(freeScreen / ( 2.0f + 2.0f * Constants.FREE_SPACE_INTER_TO_BORDER_RATIO ));
 		this.spaceBetweenText = this.spaceToBorder * Constants.FREE_SPACE_INTER_TO_BORDER_RATIO;
+		// the Life image
+		this.lifeImg = new Life(context, bitmapOptions, resourceId, width, screenHeight);
 	}
 
 	private float precomputeTextSize() {
@@ -89,8 +95,15 @@ public class Banner {
 		canvas.drawText(Constants.SURFACE_TEXT + (int)data.getClaimedPercentile() + Constants.SURFACE_PERCENTAGE, posX, posY, surfaceTextPaint);
 		// the lives text will be placed on the bottom banner
 		posX = this.width - (this.livesTextPaint.measureText(Constants.LIVES_TEXT) 
-				+ 3 * this.fontSize + this.spaceToBorder); // assume we have 3 lives each one is a square icon
+				+ Constants.MAX_LIFES * this.lifeImg.width + this.spaceToBorder); 
 		posY = this.screenHeight - (this.height - this.fontSize) / 2;
-		canvas.drawText(Constants.LIVES_TEXT + "TODO", posX , posY, livesTextPaint);
+		canvas.drawText(Constants.LIVES_TEXT, posX , posY, livesTextPaint);
+		posX += livesTextPaint.measureText(Constants.LIVES_TEXT);
+		this.lifeImg.y = 0;
+		for(int i = 0 ; i < data.getLifesCount() ; i++) {
+			this.lifeImg.x = posX;
+			this.lifeImg.draw(canvas);
+			posX += this.lifeImg.width;
+		}
 	}
 }

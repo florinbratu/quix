@@ -1,5 +1,7 @@
 package com.killerappzz.spider.engine;
 
+import com.killerappzz.spider.Constants;
+
 /**
  * Game-related info
  * 
@@ -14,11 +16,14 @@ public class GameData {
 	private long score;
 	// the time
 	private TimeHandler time;
+	// the total number of lives
+	private int lifes;
 	
 	public GameData() {
 		this.claimedArea = 0;
 		this.score = 0;
 		this.time = new TimeHandler();
+		this.lifes = Constants.MAX_LIFES;
 	}
 	
 	public void addClaimedArea(float claimed) {
@@ -69,5 +74,9 @@ public class GameData {
 			float decimal = this.totalTime - (int)this.totalTime;
 			this.deciSecs = (int)(10.0f * decimal);
 		}
+	}
+
+	public int getLifesCount() {
+		return lifes;
 	}
 }

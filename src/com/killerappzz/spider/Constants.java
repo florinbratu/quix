@@ -42,6 +42,8 @@ public interface Constants {
 	public static final int SURFACE_TEXT_COLOR = Color.BLUE;
 	public static final String LIVES_TEXT = "Lives: ";
 	public static final int LIVES_TEXT_COLOR = Color.YELLOW; // orange
+	// initial number of lifes
+	public static final int MAX_LIFES = 3;
 	public static final int FREE_SPACE_INTER_TO_BORDER_RATIO = 3;
 	
 	/*

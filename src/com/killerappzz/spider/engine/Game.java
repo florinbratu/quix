@@ -76,7 +76,7 @@ public class Game {
         // make the statistics banner
         Banner banner = new Banner(context, Constants.STATS_FONT_ASSET,
         		this.screenWidth	, (int)(spider.height / 2), this.screenHeight,
-        		data);
+        		sBitmapOptions, R.drawable.spider_life, data);
         manager.addBanner(banner);
 
         // Now's a good time to run the GC.  Since we won't do any explicit
