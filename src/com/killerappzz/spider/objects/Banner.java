@@ -37,15 +37,17 @@ public class Banner {
 	// banner layout parameters
 	private final int spaceToBorder;
 	private final int spaceBetweenText;
+	private final int fontSize;
 	
 	public Banner(int width, int height) {
 		super();
 		this.width = width;
 		this.height = height;
-		this.scorePaint = Customization.getScorePaint();
-		this.timeTextPaint = Customization.getTimeTextPaint();
-		this.surfaceTextPaint = Customization.getSurfaceTextPaint();
-		this.livesTextPaint = Customization.getLivesTextPaint();
+		this.fontSize = this.height / 2;
+		this.scorePaint = Customization.getScorePaint(fontSize);
+		this.timeTextPaint = Customization.getTimeTextPaint(fontSize);
+		this.surfaceTextPaint = Customization.getSurfaceTextPaint(fontSize);
+		this.livesTextPaint = Customization.getLivesTextPaint(fontSize);
 		float totalTextSize = precomputeTextSize();
 		if(totalTextSize > this.width) {
 			// TODO need to decrease font size
@@ -65,13 +67,14 @@ public class Banner {
 	}
 
 	public void draw(Canvas canvas) {
-		float pos = spaceToBorder;
-		canvas.drawText(Constants.SCORE_TEXT + Constants.MAX_SCORE, pos, height, scorePaint);
-		pos += scorePaint.measureText(Constants.SCORE_TEXT + Constants.MAX_SCORE) + spaceBetweenText;
-		canvas.drawText(Constants.TIME_TEXT + Constants.MAX_TIME, pos, height, timeTextPaint);
-		pos += timeTextPaint.measureText(Constants.TIME_TEXT + Constants.MAX_TIME) + spaceBetweenText;
-		canvas.drawText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE, pos, height, surfaceTextPaint);
-		pos += surfaceTextPaint.measureText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE) + spaceBetweenText;
-		canvas.drawText(Constants.LIVES_TEXT + "TODO", pos , height, livesTextPaint);
+		float posX = spaceToBorder;
+		float posY = (this.height + this.fontSize) / 2; // center the font position on the border
+		canvas.drawText(Constants.SCORE_TEXT + Constants.MAX_SCORE, posX, posY, scorePaint);
+		posX += scorePaint.measureText(Constants.SCORE_TEXT + Constants.MAX_SCORE) + spaceBetweenText;
+		canvas.drawText(Constants.TIME_TEXT + Constants.MAX_TIME, posX, posY, timeTextPaint);
+		posX += timeTextPaint.measureText(Constants.TIME_TEXT + Constants.MAX_TIME) + spaceBetweenText;
+		canvas.drawText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE, posX, posY, surfaceTextPaint);
+		posX += surfaceTextPaint.measureText(Constants.SURFACE_TEXT + Constants.MAX_SURFACE) + spaceBetweenText;
+		canvas.drawText(Constants.LIVES_TEXT + "TODO", posX , posY, livesTextPaint);
 	}
 }

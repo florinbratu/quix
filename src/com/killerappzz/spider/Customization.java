@@ -69,37 +69,36 @@ public final class Customization {
         return claimedPathPaint;
 	}
 	
-	public static final Paint getScorePaint() {
-		Paint scorePaint = newTextPain();
+	public static final Paint getScorePaint(int fontSize) {
+		Paint scorePaint = newTextPain(fontSize);
         scorePaint.setColor(Constants.SCORE_TEXT_COLOR);
 		return scorePaint;
 	}
 
-	public static final Paint getTimeTextPaint() {
-		Paint timePaint = newTextPain();
+	public static final Paint getTimeTextPaint(int fontSize) {
+		Paint timePaint = newTextPain(fontSize);
 		timePaint.setColor(Constants.TIME_TEXT_COLOR);
 		return timePaint;
 	}
 
-	public static Paint getSurfaceTextPaint() {
-		Paint surfacePaint = newTextPain();
+	public static Paint getSurfaceTextPaint(int fontSize) {
+		Paint surfacePaint = newTextPain(fontSize);
         surfacePaint.setColor(Constants.SURFACE_TEXT_COLOR);
 		return surfacePaint;
 	}
 
-	public static Paint getLivesTextPaint() {
-		Paint livesPaint = newTextPain();
+	public static Paint getLivesTextPaint(int fontSize) {
+		Paint livesPaint = newTextPain(fontSize);
         livesPaint.setColor(Constants.LIVES_TEXT_COLOR);
 		return livesPaint;
 	}
 	
-	private static final Paint newTextPain() {
+	private static final Paint newTextPain(int fontSize) {
 		Paint textPaint = new Paint();
 		textPaint.setAntiAlias(true);
         textPaint.setDither(true);
         textPaint.setStyle(Paint.Style.FILL);
-        // TODO font size needs to depend on screen size
-        textPaint.setTextSize(18);
+        textPaint.setTextSize(fontSize);
         return textPaint;
 	}
 
