@@ -41,10 +41,10 @@ public class Game {
         ProfileRecorder.sSingleton.resetAll();
         
         mLastTime = 0;
+        renderer = new GameRenderer();
         // the object manager reference. will be shared between the game thread and the renderer thread
-        ObjectManager manager = new ObjectManager();
+        ObjectManager manager = new ObjectManager(renderer);
         controller = new GameController(manager);
-		renderer = new GameRenderer(manager);
 		
 		engine = new Engine(this);
 		touchHandler = new GestureDetector(parentActivity, controller);

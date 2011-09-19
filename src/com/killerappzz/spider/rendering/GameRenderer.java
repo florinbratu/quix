@@ -1,5 +1,6 @@
 package com.killerappzz.spider.rendering;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Canvas;
@@ -16,8 +17,8 @@ public class GameRenderer implements Renderer {
 
 	private List<DrawableObject> drawQueue;
 	
-    public GameRenderer(List<DrawableObject> drawQueue) {
-    	this.drawQueue = drawQueue;
+    public GameRenderer() {
+    	this.drawQueue = new ArrayList<DrawableObject>();
 	}
     
     public synchronized void drawFrame(Canvas canvas) {
@@ -26,8 +27,10 @@ public class GameRenderer implements Renderer {
     	}
     }
     
-    public synchronized updateDrawQueue() {
-    	
+    public synchronized List<DrawableObject> updateDrawQueue(List<DrawableObject> queueRef) {
+    	List<DrawableObject> oldDrawables = this.drawQueue;
+    	this.drawQueue = queueRef;
+    	return oldDrawables;
     }
 
     public void sizeChanged(int width, int height) {
@@ -36,6 +39,10 @@ public class GameRenderer implements Renderer {
 
 	public synchronized void waitDrawingComplete() {
 		// wait until finished drawing current frame
+	}
+
+	public synchronized void emptyQueue() {
+		this.drawQueue.clear();
 	}
 
 }

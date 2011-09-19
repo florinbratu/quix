@@ -1,7 +1,13 @@
 package com.killerappzz.spider.objects;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import android.util.Log;
+
+import com.killerappzz.spider.rendering.GameRenderer;
+import com.killerappzz.spider.util.DeepCopy;
 
 /**
  * Manages a double-buffered queue of renderable objects.  The game thread submits drawable objects
@@ -12,14 +18,13 @@ public class ObjectManager {
 
 	/** the objects list, for the game thread */
 	private final List<DrawableObject> objects;
-	/** the drawing list, for the rendering thread */
-	private final List<DrawableObject> drawables;
 	// the statistics banner
 	private Banner banner;
+	private final GameRenderer renderer;
 	
-	public ObjectManager() {
+	public ObjectManager(GameRenderer renderer) {
 		this.objects = new LinkedList<DrawableObject>();
-		this.drawables = new LinkedList<DrawableObject>();
+		this.renderer = renderer;
 	}
 	
 	/**
@@ -39,10 +44,6 @@ public class ObjectManager {
 		return objects;
 	}
 	
-	public List<DrawableObject> getRendererObjects() {
-		return drawables;
-	}
-
 	public void cleanup() {
 		for(DrawableObject obj: this.objects) {
 			obj.cleanup();
@@ -50,7 +51,20 @@ public class ObjectManager {
 	}
 
 	public void swap() {
-		// TODO Auto-generated method stub
+		// deep-copy the objects list
+		List<DrawableObject> drawables = 
+			new ArrayList<DrawableObject>(objects.size());
+		for(DrawableObject obj : this.objects) {
+			try {
+				drawables.add((DrawableObject)DeepCopy.copy(obj));
+			} catch (Exception e) {
+				Log.e("QUIX", "Deep-copy of object " + obj + " failed. Fallback - use original object instead", e);
+				drawables.add(obj);
+			}
+		}
+		// update the draw queue. This op will hold the lock of renderer => simply update the ref
+		List<DrawableObject> oldDrawables = this.renderer.updateDrawQueue(drawables);
+		oldDrawables.clear();
 	}
 
 }

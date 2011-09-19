@@ -47,21 +47,8 @@ public class GameThread implements Runnable {
                     game.update(secondsDelta);
                     game.getController().prepareRendering();
     
-                    /* TODO put new draw queue up for drawing
-                    CameraSystem camera = mGameRoot.sSystemRegistry.cameraSystem;
-                    float x = 0.0f;
-                    float y = 0.0f;
-                    if (camera != null) {
-                    	x = camera.getFocusPositionX();
-                    	y = camera.getFocusPositionY();
-                    }
-                    BaseObject.sSystemRegistry.renderSystem.swap(mRenderer, x, y);
-                    */
-                    
                     final long endTime = SystemClock.uptimeMillis();
-                    
                     finalDelta = endTime - time;
-                    
                     mProfileTime += finalDelta;
                     mProfileFrames++;
                     if (mProfileTime > PROFILE_REPORT_DELAY * 1000) {
@@ -101,8 +88,7 @@ public class GameThread implements Runnable {
                     }
                 }
         }
-        /* TODO Make sure our dependence on the render system is cleaned up.
-        BaseObject.sSystemRegistry.renderSystem.emptyQueues(mRenderer);*/
+        game.getRenderer().emptyQueue();
     }
 
     public void stopGame() {

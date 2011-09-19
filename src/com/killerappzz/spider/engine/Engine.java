@@ -17,6 +17,7 @@ public class Engine{
 	
 	public Engine(Game theGame) {
 		this.game = theGame;
+		this.mGameThread = new GameThread(theGame);
 	}
 	
 	/** Starts the game running. */
