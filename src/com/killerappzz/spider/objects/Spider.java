@@ -32,6 +32,8 @@ public class Spider extends AnimatedSprite {
     private final RectF screenRect;
     // the game data
     private final GameData data;
+    // the score display
+    private ScoreGain score;
     
     // define spider movement type
     public enum Movement {
@@ -66,6 +68,10 @@ public class Spider extends AnimatedSprite {
         this.claimedPathPaint = Customization.getClaimedPathPaint(context,bitmapOptions);
         this.claimedPath = new ClaimedPath(this.screenRect);
         this.movement = Movement.NONE;
+	}
+	
+	public void setScoreGain(ScoreGain score) {
+		this.score = score;
 	}
 	
 	public void setLastPosition(float lastX, float lastY) {
@@ -133,6 +139,8 @@ public class Spider extends AnimatedSprite {
 			this.claimedPath.reduceToBounds(this.trailingPath, this.screenRect);
 		// close path
 		boundedPath.close();
+		// display the score
+		score.display();
 		// merge into claimed path
 		this.claimedPath.merge(boundedPath);
 		// recalculate area!

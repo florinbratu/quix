@@ -9,6 +9,7 @@ import com.killerappzz.spider.objects.Background;
 import com.killerappzz.spider.objects.Banner;
 import com.killerappzz.spider.objects.DrawableObject;
 import com.killerappzz.spider.objects.ObjectManager;
+import com.killerappzz.spider.objects.ScoreGain;
 import com.killerappzz.spider.objects.Spider;
 
 import android.content.Context;
@@ -65,6 +66,15 @@ public class GameController extends SimpleOnGestureListener{
         spider.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
         this.manager.add(spider);
         data.setTotalArea( (screenWidth - spider.width) * (screenHeight - spider.height) );
+        
+        // make the score gain floating text
+        ScoreGain gain = new ScoreGain(screenWidth, screenHeight, 
+        		(int)(spider.height / 4), data );
+        gain.x = centerX;
+        gain.y = centerX;
+        gain.speed = spider.speed;
+        this.spider.setScoreGain(gain);
+        this.manager.add(gain);
         
         // make the statistics banner
         Banner banner = new Banner(context, Constants.STATS_FONT_ASSET,

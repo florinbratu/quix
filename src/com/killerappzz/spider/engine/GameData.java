@@ -14,6 +14,8 @@ public class GameData {
 	private float totalClaimedArea;
 	// the score
 	private long score;
+	// the gain
+	private long gain;
 	// the time
 	private TimeHandler time;
 	// the total number of lives
@@ -44,6 +46,14 @@ public class GameData {
 	
 	public long getScore() {
 		return score;
+	}
+	
+	public long getGain() {
+		return gain;
+	}
+	
+	public void setGain(long gain) {
+		this.gain = gain;
 	}
 
 	public void setClaimedArea(float area) {
@@ -107,6 +117,7 @@ public class GameData {
 		this.claimedArea = omolog.claimedArea;
 		this.totalClaimedArea = omolog.totalClaimedArea;
 		this.score = omolog.score;
+		this.gain = omolog.gain;
 		this.time.update(omolog.time);
 		this.lifes = omolog.lifes;
  

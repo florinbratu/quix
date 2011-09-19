@@ -103,5 +103,7 @@ public interface Constants {
 	
 	// programming-related constants
 	public static final String LOG_TAG = "QUIX";
+	public static final int MAX_ALPHA = 255;
+	public static final int ALPHA_DECREMENT = 32;
 	
 }
