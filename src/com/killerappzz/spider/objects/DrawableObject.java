@@ -9,7 +9,8 @@ import android.graphics.Canvas;
  * an object on the screen.  This is an abstract type and must be derived to
  * add methods to actually draw (see CanvasSprite and GLSprite).
  */
-public abstract class DrawableObject {
+public abstract class DrawableObject implements Cloneable{
+	
     // Position.
     public float x;
     public float y;
@@ -37,6 +38,19 @@ public abstract class DrawableObject {
     	screenHeight = scrH;
     	this.ID = IDGenerator.generate();
 	}
+    
+    public DrawableObject(DrawableObject orig) {
+    	this.ID = orig.ID;
+    	this.x = orig.x;
+    	this.y = orig.y;
+    	this.velocityX = orig.velocityX;
+    	this.velocityY = orig.velocityY;
+    	this.speed = orig.speed;
+    	this.width = orig.width;
+    	this.height = orig.height;
+    	this.screenWidth = orig.screenWidth;
+    	this.screenHeight = orig.screenHeight;
+    }
     
 	// coordinate conversion methods
 	public final float toScreenX(float worldX) {
@@ -133,5 +147,7 @@ public abstract class DrawableObject {
     public abstract void boundsTouchBehaviour();
     // specific behaviour when object touches the already-claimed path
     public abstract void claimedPathTouch();
+    // cloning
+    public abstract DrawableObject clone();
 
 }

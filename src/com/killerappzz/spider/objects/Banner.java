@@ -73,6 +73,21 @@ public class Banner extends DrawableObject{
 		// the Life image
 		this.lifeImg = new Life(context, bitmapOptions, resourceId, width, screenHeight);
 	}
+	
+	public Banner(Banner orig) {
+		super(orig);
+		this.width = orig.width;
+		this.height = orig.height;
+		this.scorePaint = orig.scorePaint;
+		this.timeTextPaint = orig.timeTextPaint;
+		this.surfaceTextPaint = orig.surfaceTextPaint;
+		this.livesTextPaint = orig.livesTextPaint;
+		this.spaceToBorder = orig.spaceToBorder;
+		this.spaceBetweenText = orig.spaceBetweenText;
+		this.fontSize = orig.fontSize;
+		this.lifeImg = orig.lifeImg;
+		this.data = new GameData(orig.data);
+	}
 
 	private float precomputeTextSize() {
 		return scorePaint.measureText(Constants.SCORE_TEXT + Constants.MAX_SCORE) +
@@ -119,5 +134,10 @@ public class Banner extends DrawableObject{
 	@Override
 	public void cleanup() {
 		this.lifeImg.cleanup();
+	}
+	
+	@Override
+	public DrawableObject clone() {
+		return new Banner(this);
 	}
 }

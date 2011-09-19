@@ -28,6 +28,12 @@ public class ClaimedPath extends GeometricPath {
 		this.screenRect = sr;
 	}
 	
+	public ClaimedPath(ClaimedPath orig) {
+		super(orig);
+		this.polygons = orig.polygons;
+		this.screenRect = orig.screenRect;
+	}
+
 	@Override
 	public void moveTo(float x, float y) {
 		currentPolygon = new Polygon(screenRect);

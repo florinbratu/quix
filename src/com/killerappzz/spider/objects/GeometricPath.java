@@ -29,6 +29,14 @@ public class GeometricPath extends Path {
 		this.endPoint = new Point2D.Float();
 	}
 	
+	public GeometricPath(GeometricPath trailingPath) {
+		super(trailingPath);
+		// not really used...
+		this.geometry = trailingPath.geometry;
+		this.startPoint = trailingPath.startPoint;
+		this.endPoint = trailingPath.endPoint;
+	}
+
 	@Override
 	public void moveTo(float x, float y) {
 		this.geometry.moveTo(x, y);

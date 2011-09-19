@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.rendering.GameRenderer;
-import com.killerappzz.spider.util.DeepCopy;
 
 /**
  * Manages a double-buffered queue of renderable objects.  The game thread submits drawable objects
@@ -52,26 +51,17 @@ public class ObjectManager {
 	}
 
 	public void swap() {
+		// TODO inefficient: creates list at every iteration
 		// deep-copy the objects list
 		List<DrawableObject> drawables = 
 			new ArrayList<DrawableObject>(objects.size());
+		// TODO inefficient: clones at every iteration
 		for(DrawableObject obj : this.objects) {
-			try {
-				// banner will be added at the end
-				if(!obj.equals(banner))
-					drawables.add((DrawableObject)DeepCopy.copy(obj));
-			} catch (Exception e) {
-				Log.e(Constants.LOG_TAG, "Deep-copy of object " + obj + " failed. Fallback - use original object instead", e);
-				drawables.add(obj);
-			}
+			// banner will be added at the end
+			if(!obj.equals(banner))
+				drawables.add(obj.clone());
 		}
-		// at the end only! we add the banner. It needs to show up on top of em all!!
-		try {
-			drawables.add((DrawableObject)DeepCopy.copy(banner));
-		} catch (Exception e) {
-			Log.e(Constants.LOG_TAG, "Deep-copy of banner " + banner + " failed. Fallback - use original object instead", e);
-			drawables.add(banner);
-		}
+		drawables.add(banner.clone());
 		// update the draw queue. This op will hold the lock of renderer => simply update the ref
 		List<DrawableObject> oldDrawables = this.renderer.updateDrawQueue(drawables);
 		oldDrawables.clear();

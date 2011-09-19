@@ -17,6 +17,10 @@ public class Life extends Sprite{
 		setVelocity(0, 0);
 	}
 	
+	public Life(Life orig) {
+		super(orig);
+	}
+	
 	@Override
 	public void boundsTouchBehaviour() {
 		// not interested
@@ -25,6 +29,11 @@ public class Life extends Sprite{
 	@Override
 	public void claimedPathTouch() {
 		// not interested
+	}
+	
+	@Override
+	public DrawableObject clone() {
+		return new Life(this);
 	}
 
 }

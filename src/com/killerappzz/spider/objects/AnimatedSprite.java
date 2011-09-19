@@ -31,6 +31,17 @@ public abstract class AnimatedSprite extends Sprite {
 	private float frameTicker;
 	
 	private Direction movementDirection;
+	
+	public AnimatedSprite(AnimatedSprite orig) {
+    	super(orig);
+    	this.currentFrame = orig.currentFrame;
+    	this.framesCount = orig.framesCount;
+    	this.spriteSheetWidth = orig.spriteSheetWidth;
+    	this.spriteSheetHeight = orig.spriteSheetHeight;
+    	this.sourceRect = new Rect(orig.sourceRect);
+    	this.framePeriod = orig.framePeriod;
+    	this.frameTicker = orig.frameTicker;
+    }
 
 	public AnimatedSprite(Bitmap bitmap, int scrW, int scrH, 
 			int framesNo, int fps) {

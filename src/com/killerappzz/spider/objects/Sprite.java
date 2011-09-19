@@ -21,6 +21,11 @@ public abstract class Sprite extends DrawableObject {
         mBitmap = bitmap;
     }
     
+    public Sprite(Sprite orig) {
+    	super(orig);
+    	mBitmap = orig.mBitmap;
+    }
+    
     /**
      * Creates Sprite directly from given resource.
      * Automatically assigns size from image options.

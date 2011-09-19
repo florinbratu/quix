@@ -28,6 +28,11 @@ public class Background extends Sprite{
 		this.height = height;
 	}
 	
+	public Background(Background orig) {
+		super(orig);
+		this.originalBitmap = orig.originalBitmap;
+	}
+	
 	@Override
 	public void cleanup() {
 		super.cleanup();
@@ -42,6 +47,11 @@ public class Background extends Sprite{
 	@Override
 	public void claimedPathTouch() {
 		// nothing special for the moment TODO maybe add a special effect?
+	}
+	
+	@Override
+	public DrawableObject clone() {
+		return new Background(this);
 	}
 
 }

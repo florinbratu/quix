@@ -26,6 +26,14 @@ public class GameData {
 		this.lifes = Constants.MAX_LIFES;
 	}
 	
+	public GameData(GameData orig) {
+		this.claimedArea = orig.claimedArea;
+		this.totalClaimedArea = orig.totalClaimedArea;
+		this.score = orig.score;
+		this.time = new TimeHandler(orig.time);
+		this.lifes = orig.lifes;
+	}
+
 	public void addClaimedArea(float claimed) {
 		this.claimedArea += claimed;
 	}
@@ -67,6 +75,13 @@ public class GameData {
 			this.totalTime = 0;
 		}
 		
+		public TimeHandler(TimeHandler orig) {
+			this.deciSecs = orig.deciSecs;
+			this.secs = orig.secs;
+			this.mins = orig.mins;
+			this.totalTime = orig.totalTime;
+		}
+
 		public void addTime(float timeDeltaSecs) {
 			this.totalTime += timeDeltaSecs;
 			this.mins = (int)(this.totalTime / 60);

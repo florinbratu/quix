@@ -41,6 +41,19 @@ public class Spider extends AnimatedSprite{
     };
     
     private Movement movement;
+    
+    public Spider(Spider orig) {
+    	super(orig);
+    	this.trailingPathPaint = orig.trailingPathPaint;
+    	this.claimedPathPaint = orig.claimedPathPaint;
+    	this.screenRect= new RectF(orig.screenRect);
+    	this.data = new GameData(orig.data);
+    	this.movement = orig.movement;
+    	this.lastX = orig.lastX;
+    	this.lastY = orig.lastY;
+    	this.trailingPath = new GeometricPath(orig.trailingPath);
+    	this.claimedPath = new ClaimedPath(orig.claimedPath);
+    }
 
 	public Spider(Context context, Options bitmapOptions, int resourceId,
 			int framesNo, int fps, int scrW, int scrH, GameData data ) {
@@ -126,6 +139,11 @@ public class Spider extends AnimatedSprite{
 		this.data.setClaimedArea(this.claimedPath.area());
 		// reset trailing path - new adventures await us!
 		this.trailingPath.rewind();
+	}
+	
+	@Override
+	public DrawableObject clone(){
+		return new Spider(this);
 	}
 	
 }
