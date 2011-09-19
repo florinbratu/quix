@@ -3,74 +3,54 @@ package com.killerappzz.spider.objects;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.graphics.Canvas;
-import android.view.MotionEvent;
-import android.view.GestureDetector.SimpleOnGestureListener;
-
 /**
- * Handles objects which are displayed on the screen
- * throughout their lifetime
- * 
- * @author florin
- *
+ * Manages a double-buffered queue of renderable objects.  The game thread submits drawable objects
+ * to the the active render queue while the render thread consumes drawables from the alternate
+ * queue.  When both threads complete a frame the queues are swapped.  
  */
-public class ObjectManager extends SimpleOnGestureListener{
-	
-	private final List<DrawableObject> objects; 
-	// spider is a special role
-	private Spider spider;
+public class ObjectManager {
+
+	/** the objects list, for the game thread */
+	private final List<DrawableObject> objects;
+	/** the drawing list, for the rendering thread */
+	private final List<DrawableObject> drawables;
 	// the statistics banner
 	private Banner banner;
 	
 	public ObjectManager() {
 		this.objects = new LinkedList<DrawableObject>();
+		this.drawables = new LinkedList<DrawableObject>();
 	}
 	
-	public void addObject(DrawableObject object) {
-    	this.objects.add(object);
-    }
-	
-	public void addSpider(Spider spider){
-		this.objects.add(spider);
-		this.spider = spider;
+	/**
+	 * On the game controller side, add a new object for rendering
+	 * @param obj
+	 */
+	public void add(DrawableObject obj) {
+		this.objects.add(obj);
 	}
 	
-	public void addBanner(Banner banner){
+	/** Add the ref to the special "banner" type */
+	public void addBanner(Banner banner) {
 		this.banner = banner;
 	}
-	
-	public void draw(Canvas canvas) {
-		for(DrawableObject object : objects) {
-    		object.draw(canvas);
-    	}
-		// draw banner on top of em all
-		this.banner.draw(canvas);
+
+	public List<DrawableObject> getControllerObjects() {
+		return objects;
 	}
 	
+	public List<DrawableObject> getRendererObjects() {
+		return drawables;
+	}
+
 	public void cleanup() {
-		for(DrawableObject obj:objects) {
+		for(DrawableObject obj: this.objects) {
 			obj.cleanup();
 		}
 	}
-	
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
-		spider.setLastPosition(spider.x, spider.y);
-		spider.setVelocity(e2.getX() - e1.getX(), - e2.getY() + e1.getY() );
-		return true;
-	}
 
-	public void updatePositions(float timeDeltaSeconds) {
-		for(DrawableObject object : objects) {
-			if( object.moves() ) {
-				object.updatePosition(timeDeltaSeconds);
-				// test for object touching the screen bounds
-				if(!object.boundsCheck())
-				// test for object reaching the region claimed by the spider
-				object.claimedPathCheck(spider.getClaimedPath());
-			}
-		}
+	public void swap() {
+		// TODO Auto-generated method stub
 	}
 
 }

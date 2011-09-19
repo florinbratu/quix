@@ -28,7 +28,7 @@ import android.graphics.BitmapFactory.Options;
  * @author florin
  *
  */
-public class Banner {
+public class Banner extends DrawableObject{
 	
 	private final int width;
 	private final int height;
@@ -42,7 +42,6 @@ public class Banner {
 	private final int spaceToBorder;
 	private final int spaceBetweenText;
 	private final int fontSize;
-	private final int screenHeight;
 	// the image for Life
 	private final Sprite lifeImg;
 	
@@ -50,13 +49,12 @@ public class Banner {
 	private final GameData data;
 	
 	public Banner(Context context, String statsFontName, 
-			int width, int height, int screenHeight, 
+			int width, int height, int screenWidth, int screenHeight, 
 			Options bitmapOptions, int resourceId, GameData data) {
-		super();
+		super(screenWidth, screenHeight);
 		this.data = data;
 		this.width = width;
 		this.height = height;
-		this.screenHeight = screenHeight;
 		this.fontSize = this.height / 2;
 		// the Banner font
 		Customization.statsFont(Typeface.createFromAsset(
@@ -83,6 +81,7 @@ public class Banner {
 			;
 	}
 
+	@Override
 	public void draw(Canvas canvas) {
 		float posX = spaceToBorder;
 		float posY = (this.height + this.fontSize) / 2; // center the font position on the border
@@ -105,5 +104,20 @@ public class Banner {
 			this.lifeImg.draw(canvas);
 			posX += this.lifeImg.width;
 		}
+	}
+
+	@Override
+	public void boundsTouchBehaviour() {
+		// nothing
+	}
+
+	@Override
+	public void claimedPathTouch() {
+		// nothing
+	}
+
+	@Override
+	public void cleanup() {
+		this.lifeImg.cleanup();
 	}
 }

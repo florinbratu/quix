@@ -1,8 +1,10 @@
 package com.killerappzz.spider.rendering;
 
+import java.util.List;
+
 import android.graphics.Canvas;
 
-import com.killerappzz.spider.objects.ObjectManager;
+import com.killerappzz.spider.objects.DrawableObject;
 import com.killerappzz.spider.rendering.CanvasSurfaceView.Renderer;
 
 /**
@@ -12,18 +14,28 @@ import com.killerappzz.spider.rendering.CanvasSurfaceView.Renderer;
  */
 public class GameRenderer implements Renderer {
 
-	private final ObjectManager om;
+	private List<DrawableObject> drawQueue;
 	
-    public GameRenderer(ObjectManager m) {
-    	this.om = m;
+    public GameRenderer(List<DrawableObject> drawQueue) {
+    	this.drawQueue = drawQueue;
 	}
     
-    public void drawFrame(Canvas canvas) {
-    	this.om.draw(canvas);
+    public synchronized void drawFrame(Canvas canvas) {
+    	for(DrawableObject object : drawQueue) {
+    		object.draw(canvas);
+    	}
+    }
+    
+    public synchronized updateDrawQueue() {
+    	
     }
 
     public void sizeChanged(int width, int height) {
         // huh???
     }
+
+	public synchronized void waitDrawingComplete() {
+		// wait until finished drawing current frame
+	}
 
 }

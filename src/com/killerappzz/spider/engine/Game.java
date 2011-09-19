@@ -2,18 +2,12 @@ package com.killerappzz.spider.engine;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 
-import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.ProfileRecorder;
-import com.killerappzz.spider.R;
-import com.killerappzz.spider.objects.Background;
-import com.killerappzz.spider.objects.Banner;
 import com.killerappzz.spider.objects.ObjectManager;
-import com.killerappzz.spider.objects.Spider;
 import com.killerappzz.spider.rendering.GameRenderer;
 
 /**
@@ -26,13 +20,14 @@ public class Game {
 	
 	private final int screenWidth;
 	private final int screenHeight;
-	
-    private final ObjectManager manager;
+	// the game logic
+    private final GameController controller;
+    // the rendering logic
     private final GameRenderer renderer;
-    private final GameData data;
-    private static BitmapFactory.Options sBitmapOptions 
-      = new BitmapFactory.Options();
+    // the engine
+    private final Engine engine;
     private GestureDetector touchHandler;
+	private long mLastTime;
 	
 	public Game(Activity parentActivity) {
 		// We need to know the width and height of the display pretty soon,
@@ -45,49 +40,42 @@ public class Game {
         // Clear out any old profile results.
         ProfileRecorder.sSingleton.resetAll();
         
-        manager = new ObjectManager();
+        mLastTime = 0;
+        // the object manager reference. will be shared between the game thread and the renderer thread
+        ObjectManager manager = new ObjectManager();
+        controller = new GameController(manager);
 		renderer = new GameRenderer(manager);
-		data = new GameData();
-		touchHandler = new GestureDetector(parentActivity, manager);
+		
+		engine = new Engine(this);
+		touchHandler = new GestureDetector(parentActivity, controller);
 	}
 	
 	public void load(Context context) {
-		// Sets our preferred image format to 16-bit, 565 format.
-		sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-		// Make the background.
-        // Note that the background image is larger than the screen, 
-        // so some clipping will occur when it is drawn.
-		Background background = new Background(context, sBitmapOptions, 
-				R.drawable.background, screenWidth, screenHeight );
-        manager.addObject(background);
+        // load the scene objects
+        controller.loadObjects(context, screenWidth, screenHeight);
         
-        // Make the spider
-        Spider spider = new Spider(context, sBitmapOptions, 
-        		R.drawable.spider, Constants.SPIDER_ANIMATION_FRAMES_COUNT, 
-        		Constants.SPIDER_ANIMATION_FPS, screenWidth, screenHeight, data );
-        // Spider location.
-        int centerX = (this.screenWidth - (int)spider.width) / 2;
-        spider.x = centerX;
-        spider.y = 0;
-        spider.speed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
-        manager.addSpider(spider);
-        data.setTotalArea( (this.screenWidth - spider.width) * (this.screenHeight - spider.height) );
-        
-        // make the statistics banner
-        Banner banner = new Banner(context, Constants.STATS_FONT_ASSET,
-        		this.screenWidth	, (int)(spider.height / 2), this.screenHeight,
-        		sBitmapOptions, R.drawable.spider_life, data);
-        manager.addBanner(banner);
+        // start the game engine
+        engine.start();
+	}
+	
+	// game logic update
+	public void update(float deltaTimeSeconds) {
+		final float timeDeltaSeconds = getTimeDelta();
+		// calculate new positions
+		this.controller.updatePositions(timeDeltaSeconds);
+	}
 
-        // Now's a good time to run the GC.  Since we won't do any explicit
-        // allocation during the test, the GC should stay dormant and not
-        // influence our results.
-        Runtime r = Runtime.getRuntime();
-        r.gc();
+	private float getTimeDelta() {
+		final long time = SystemClock.uptimeMillis();
+        final long timeDelta = time - mLastTime;
+        final float timeDeltaSeconds =
+            mLastTime > 0.0f ? timeDelta / 1000.0f : 0.0f;
+        mLastTime = time;
+        return timeDeltaSeconds;
 	}
 	
 	public void cleanup() {
-		manager.cleanup();
+		controller.cleanup();
 	}
 
 	public int getScreenWidth() {
@@ -106,12 +94,20 @@ public class Game {
 		return this.touchHandler;
 	}
 	
-	public ObjectManager getObjectManager() {
-		return this.manager;
+	public GameController getController() {
+		return this.controller;
 	}
 	
-	public GameData getData() {
-		return this.data;
+	public void stop() {
+		this.engine.stop();
+	}
+
+	public void onPause() {
+		this.engine.onPause();
 	}
 	
+	public void onResume() {
+		this.engine.onResume();
+	}
+
 }
