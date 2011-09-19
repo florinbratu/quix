@@ -18,14 +18,16 @@ import com.killerappzz.spider.rendering.GameRenderer;
  */
 public class Game {
 	
-	private final int screenWidth;
-	private final int screenHeight;
+	private int screenWidth;
+	private int screenHeight;
 	// the game logic
     private final GameController controller;
     // the rendering logic
     private final GameRenderer renderer;
     // the engine
     private final Engine engine;
+    // the Object Manager
+    private final ObjectManager manager;
     private GestureDetector touchHandler;
 	private long mLastTime;
 	
@@ -41,9 +43,9 @@ public class Game {
         ProfileRecorder.sSingleton.resetAll();
         
         mLastTime = 0;
-        renderer = new GameRenderer();
+        renderer = new GameRenderer(this);
         // the object manager reference. will be shared between the game thread and the renderer thread
-        ObjectManager manager = new ObjectManager(renderer);
+        manager = new ObjectManager(renderer);
         controller = new GameController(manager);
 		
 		engine = new Engine(this);
@@ -53,7 +55,6 @@ public class Game {
 	public void load(Context context) {
         // load the scene objects
         controller.loadObjects(context, screenWidth, screenHeight);
-        
         // start the game engine
         engine.start();
 	}
@@ -84,6 +85,14 @@ public class Game {
 
 	public int getScreenHeight() {
 		return screenHeight;
+	}
+	
+	// update screen size!
+	public void updateScreen(int width, int height) {
+		this.screenWidth = width;
+		this.screenHeight = height;
+		this.manager.updateScreen(width, height);
+		this.controller.updateScreen(width, height);
 	}
 	
 	public GameRenderer getRenderer() {

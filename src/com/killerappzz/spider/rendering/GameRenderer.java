@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.graphics.Canvas;
 
+import com.killerappzz.spider.engine.Game;
 import com.killerappzz.spider.objects.DrawableObject;
 import com.killerappzz.spider.rendering.CanvasSurfaceView.Renderer;
 
@@ -16,8 +17,10 @@ import com.killerappzz.spider.rendering.CanvasSurfaceView.Renderer;
 public class GameRenderer implements Renderer {
 
 	private List<DrawableObject> drawQueue;
+	private final Game theGame;
 	
-    public GameRenderer() {
+    public GameRenderer(Game game) {
+    	this.theGame = game;
     	this.drawQueue = new ArrayList<DrawableObject>();
 	}
     
@@ -34,7 +37,7 @@ public class GameRenderer implements Renderer {
     }
 
     public void sizeChanged(int width, int height) {
-        // huh???
+    	theGame.updateScreen(width, height);
     }
 
 	public synchronized void waitDrawingComplete() {

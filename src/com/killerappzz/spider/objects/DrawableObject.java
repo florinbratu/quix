@@ -26,8 +26,8 @@ public abstract class DrawableObject {
     public float height;
     
     // screen dimensions
-    protected final int screenWidth;
-    protected final int screenHeight;
+    protected int screenWidth;
+    protected int screenHeight;
     
     // object ID. for comps
     private final long ID;
@@ -112,6 +112,11 @@ public abstract class DrawableObject {
 		if(claimedPath.contains( toScreenX(this.x), toScreenY(this.y) )) 
 			// object-specific behaviour
 			claimedPathTouch();
+	}
+    
+    public void updateScreen(int screenWidth, int screenHeight) {
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 	}
     
     @Override

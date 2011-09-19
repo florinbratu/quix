@@ -76,4 +76,11 @@ public class ObjectManager {
 		oldDrawables.clear();
 	}
 
+	public void updateScreen(int width, int height) {
+		// update objects info
+		for(DrawableObject obj : this.objects) {
+			obj.updateScreen(width,height);
+		}
+	}
+
 }
