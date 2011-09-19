@@ -7,6 +7,7 @@ import android.util.Pair;
 
 import com.killerappzz.spider.geometry.Point2D;
 import com.killerappzz.spider.util.CircularLinkedList;
+import com.killerappzz.spider.util.IDGenerator;
 
 /**
  * A Path having a single contour.
@@ -25,11 +26,11 @@ public class Polygon extends GeometricPath {
 	// the point which is also located on the edge
 	private Pair<Float, Float> borderPoint;
 	// for comparison. faster than comparing all vertices!
-	private final int ID;
+	private final long ID;
 	private final RectF screenRect;
 	
-	public Polygon(int ID, RectF screenRect) {
-		this.ID = ID;
+	public Polygon(RectF screenRect) {
+		this.ID = IDGenerator.generate();
 		this.vertices = new CircularLinkedList<Pair<Float,Float>>();
 		this.borderPoint = null;
 		this.screenRect = screenRect;
@@ -69,7 +70,7 @@ public class Polygon extends GeometricPath {
 	
 	@Override
 	public boolean equals(Object o) {
-		if(!(o instanceof Polygon))
+		if(o == null || !(o instanceof Polygon))
 			return false;
 		Polygon other = (Polygon)o;
 		return other.ID == this.ID;

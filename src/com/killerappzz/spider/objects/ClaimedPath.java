@@ -20,19 +20,17 @@ public class ClaimedPath extends GeometricPath {
 	private final List<Polygon> polygons;
 	// the currently-observed polygon
 	private Polygon currentPolygon = null;
-	private int polyID;
 	private final RectF screenRect;
 	
 	public ClaimedPath(RectF sr) {
 		super();
 		this.polygons = new LinkedList<Polygon>();
-		this.polyID = 0;
 		this.screenRect = sr;
 	}
 	
 	@Override
 	public void moveTo(float x, float y) {
-		currentPolygon = new Polygon(polyID++, screenRect);
+		currentPolygon = new Polygon(screenRect);
 		currentPolygon.moveTo(x, y);
 		super.moveTo(x, y);
 	}
