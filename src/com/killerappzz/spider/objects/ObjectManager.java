@@ -62,6 +62,13 @@ public class ObjectManager {
 				drawables.add(obj);
 			}
 		}
+		// at the end only! we add the banner. It needs to show up on top of em all!!
+		try {
+			drawables.add((DrawableObject)DeepCopy.copy(banner));
+		} catch (Exception e) {
+			Log.e("QUIX", "Deep-copy of banner " + banner + " failed. Fallback - use original object instead", e);
+			drawables.add(banner);
+		}
 		// update the draw queue. This op will hold the lock of renderer => simply update the ref
 		List<DrawableObject> oldDrawables = this.renderer.updateDrawQueue(drawables);
 		oldDrawables.clear();
