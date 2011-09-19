@@ -1,5 +1,7 @@
 package com.killerappzz.spider.objects;
 
+import com.killerappzz.spider.util.IDGenerator;
+
 import android.graphics.Canvas;
 
 /** 
@@ -27,9 +29,13 @@ public abstract class DrawableObject {
     protected final int screenWidth;
     protected final int screenHeight;
     
+    // object ID. for comps
+    private final long ID;
+    
     public DrawableObject(int scrW, int scrH) {
     	screenWidth = scrW;
     	screenHeight = scrH;
+    	this.ID = IDGenerator.generate();
 	}
     
 	// coordinate conversion methods
@@ -107,6 +113,14 @@ public abstract class DrawableObject {
 			// object-specific behaviour
 			claimedPathTouch();
 	}
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if(obj == null || !(obj instanceof DrawableObject))
+    		return false;
+    	DrawableObject object = (DrawableObject)obj;
+    	return object.ID == this.ID;
+    }
     
     public abstract void draw(Canvas canvas);
     public abstract void cleanup();

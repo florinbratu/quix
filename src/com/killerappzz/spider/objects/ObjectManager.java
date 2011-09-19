@@ -56,7 +56,9 @@ public class ObjectManager {
 			new ArrayList<DrawableObject>(objects.size());
 		for(DrawableObject obj : this.objects) {
 			try {
-				drawables.add((DrawableObject)DeepCopy.copy(obj));
+				// banner will be added at the end
+				if(!obj.equals(banner))
+					drawables.add((DrawableObject)DeepCopy.copy(obj));
 			} catch (Exception e) {
 				Log.e("QUIX", "Deep-copy of object " + obj + " failed. Fallback - use original object instead", e);
 				drawables.add(obj);
