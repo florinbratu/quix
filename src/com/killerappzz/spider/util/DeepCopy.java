@@ -6,6 +6,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 
+import com.killerappzz.spider.Constants;
+
 import android.util.Log;
 
 /**
@@ -42,7 +44,7 @@ public class DeepCopy {
 			obj = in.readObject();
 		} catch (ClassNotFoundException e) {
 			// should not happen 'cause we just serialized an object of this class!
-			Log.d("QUIX", "Deep-copy of object " + orig + " error: object class definition unavailable", e);
+			Log.d(Constants.LOG_TAG, "Deep-copy of object " + orig + " error: object class definition unavailable", e);
 			throw e;
 		}
     	return obj;

@@ -1,5 +1,7 @@
 package com.killerappzz.spider.engine;
 
+import com.killerappzz.spider.Constants;
+
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -53,7 +55,7 @@ public class GameThread implements Runnable {
                     mProfileFrames++;
                     if (mProfileTime > PROFILE_REPORT_DELAY * 1000) {
                         final long averageFrameTime = mProfileTime / mProfileFrames;
-                        Log.d("Game Profile", "Average: " + averageFrameTime);
+                        Log.d(Constants.LOG_TAG, "Average: " + averageFrameTime);
                         mProfileTime = 0;
                         mProfileFrames = 0;
                     }

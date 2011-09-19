@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.rendering.GameRenderer;
 import com.killerappzz.spider.util.DeepCopy;
 
@@ -60,7 +61,7 @@ public class ObjectManager {
 				if(!obj.equals(banner))
 					drawables.add((DrawableObject)DeepCopy.copy(obj));
 			} catch (Exception e) {
-				Log.e("QUIX", "Deep-copy of object " + obj + " failed. Fallback - use original object instead", e);
+				Log.e(Constants.LOG_TAG, "Deep-copy of object " + obj + " failed. Fallback - use original object instead", e);
 				drawables.add(obj);
 			}
 		}
@@ -68,7 +69,7 @@ public class ObjectManager {
 		try {
 			drawables.add((DrawableObject)DeepCopy.copy(banner));
 		} catch (Exception e) {
-			Log.e("QUIX", "Deep-copy of banner " + banner + " failed. Fallback - use original object instead", e);
+			Log.e(Constants.LOG_TAG, "Deep-copy of banner " + banner + " failed. Fallback - use original object instead", e);
 			drawables.add(banner);
 		}
 		// update the draw queue. This op will hold the lock of renderer => simply update the ref

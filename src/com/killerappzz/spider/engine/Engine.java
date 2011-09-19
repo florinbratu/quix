@@ -1,5 +1,7 @@
 package com.killerappzz.spider.engine;
 
+import com.killerappzz.spider.Constants;
+
 import android.util.Log;
 
 /**
@@ -27,7 +29,7 @@ public class Engine{
             // Now's a good time to run the GC.
             Runtime r = Runtime.getRuntime();
             r.gc();
-            Log.d("QUIX", "Start!");
+            Log.d(Constants.LOG_TAG, "Engine start!");
             mGame = new Thread(mGameThread);
             mGame.setName("Engine");
             mGame.start();
@@ -39,7 +41,7 @@ public class Engine{
     
     public void stop() {
         if (mRunning) {
-            Log.d("QUIX", "Stop!");
+            Log.d(Constants.LOG_TAG, "Engine stop!");
             if (mGameThread.getPaused()) {
                 mGameThread.resumeGame();
             }
