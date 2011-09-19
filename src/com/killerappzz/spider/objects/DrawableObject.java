@@ -149,5 +149,18 @@ public abstract class DrawableObject implements Cloneable{
     public abstract void claimedPathTouch();
     // cloning
     public abstract DrawableObject clone();
+    // drawing optimization. this will be called at each frame 
+    // to update the draw buffers with the new content
+    public void update(DrawableObject omolog) {
+    	this.x = omolog.x;
+    	this.y = omolog.y;
+    	this.velocityX = omolog.velocityX;
+    	this.velocityY = omolog.velocityY;
+    	this.speed = omolog.speed;
+    	this.width = omolog.width;
+    	this.height = omolog.height;
+    	this.screenWidth = omolog.screenWidth;
+    	this.screenHeight = omolog.screenHeight;
+    }
 
 }

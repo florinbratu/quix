@@ -15,7 +15,7 @@ import com.killerappzz.spider.engine.GameData;
  * @author florin
  *
  */
-public class Spider extends AnimatedSprite{
+public class Spider extends AnimatedSprite {
 	
     // Last Position
     private float lastX = -1;
@@ -144,6 +144,19 @@ public class Spider extends AnimatedSprite{
 	@Override
 	public DrawableObject clone(){
 		return new Spider(this);
+	}
+	
+	@Override
+	public void update(DrawableObject omolog) {
+		super.update(omolog);
+		Spider omologSpider = (Spider)omolog;
+    	this.screenRect.set(omologSpider.screenRect);
+    	this.data.update(omologSpider.data);
+    	this.movement = omologSpider.movement;
+    	this.lastX = omologSpider.lastX;
+    	this.lastY = omologSpider.lastY;
+    	this.trailingPath.update(omologSpider.trailingPath);
+    	this.claimedPath.update(omologSpider.claimedPath);
 	}
 	
 }

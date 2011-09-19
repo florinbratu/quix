@@ -18,12 +18,16 @@ public class ObjectManager {
 
 	/** the objects list, for the game thread */
 	private final List<DrawableObject> objects;
+	/** the drawables list, for the rendering thread*/
+	private List<DrawableObject> drawables;
 	// the statistics banner
 	private Banner banner;
+	private Banner shadowBanner;
 	private final GameRenderer renderer;
 	
 	public ObjectManager(GameRenderer renderer) {
 		this.objects = new LinkedList<DrawableObject>();
+		this.drawables = new LinkedList<DrawableObject>();
 		this.renderer = renderer;
 	}
 	
@@ -33,11 +37,13 @@ public class ObjectManager {
 	 */
 	public void add(DrawableObject obj) {
 		this.objects.add(obj);
+		this.drawables.add(obj.clone());
 	}
 	
 	/** Add the ref to the special "banner" type */
 	public void addBanner(Banner banner) {
 		this.banner = banner;
+		this.shadowBanner = (Banner)banner.clone();
 	}
 
 	public List<DrawableObject> getControllerObjects() {
@@ -48,23 +54,31 @@ public class ObjectManager {
 		for(DrawableObject obj: this.objects) {
 			obj.cleanup();
 		}
+		this.drawables.clear();
+		this.objects.clear();
 	}
 
 	public void swap() {
-		// TODO inefficient: creates list at every iteration
-		// deep-copy the objects list
-		List<DrawableObject> drawables = 
-			new ArrayList<DrawableObject>(objects.size());
-		// TODO inefficient: clones at every iteration
 		for(DrawableObject obj : this.objects) {
-			// banner will be added at the end
-			if(!obj.equals(banner))
-				drawables.add(obj.clone());
+			if(!obj.equals(banner)) {
+				int index = this.drawables.indexOf(obj);
+				DrawableObject omolog = this.drawables.get(index);
+				omolog.update(obj);
+				// banner will be added at the end
+			}
 		}
-		drawables.add(banner.clone());
+		shadowBanner.update(banner);
+		drawables.add(shadowBanner);
 		// update the draw queue. This op will hold the lock of renderer => simply update the ref
-		List<DrawableObject> oldDrawables = this.renderer.updateDrawQueue(drawables);
-		oldDrawables.clear();
+		List<DrawableObject> oldDrawables = this.renderer.updateDrawQueue(this.drawables);
+		// if new objects were added, add them in the shadow too!
+		if(oldDrawables.size() < objects.size()) {
+			for(int index = oldDrawables.size() ; index < objects.size() ; index++) {
+				DrawableObject obj = this.objects.get(index);
+				oldDrawables.add(obj.clone());
+			}
+		}
+		this.drawables = oldDrawables;
 	}
 
 	public void updateScreen(int width, int height) {

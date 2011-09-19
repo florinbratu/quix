@@ -118,4 +118,13 @@ public abstract class AnimatedSprite extends Sprite {
     	}
     }
     
+    @Override
+    public void update(DrawableObject omolog) {
+    	super.update(omolog);
+    	AnimatedSprite omologSprite = (AnimatedSprite)omolog;
+    	this.currentFrame = omologSprite.currentFrame;
+    	this.sourceRect.set(omologSprite.sourceRect);
+    	this.frameTicker = omologSprite.frameTicker;
+    }
+
 }

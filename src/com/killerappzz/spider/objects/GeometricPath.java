@@ -181,4 +181,8 @@ public class GeometricPath extends Path {
 		return sb.toString();
 	}
 
+	public void update(GeometricPath trailingPath) {
+		set(trailingPath);
+	}
+
 }

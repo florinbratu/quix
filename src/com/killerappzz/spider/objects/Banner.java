@@ -140,4 +140,11 @@ public class Banner extends DrawableObject{
 	public DrawableObject clone() {
 		return new Banner(this);
 	}
+	
+	@Override
+	public void update(DrawableObject omolog) {
+		super.update(omolog);
+		Banner omologBanner = (Banner)omolog;
+		this.data.update(omologBanner.data);
+	}
 }

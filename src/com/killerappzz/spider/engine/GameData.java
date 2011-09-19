@@ -89,9 +89,26 @@ public class GameData {
 			float decimal = this.totalTime - (int)this.totalTime;
 			this.deciSecs = (int)(10.0f * decimal);
 		}
+
+		public void update(TimeHandler orig) {
+			this.deciSecs = orig.deciSecs;
+			this.secs = orig.secs;
+			this.mins = orig.mins;
+			this.totalTime = orig.totalTime;
+		}
 	}
 
 	public int getLifesCount() {
 		return lifes;
+	}
+
+	// update at each frame
+	public void update(GameData omolog) {
+		this.claimedArea = omolog.claimedArea;
+		this.totalClaimedArea = omolog.totalClaimedArea;
+		this.score = omolog.score;
+		this.time.update(omolog.time);
+		this.lifes = omolog.lifes;
+ 
 	}
 }
