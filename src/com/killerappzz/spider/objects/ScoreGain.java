@@ -21,7 +21,7 @@ public class ScoreGain extends DrawableObject{
 	public ScoreGain(int scrW, int scrH, int textSize, GameData data) {
 		super(scrW, scrH);
 		// use same paint as for Banner
-		this.textPaint = Customization.getScorePaint(textSize);
+		this.textPaint = Customization.getSurfaceTextPaint(textSize);
 		this.data = data;
 		this.transparency = 0;
 	}
@@ -36,16 +36,18 @@ public class ScoreGain extends DrawableObject{
 	@Override
 	public void updatePosition(float timeDeltaSeconds) {
 		super.updatePosition(timeDeltaSeconds);
-		if(this.transparency > 0) 
+		if(this.transparency > Constants.MIN_ALPHA) 
 			this.transparency -= Constants.ALPHA_DECREMENT;
 		else {
-			this.transparency = 0;
+			this.transparency = Constants.MIN_ALPHA;
 			if(moves()) 
 				setVelocity(0,0);
 		}
 	}
 	
-	public void display() {
+	public void display(float posX, float posY) {
+		this.x = posX;
+		this.y = posY;
 		this.transparency = Constants.MAX_ALPHA;
 		setVelocity(0, 1);
 	}
@@ -70,7 +72,7 @@ public class ScoreGain extends DrawableObject{
 
 	@Override
 	public void draw(Canvas canvas) {
-		this.textPaint.setAlpha(this.transparency);
+		this.textPaint.setAlpha(transparency);
 		canvas.drawText("+" + data.getGain(), toScreenX(this.x), 
 				toScreenY(this.y), this.textPaint);
 	}

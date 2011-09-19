@@ -140,7 +140,7 @@ public class Spider extends AnimatedSprite {
 		// close path
 		boundedPath.close();
 		// display the score
-		score.display();
+		score.display(100,100);
 		// merge into claimed path
 		this.claimedPath.merge(boundedPath);
 		// recalculate area!

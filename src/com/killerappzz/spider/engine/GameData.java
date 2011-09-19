@@ -52,11 +52,8 @@ public class GameData {
 		return gain;
 	}
 	
-	public void setGain(long gain) {
-		this.gain = gain;
-	}
-
 	public void setClaimedArea(float area) {
+		this.gain = (long)(area - this.claimedArea);
 		this.claimedArea = area;
 	}
 

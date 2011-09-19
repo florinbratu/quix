@@ -103,7 +103,12 @@ public interface Constants {
 	
 	// programming-related constants
 	public static final String LOG_TAG = "QUIX";
+	// the transparency steps
+	public static final int[] transparencySteps = new int[] {
+		255,216,192,160,125,100,64,0
+	};
 	public static final int MAX_ALPHA = 255;
-	public static final int ALPHA_DECREMENT = 32;
+	public static final int ALPHA_DECREMENT = 24;
+	public static final int MIN_ALPHA = 64;
 	
 }
