@@ -68,7 +68,7 @@ public class GameController extends SimpleOnGestureListener{
         
         // make the score gain floating text
         ScoreGain gain = new ScoreGain(screenWidth, screenHeight, 
-        		(int)(spider.height / 4), data );
+        		(int)(spider.height / 4), Constants.SCORE_TEXT_FPS, data );
         gain.x = centerX;
         gain.y = centerX;
         gain.z = 3;

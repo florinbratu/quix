@@ -52,6 +52,12 @@ public interface Constants {
 	 */
 	public static final int SPIDER_ANIMATION_FRAMES_COUNT = 3;
 	public static final int SPIDER_ANIMATION_FPS = 30;
+	
+	/* score text look and feel */
+	public static final int MAX_ALPHA = 255;
+	public static final int ALPHA_DECREMENT = 24;
+	public static final int MIN_ALPHA = 64;
+	public static final int SCORE_TEXT_FPS = 10;
 
 	/**
 	 * The sprites will be available only for certain
@@ -103,13 +109,5 @@ public interface Constants {
 	};
 	
 	// programming-related constants
-	public static final String LOG_TAG = "QUIX";
-	// the transparency steps
-	public static final int[] transparencySteps = new int[] {
-		255,216,192,160,125,100,64,0
-	};
-	public static final int MAX_ALPHA = 255;
-	public static final int ALPHA_DECREMENT = 16;
-	public static final int MIN_ALPHA = 64;
-	
+	public static final String LOG_TAG = "QUIX";	
 }
