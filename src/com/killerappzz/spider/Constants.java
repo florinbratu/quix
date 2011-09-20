@@ -13,6 +13,7 @@ public interface Constants {
 	 * sa traverseze tot ecranul!
 	 */
 	public static final int DEFAULT_SPIDER_SPEED_FACTOR = 4;
+	public static final int DEFAULT_BAT_SPEED_FACTOR = 5;
 	
 	/*
 	 * look and feel-ul darei lasate de spider
@@ -52,6 +53,8 @@ public interface Constants {
 	 */
 	public static final int SPIDER_ANIMATION_FRAMES_COUNT = 3;
 	public static final int SPIDER_ANIMATION_FPS = 30;
+	public static final int BAT_ANIMATION_FRAMES_COUNT = 3;
+	public static final int BAT_ANIMATION_FPS = 30;
 	
 	/* score text look and feel */
 	public static final int MAX_ALPHA = 255;

@@ -3,13 +3,14 @@ package com.killerappzz.spider.engine;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
+import android.view.GestureDetector.SimpleOnGestureListener;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.R;
 import com.killerappzz.spider.objects.Background;
 import com.killerappzz.spider.objects.Banner;
+import com.killerappzz.spider.objects.Bat;
 import com.killerappzz.spider.objects.DrawableObject;
 import com.killerappzz.spider.objects.IBounceable;
 import com.killerappzz.spider.objects.ObjectManager;
@@ -65,6 +66,17 @@ public class GameController extends SimpleOnGestureListener{
         spider.z = 1;
         this.manager.add(spider);
         data.setTotalArea( (screenWidth - spider.width) * (screenHeight - spider.height) );
+        
+        // Make the bad bat
+        Bat bat = new Bat(context, bitmapOpts, 
+        		R.drawable.bat, screenWidth, screenHeight, 
+        		Constants.BAT_ANIMATION_FRAMES_COUNT, Constants.BAT_ANIMATION_FPS);
+        int centerY = (screenHeight - (int)bat.height) / 2;
+        bat.x = centerX;
+        bat.y = centerY;
+        bat.z = 2;
+        bat.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_BAT_SPEED_FACTOR;
+        this.manager.add(bat);
         
         // make the score gain floating text
         ScoreGain gain = new ScoreGain(screenWidth, screenHeight, 
