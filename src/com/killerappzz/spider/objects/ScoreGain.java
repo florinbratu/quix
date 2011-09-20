@@ -73,8 +73,8 @@ public class ScoreGain extends DrawableObject{
 	@Override
 	public void draw(Canvas canvas) {
 		this.textPaint.setAlpha(transparency);
-		canvas.drawText("+" + data.getGain(), toScreenX(this.x), 
-				toScreenY(this.y), this.textPaint);
+		canvas.drawText("+" + data.getGain(), this.x, 
+				this.y, this.textPaint);
 	}
 	
 	@Override

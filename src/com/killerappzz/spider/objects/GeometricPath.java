@@ -22,11 +22,17 @@ public class GeometricPath extends Path {
 	// store the start point and end point
 	private final Point2D.Float startPoint;
 	private final Point2D.Float endPoint;
+	// the geometrical center of the Path. for the score ;)
+	private final Point2D.Float center;
+	// the path number of points
+	private int vertexCount;
 	
 	public GeometricPath() {
 		this.geometry = new Path2D.Float();
 		this.startPoint = new Point2D.Float();
 		this.endPoint = new Point2D.Float();
+		this.center = new Point2D.Float();
+		this.vertexCount = 0;
 	}
 	
 	public GeometricPath(GeometricPath trailingPath) {
@@ -35,6 +41,7 @@ public class GeometricPath extends Path {
 		this.geometry = trailingPath.geometry;
 		this.startPoint = trailingPath.startPoint;
 		this.endPoint = trailingPath.endPoint;
+		this.center = trailingPath.endPoint;
 	}
 
 	@Override
@@ -42,6 +49,9 @@ public class GeometricPath extends Path {
 		this.geometry.moveTo(x, y);
 		this.startPoint.x = x;
 		this.startPoint.y = y;
+		this.center.x = x;
+		this.center.y = y;
+		this.vertexCount++;
 		super.moveTo(x, y);
 	}
 	
@@ -50,6 +60,9 @@ public class GeometricPath extends Path {
 		this.geometry.lineTo(x, y);
 		this.endPoint.x = x;
 		this.endPoint.y = y;
+		this.center.x = (vertexCount * center.x + x) / (vertexCount + 1);
+		this.center.y = (vertexCount * center.y + y) / (vertexCount + 1);
+		this.vertexCount++;
 		super.lineTo(x, y);
 	}
 	
@@ -158,6 +171,10 @@ public class GeometricPath extends Path {
 		return this.endPoint;
 	}
 	
+	public Point2D.Float getCenter() {
+		return this.center;
+	}
+	
 	protected boolean boundsTest(RectF bounds, float x, float y) {
 		return bounds.bottom == y || bounds.top == y 
 			|| bounds.left == x || bounds.right == x;
@@ -178,6 +195,7 @@ public class GeometricPath extends Path {
 			sb.append(";Coords:(" + coords[0] + "," + coords[1] + ");");
 			it.next();
 		}
+		sb.append("Geometrical center: " + "(" + center.x + "," + center.y + ");");
 		return sb.toString();
 	}
 

@@ -5,7 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.BitmapFactory.Options;
+import android.util.Log;
 
+import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.engine.GameData;
 
@@ -140,7 +142,7 @@ public class Spider extends AnimatedSprite {
 		// close path
 		boundedPath.close();
 		// display the score
-		score.display(100,100);
+		score.display(boundedPath.getCenter().x,boundedPath.getCenter().y);
 		// merge into claimed path
 		this.claimedPath.merge(boundedPath);
 		// recalculate area!
