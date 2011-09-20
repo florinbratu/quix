@@ -55,7 +55,7 @@ public interface Constants {
 	
 	/* score text look and feel */
 	public static final int MAX_ALPHA = 255;
-	public static final int ALPHA_DECREMENT = 24;
+	public static final int ALPHA_DECREMENT = 16;
 	public static final int MIN_ALPHA = 64;
 	public static final int SCORE_TEXT_FPS = 10;
 

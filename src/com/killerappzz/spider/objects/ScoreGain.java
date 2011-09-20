@@ -9,6 +9,15 @@ import com.killerappzz.spider.engine.GameData;
 
 /**
  * Display the gain after spider claims new land
+ * It works as follows: display the gain at the position
+ * of the geometrical center of the gained polygon.
+ * Then fade out the text using alpha blending
+ * from Constants.MAX_ALPHA to Constants.MIN_ALPHA
+ * using a decrement of Constants.ALPHA_DECREMENT
+ * 
+ * Meanwhile, animate the text by moving it upwards.
+ * The animation frame rate is dictated by the fps ctor arg
+ * 
  * @author florin
  *
  */
