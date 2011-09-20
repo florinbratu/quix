@@ -106,7 +106,8 @@ public abstract class DrawableObject implements Cloneable{
     		this.x = Math.max(0.0f, 
                     Math.min(this.x, screenWidth - this.width));
     		// border behaviour, object-specific
-            boundsTouchBehaviour();
+    		if(this instanceof IBounceable) 
+    			((IBounceable)this).boundsTouchBehaviour();
             return true;
         }
         
@@ -116,7 +117,8 @@ public abstract class DrawableObject implements Cloneable{
             this.y = Math.max(0.0f, 
                     Math.min(this.y, screenHeight - this.height));
             // bound behaviour
-            boundsTouchBehaviour();
+            if(this instanceof IBounceable) 
+    			((IBounceable)this).boundsTouchBehaviour();
             return true;
         }
         
@@ -126,7 +128,8 @@ public abstract class DrawableObject implements Cloneable{
     public void claimedPathCheck(GeometricPath claimedPath) {
 		if(claimedPath.contains( toScreenX(this.x), toScreenY(this.y) )) 
 			// object-specific behaviour
-			claimedPathTouch();
+			if(this instanceof IBounceable) 
+    			((IBounceable)this).claimedPathTouch();
 	}
     
     public void updateScreen(int screenWidth, int screenHeight) {
@@ -144,10 +147,6 @@ public abstract class DrawableObject implements Cloneable{
     
     public abstract void draw(Canvas canvas);
     public abstract void cleanup();
-    // specific behaviour when object touches the bounds
-    public abstract void boundsTouchBehaviour();
-    // specific behaviour when object touches the already-claimed path
-    public abstract void claimedPathTouch();
     // cloning
     public abstract DrawableObject clone();
     // drawing optimization. this will be called at each frame 

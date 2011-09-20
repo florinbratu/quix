@@ -1,13 +1,11 @@
 package com.killerappzz.spider.objects;
 
 import android.content.Context;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.graphics.BitmapFactory.Options;
-import android.util.Log;
 
-import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.engine.GameData;
 
@@ -17,7 +15,7 @@ import com.killerappzz.spider.engine.GameData;
  * @author florin
  *
  */
-public class Spider extends AnimatedSprite {
+public class Spider extends AnimatedSprite implements IBounceable{
 	
     // Last Position
     private float lastX = -1;

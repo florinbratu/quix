@@ -53,14 +53,6 @@ public class ScoreGain extends DrawableObject{
 	}
 
 	@Override
-	public void boundsTouchBehaviour() {
-	}
-
-	@Override
-	public void claimedPathTouch() {
-	}
-
-	@Override
 	public void cleanup() {
 		// nothing to be done
 	}

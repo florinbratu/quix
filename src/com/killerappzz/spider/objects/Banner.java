@@ -71,7 +71,7 @@ public class Banner extends DrawableObject{
 		this.spaceToBorder = (int)(freeScreen / ( 2.0f + 2.0f * Constants.FREE_SPACE_INTER_TO_BORDER_RATIO ));
 		this.spaceBetweenText = this.spaceToBorder * Constants.FREE_SPACE_INTER_TO_BORDER_RATIO;
 		// the Life image
-		this.lifeImg = new Life(context, bitmapOptions, resourceId, width, screenHeight);
+		this.lifeImg = new Sprite(context, bitmapOptions, resourceId, width, screenHeight);
 	}
 	
 	public Banner(Banner orig) {
@@ -119,16 +119,6 @@ public class Banner extends DrawableObject{
 			this.lifeImg.draw(canvas);
 			posX += this.lifeImg.width;
 		}
-	}
-
-	@Override
-	public void boundsTouchBehaviour() {
-		// nothing
-	}
-
-	@Override
-	public void claimedPathTouch() {
-		// nothing
 	}
 
 	@Override

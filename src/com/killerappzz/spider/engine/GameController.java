@@ -11,6 +11,7 @@ import com.killerappzz.spider.R;
 import com.killerappzz.spider.objects.Background;
 import com.killerappzz.spider.objects.Banner;
 import com.killerappzz.spider.objects.DrawableObject;
+import com.killerappzz.spider.objects.IBounceable;
 import com.killerappzz.spider.objects.ObjectManager;
 import com.killerappzz.spider.objects.ScoreGain;
 import com.killerappzz.spider.objects.Spider;
@@ -101,10 +102,12 @@ public class GameController extends SimpleOnGestureListener{
 		for(DrawableObject object : manager.getControllerObjects()) {
 			if( object.moves() ) {
 				object.updatePosition(timeDeltaSeconds);
-				// test for object touching the screen bounds
-				if(!object.boundsCheck())
-				// test for object reaching the region claimed by the spider
-				object.claimedPathCheck(spider.getClaimedPath());
+				if(object instanceof IBounceable) {
+					// test for object touching the screen bounds
+					if(!object.boundsCheck())
+						// test for object reaching the region claimed by the spider
+						object.claimedPathCheck(spider.getClaimedPath());
+				}
 			}
 		}
 	}
