@@ -49,7 +49,7 @@ public class ScoreGain extends DrawableObject{
 		this.x = posX;
 		this.y = posY;
 		this.transparency = Constants.MAX_ALPHA;
-		setVelocity(0, 1);
+		setVelocity(0, -1);
 	}
 
 	@Override
