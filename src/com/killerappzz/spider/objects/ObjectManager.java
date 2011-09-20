@@ -1,12 +1,8 @@
 package com.killerappzz.spider.objects;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.util.Log;
-
-import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.rendering.GameRenderer;
 
 /**

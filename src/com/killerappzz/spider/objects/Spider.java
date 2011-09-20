@@ -15,7 +15,7 @@ import com.killerappzz.spider.engine.GameData;
  * @author florin
  *
  */
-public class Spider extends AnimatedSprite {
+public class Spider extends AnimatedSprite implements IBounceable{
 	
     // Last Position
     private float lastX = -1;

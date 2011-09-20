@@ -40,16 +40,6 @@ public class Background extends Sprite{
 	}
 
 	@Override
-	public void boundsTouchBehaviour() {
-		// nothing special for the moment TODO maybe add a special effect?
-	}
-
-	@Override
-	public void claimedPathTouch() {
-		// nothing special for the moment TODO maybe add a special effect?
-	}
-	
-	@Override
 	public DrawableObject clone() {
 		return new Background(this);
 	}
