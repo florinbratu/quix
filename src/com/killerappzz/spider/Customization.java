@@ -94,6 +94,12 @@ public final class Customization {
 		return livesPaint;
 	}
 	
+	public static Paint getGainTextPaint(int fontSize) {
+		Paint gainPaint = newTextPain(fontSize);
+		gainPaint.setColor(Constants.GAIN_TEXT_COLOR);
+		return gainPaint;
+	}
+	
 	private static final Paint newTextPain(int fontSize) {
 		Paint textPaint = new Paint();
 		textPaint.setAntiAlias(true);

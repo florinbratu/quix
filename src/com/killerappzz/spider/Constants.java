@@ -42,6 +42,7 @@ public interface Constants {
 	public static final int SURFACE_TEXT_COLOR = Color.BLUE;
 	public static final String LIVES_TEXT = "Lives: ";
 	public static final int LIVES_TEXT_COLOR = Color.YELLOW; // orange
+	public static final int GAIN_TEXT_COLOR = Color.WHITE;
 	// initial number of lifes
 	public static final int MAX_LIFES = 3;
 	public static final int FREE_SPACE_INTER_TO_BORDER_RATIO = 3;
@@ -108,7 +109,7 @@ public interface Constants {
 		255,216,192,160,125,100,64,0
 	};
 	public static final int MAX_ALPHA = 255;
-	public static final int ALPHA_DECREMENT = 24;
+	public static final int ALPHA_DECREMENT = 16;
 	public static final int MIN_ALPHA = 64;
 	
 }
