@@ -120,5 +120,60 @@ public class Polygon extends GeometricPath {
 		area = Math.abs( 0.5f * area);
 		return area;
 	}
+
+	/**
+	 * Detect onto which edge did we hit when we touched the polygon
+	 * @param movementVector
+	 * @return the edge which we touched or null if this polygon hasn't been touched
+	 */
+	public Pair<Pair<Float, Float>, Pair<Float, Float>> getTouchEdge(
+			Pair<Pair<Float, Float>, Pair<Float, Float>> movementVector) {
+		Pair<Float, Float> currentVertex;
+		Pair<Float, Float> nextVertex;
+		for( int i = 0 ; i < this.vertices.size() - 1; i++) {
+			currentVertex = this.vertices.get(i);
+			nextVertex = this.vertices.get(i+1);
+			Pair<Pair<Float, Float>, Pair<Float, Float>> edge 
+		 		= new Pair<Pair<Float, Float>, Pair<Float, Float>>(currentVertex, nextVertex);
+			if(touch(edge, movementVector))
+				return edge;
+		}
+		return null;
+	}
+
+	/**
+	 * Test if two vectors "intersect"
+	 * The test verifies if the two extreme points of the movement vector
+	 * are on "different sides" of the edge.
+	 * 
+	 * The "different sides" test is being performed via cross product
+	 * Each side is identified by the sign of the cross product over the edge
+	 */
+	private boolean touch(Pair<Pair<Float, Float>, Pair<Float, Float>> edge,
+			Pair<Pair<Float, Float>, Pair<Float, Float>> movementVector) {
+		return Math.signum(crossprod(movementVector.first, edge)) 
+			!= Math.signum(crossprod(movementVector.second, edge));
+	}
+
+	/**
+	 * Calculate the following cross product: 
+	 * 	(e1, point) x (e1, e2)
+	 * 
+	 * e1 and e2 are the two extremes of the edge
+	 * 
+	 * @param point
+	 * @param edge is (e1,e2)
+	 * @return
+	 */
+	private double crossprod(Pair<Float, Float> point,
+			Pair<Pair<Float, Float>, Pair<Float, Float>> edge) {
+		Pair<Float, Float> e1 = edge.first;
+		Pair<Float, Float> e2 = edge.second;
+		float x1 = point.first - e1.first;
+		float y1 = point.second - e1.second;
+		float x2 = e2.first - e1.first;
+		float y2 = e2.second - e1.second;
+		return x1 * y2 - x2 * y1;
+	}
 	
 }

@@ -2,6 +2,7 @@ package com.killerappzz.spider.objects;
 
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.util.Pair;
 
 import com.killerappzz.spider.geometry.Area;
 import com.killerappzz.spider.geometry.Path2D;

@@ -1,9 +1,9 @@
 package com.killerappzz.spider.objects;
 
+import android.graphics.Canvas;
+
 import com.killerappzz.spider.objects.IBounceable.BounceAxis;
 import com.killerappzz.spider.util.IDGenerator;
-
-import android.graphics.Canvas;
 
 /** 
  * Base class defining the core set of information necessary to render (and move
@@ -126,11 +126,11 @@ public abstract class DrawableObject implements Cloneable{
         return false;
 	}
     
-    public void claimedPathCheck(GeometricPath claimedPath) {
+    public void claimedPathCheck(ClaimedPath claimedPath) {
 		if(claimedPath.contains( toScreenX(this.x), toScreenY(this.y) )) 
 			// object-specific behaviour
 			if(this instanceof IBounceable) 
-    			((IBounceable)this).claimedPathTouch();
+    			((IBounceable)this).claimedPathTouch(claimedPath);
 	}
     
     public void updateScreen(int screenWidth, int screenHeight) {

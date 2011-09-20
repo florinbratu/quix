@@ -111,7 +111,7 @@ public class Spider extends AnimatedSprite implements IBounceable{
 		super.draw(canvas);
 	}
 	
-	public GeometricPath getClaimedPath() {
+	public ClaimedPath getClaimedPath() {
 		return this.claimedPath;
 	}
 
@@ -121,7 +121,7 @@ public class Spider extends AnimatedSprite implements IBounceable{
 	}
 
 	@Override
-	public void claimedPathTouch() {
+	public void claimedPathTouch(ClaimedPath path) {
 		contactBehaviour();
 	}
 	

@@ -210,4 +210,23 @@ public class ClaimedPath extends GeometricPath {
 		return area;
 	}
 	
+	/**
+	 * Get the edge onto which the bat hit the path
+	 * @param movementVector the pair of points (lastPos, Pos) 
+	 * 	indicates the movement vector of the bat
+	 * @return the edge touched by the movement vector
+	 * @throws IllegalArgumentException if the movement vector does not touch the claimed path
+	 */
+	public Pair<Pair<Float, Float>, Pair<Float, Float>> getTouchEdge(
+			Pair<Pair<Float, Float>, Pair<Float, Float>> movementVector) {
+		Pair<Pair<Float, Float>, Pair<Float, Float>> touchEdge = null;
+		for(Polygon poly : this.polygons) {
+			touchEdge = poly.getTouchEdge(movementVector);
+			if(touchEdge != null)
+				return touchEdge;
+		}
+		throw new IllegalArgumentException("The movement vector " + movementVector 
+				+ " does not intersect the claimed path " + this.toString());
+	}
+	
 }
