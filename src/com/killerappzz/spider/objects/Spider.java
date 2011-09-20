@@ -116,7 +116,7 @@ public class Spider extends AnimatedSprite implements IBounceable{
 	}
 
 	@Override
-	public void boundsTouchBehaviour() {
+	public void boundsTouchBehaviour(BounceAxis axis) {
 		contactBehaviour();
 	}
 

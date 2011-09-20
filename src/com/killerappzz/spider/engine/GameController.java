@@ -76,6 +76,7 @@ public class GameController extends SimpleOnGestureListener{
         bat.y = centerY;
         bat.z = 2;
         bat.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_BAT_SPEED_FACTOR;
+        bat.startMovement();
         this.manager.add(bat);
         
         // make the score gain floating text

@@ -1,5 +1,6 @@
 package com.killerappzz.spider.objects;
 
+import com.killerappzz.spider.objects.IBounceable.BounceAxis;
 import com.killerappzz.spider.util.IDGenerator;
 
 import android.graphics.Canvas;
@@ -107,7 +108,7 @@ public abstract class DrawableObject implements Cloneable{
                     Math.min(this.x, screenWidth - this.width));
     		// border behaviour, object-specific
     		if(this instanceof IBounceable) 
-    			((IBounceable)this).boundsTouchBehaviour();
+    			((IBounceable)this).boundsTouchBehaviour(BounceAxis.HORIZONTAL);
             return true;
         }
         
@@ -118,7 +119,7 @@ public abstract class DrawableObject implements Cloneable{
                     Math.min(this.y, screenHeight - this.height));
             // bound behaviour
             if(this instanceof IBounceable) 
-    			((IBounceable)this).boundsTouchBehaviour();
+    			((IBounceable)this).boundsTouchBehaviour(BounceAxis.VERTICAL);
             return true;
         }
         
