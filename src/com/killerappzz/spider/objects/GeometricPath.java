@@ -75,6 +75,9 @@ public class GeometricPath extends Path {
 	@Override
 	public void rewind() {
 		this.geometry.reset();
+		// reset center
+		this.center.x = this.center.y = 0;
+		this.vertexCount = 0;
 		super.rewind();
 	}
 	
