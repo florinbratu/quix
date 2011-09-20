@@ -1,5 +1,7 @@
 package com.killerappzz.spider.objects;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,9 +18,6 @@ public class ObjectManager {
 	private final List<DrawableObject> objects;
 	/** the drawables list, for the rendering thread*/
 	private List<DrawableObject> drawables;
-	// the statistics banner
-	private Banner banner;
-	private Banner shadowBanner;
 	private final GameRenderer renderer;
 	
 	public ObjectManager(GameRenderer renderer) {
@@ -36,12 +35,6 @@ public class ObjectManager {
 		this.drawables.add(obj.clone());
 	}
 	
-	/** Add the ref to the special "banner" type */
-	public void addBanner(Banner banner) {
-		this.banner = banner;
-		this.shadowBanner = (Banner)banner.clone();
-	}
-
 	public List<DrawableObject> getControllerObjects() {
 		return objects;
 	}
@@ -56,15 +49,16 @@ public class ObjectManager {
 
 	public void swap() {
 		for(DrawableObject obj : this.objects) {
-			if(!obj.equals(banner)) {
-				int index = this.drawables.indexOf(obj);
-				DrawableObject omolog = this.drawables.get(index);
-				omolog.update(obj);
-				// banner will be added at the end
-			}
+			int index = this.drawables.indexOf(obj);
+			DrawableObject omolog = this.drawables.get(index);
+			omolog.update(obj);
 		}
-		shadowBanner.update(banner);
-		drawables.add(shadowBanner);
+		// sort them according to Z order. this is fast for small list(like ours)
+		Collections.sort(drawables, new Comparator<DrawableObject>() {
+			public int compare(DrawableObject object1, DrawableObject object2) {
+				return object1.z - object2.z;
+			}
+		});
 		// update the draw queue. This op will hold the lock of renderer => simply update the ref
 		List<DrawableObject> oldDrawables = this.renderer.updateDrawQueue(this.drawables);
 		// if new objects were added, add them in the shadow too!

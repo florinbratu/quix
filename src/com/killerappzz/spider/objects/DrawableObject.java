@@ -14,6 +14,7 @@ public abstract class DrawableObject implements Cloneable{
     // Position.
     public float x;
     public float y;
+    public int z;
     
     // Velocity. Prin velocity eu inteleg directia in care tre sa se miste
     private float velocityX;

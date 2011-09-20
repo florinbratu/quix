@@ -1,7 +1,10 @@
 package com.killerappzz.spider.engine;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.R;
@@ -11,13 +14,6 @@ import com.killerappzz.spider.objects.DrawableObject;
 import com.killerappzz.spider.objects.ObjectManager;
 import com.killerappzz.spider.objects.ScoreGain;
 import com.killerappzz.spider.objects.Spider;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.view.MotionEvent;
-import android.view.GestureDetector.SimpleOnGestureListener;
 
 /**
  * The game logic is encapsulated here
@@ -53,6 +49,7 @@ public class GameController extends SimpleOnGestureListener{
         // so some clipping will occur when it is drawn.
 		Background background = new Background(context, bitmapOpts, 
 				R.drawable.background, screenWidth, screenHeight );
+		background.z = 0;
 		this.manager.add(background);
         
         // Make the spider
@@ -64,6 +61,7 @@ public class GameController extends SimpleOnGestureListener{
         spider.x = centerX;
         spider.y = 0;
         spider.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
+        spider.z = 1;
         this.manager.add(spider);
         data.setTotalArea( (screenWidth - spider.width) * (screenHeight - spider.height) );
         
@@ -72,6 +70,7 @@ public class GameController extends SimpleOnGestureListener{
         		(int)(spider.height / 4), data );
         gain.x = centerX;
         gain.y = centerX;
+        gain.z = 3;
         gain.speed = spider.speed;
         this.spider.setScoreGain(gain);
         this.manager.add(gain);
@@ -80,7 +79,8 @@ public class GameController extends SimpleOnGestureListener{
         Banner banner = new Banner(context, Constants.STATS_FONT_ASSET,
         		screenWidth	, (int)(spider.height / 2), screenWidth, screenHeight,
         		bitmapOpts, R.drawable.spider_life, data);
-        this.manager.addBanner(banner);
+        banner.z = 4;
+        this.manager.add(banner);
 	}
 	
 	public void cleanup() {
