@@ -54,7 +54,19 @@ public class GameData {
 	
 	public void setClaimedArea(float area) {
 		this.gain = (long)(area - this.claimedArea);
+		updateScoreForGain();
 		this.claimedArea = area;
+	}
+
+	/**
+	 * Update the score after we gained some field.
+	 * For the moment, we simply add the gain to the
+	 * total score. TODO something more sophisticated
+	 * in the future - more score for bigger areas, and
+	 * for more straight ones :)
+	 */
+	private void updateScoreForGain() {
+		this.score += this.gain;
 	}
 
 	public void setTotalArea(float totalArea) {
