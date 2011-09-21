@@ -47,12 +47,11 @@ public class Bat extends AnimatedSprite implements IBounceable{
 	public void claimedPathTouch(ClaimedPath path) {
 		Pair<Pair<Float,Float>, Pair<Float,Float>> movement = 
 			new Pair<Pair<Float,Float>, Pair<Float,Float>>(
-				new Pair<Float,Float>(this.lastX, this.lastY),
-				new Pair<Float,Float>(this.x, this.y));
+				new Pair<Float,Float>(toScreenX(this.lastX), toScreenY(this.lastY)),
+				new Pair<Float,Float>(toScreenX(this.x), toScreenY(this.y)));
 		Pair<Pair<Float,Float>, Pair<Float,Float>> edge = 
 			path.getTouchEdge(movement);
-		Pair<Float,Float> newVelocity = bounceVelocity(edge);
-		this.setVelocity(newVelocity.first, newVelocity.second);
+		setBounceVelocity(edge);
 	}
 	
 	/**
@@ -71,13 +70,12 @@ public class Bat extends AnimatedSprite implements IBounceable{
 	 * @param edge the edge against which we bounce
 	 * @return the new bounce velocity
 	 */
-	private Pair<Float, Float> bounceVelocity(
+	private void setBounceVelocity(
 			Pair<Pair<Float, Float>, Pair<Float, Float>> edge) {
 		double angle = angle(edge);
 		double vx = - getVelocityX() * Math.cos(2*angle) - getVelocityY() * Math.sin(2*angle);
 		double vy = - getVelocityX() * Math.sin(2*angle) + getVelocityY() * Math.cos(2*angle);
 		setVelocity((float)vx, (float)vy);
-		return null;
 	}
 
 	/**
