@@ -11,6 +11,7 @@ import com.killerappzz.spider.R;
 import com.killerappzz.spider.objects.Background;
 import com.killerappzz.spider.objects.Banner;
 import com.killerappzz.spider.objects.Bat;
+import com.killerappzz.spider.objects.CollisionSystem;
 import com.killerappzz.spider.objects.DrawableObject;
 import com.killerappzz.spider.objects.IBounceable;
 import com.killerappzz.spider.objects.ObjectManager;
@@ -31,6 +32,8 @@ public class GameController extends SimpleOnGestureListener{
     private final ObjectManager manager;
 	// spider is a special role
 	private Spider spider;
+	// collision handler
+	private final CollisionSystem collisionHandler;
 	// config shit
 	private BitmapFactory.Options bitmapOpts;
 	
@@ -38,6 +41,7 @@ public class GameController extends SimpleOnGestureListener{
 		this.manager = manager;
 		this.bitmapOpts = new BitmapFactory.Options();
 		this.data = new GameData();
+		this.collisionHandler = new CollisionSystem();
 	}
 	
 	/**
@@ -66,6 +70,8 @@ public class GameController extends SimpleOnGestureListener{
         spider.z = 1;
         this.manager.add(spider);
         data.setTotalArea( (screenWidth - spider.width) * (screenHeight - spider.height) );
+        // register as collisions receiver
+        this.collisionHandler.registerCollidee(spider);
         
         // Make the bad bat
         Bat bat = new Bat(context, bitmapOpts, 
@@ -78,6 +84,8 @@ public class GameController extends SimpleOnGestureListener{
         bat.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_BAT_SPEED_FACTOR;
         bat.startMovement();
         this.manager.add(bat);
+        // register as collisions "giver"
+        this.collisionHandler.registerCollider(bat);
         
         // make the score gain floating text
         ScoreGain gain = new ScoreGain(screenWidth, screenHeight, 
@@ -123,6 +131,10 @@ public class GameController extends SimpleOnGestureListener{
 				}
 			}
 		}
+	}
+	
+	public void handleCollisions() {
+		this.collisionHandler.handleCollisions();
 	}
 
 	public void prepareRendering() {

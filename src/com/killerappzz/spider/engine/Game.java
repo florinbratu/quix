@@ -64,6 +64,8 @@ public class Game {
 		final float timeDeltaSeconds = getTimeDelta();
 		// calculate new positions
 		this.controller.updatePositions(timeDeltaSeconds);
+		// handle collisions
+		this.controller.handleCollisions();
 	}
 
 	private float getTimeDelta() {

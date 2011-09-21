@@ -5,7 +5,9 @@ import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
+import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.engine.GameData;
 
@@ -15,11 +17,13 @@ import com.killerappzz.spider.engine.GameData;
  * @author florin
  *
  */
-public class Spider extends AnimatedSprite implements IBounceable{
+public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	
     // Last Position
     private float lastX = -1;
     private float lastY = -1;
+    // the bounding box
+    private final RectF boundingBox = new RectF();
     
     // line color
     private final Paint trailingPathPaint;
@@ -40,6 +44,7 @@ public class Spider extends AnimatedSprite implements IBounceable{
     	NONE,  // spider does not move
     	CLAIM, // claim new land
     	EDGE,  // move on the edge of the field + claimed land
+    	DEATH,	// display death animation
     };
     
     private Movement movement;
@@ -74,6 +79,19 @@ public class Spider extends AnimatedSprite implements IBounceable{
 		this.score = score;
 	}
 	
+	@Override
+	public void updatePosition(float timeDeltaSeconds) {
+		super.updatePosition(timeDeltaSeconds);
+		updateBoundingBox();
+	}
+	
+	private void updateBoundingBox() {
+		this.boundingBox.left = this.x;
+		this.boundingBox.right = this.x + this.width;
+		this.boundingBox.top = this.y;
+		this.boundingBox.bottom = this.y + this.height;
+	}
+	
 	public void setLastPosition(float lastX, float lastY) {
 		if(this.lastX != -1 && this.lastY != -1) 
 			this.trailingPath.lineTo(toScreenX(lastX), toScreenY(lastY));
@@ -85,7 +103,8 @@ public class Spider extends AnimatedSprite implements IBounceable{
 	
 	@Override
 	public boolean moves() {
-		return !this.movement.equals(Movement.NONE);
+		return this.movement.equals(Movement.CLAIM) 
+				|| this.movement.equals(Movement.EDGE);
 	}
 	
 	@Override
@@ -165,6 +184,24 @@ public class Spider extends AnimatedSprite implements IBounceable{
     	this.lastY = omologSpider.lastY;
     	this.trailingPath.update(omologSpider.trailingPath);
     	this.claimedPath.update(omologSpider.claimedPath);
+	}
+
+	@Override
+	public boolean collisionTest(ICollider collider) {
+		return RectF.intersects(this.boundingBox, collider.getBoundingBox());
+	}
+
+	@Override
+	public void receive(ICollider collider) {
+		// TODO my collision actions
+		Log.d(Constants.LOG_TAG, "Receive collision from: " + collider);
+		// let the collider do its collision thing
+		collider.collide(this);
+	}
+
+	@Override
+	public RectF getBoundingBox() {
+		return this.boundingBox;
 	}
 	
 }

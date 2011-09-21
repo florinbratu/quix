@@ -4,7 +4,11 @@ import java.util.Random;
 
 import android.content.Context;
 import android.graphics.BitmapFactory.Options;
+import android.graphics.RectF;
+import android.util.Log;
 import android.util.Pair;
+
+import com.killerappzz.spider.Constants;
 
 /**
  * The Bat is the Bad Guy
@@ -12,11 +16,15 @@ import android.util.Pair;
  * @author florin
  *
  */
-public class Bat extends AnimatedSprite implements IBounceable{
+public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	
 	// Last Position
     private float lastX = -1;
     private float lastY = -1;
+    // the Spider. don't need to shadow it, not needed for rendering
+    private Spider spider;
+    // the bounding box
+    private final RectF boundingBox = new RectF();
 
 	public Bat(Context context, Options bitmapOptions, int resourceId,
 			int scrW, int scrH, int framesNo, int fps) {
@@ -27,12 +35,24 @@ public class Bat extends AnimatedSprite implements IBounceable{
 		super(orig);
 	}
 	
+	public void setSpider(Spider spider) {
+		this.spider = spider;
+	}
+	
 	@Override
 	public void updatePosition(float timeDeltaSeconds) {
 		// backup old pos
 		this.lastX = this.x;
 		this.lastY = this.y;
+		updateBoundingBox();
 		super.updatePosition(timeDeltaSeconds);
+	}
+
+	private void updateBoundingBox() {
+		this.boundingBox.left = this.x;
+		this.boundingBox.right = this.x + this.width;
+		this.boundingBox.top = this.y;
+		this.boundingBox.bottom = this.y + this.height;
 	}
 
 	@Override
@@ -45,13 +65,22 @@ public class Bat extends AnimatedSprite implements IBounceable{
 
 	@Override
 	public void claimedPathTouch(ClaimedPath path) {
-		Pair<Pair<Float,Float>, Pair<Float,Float>> movement = 
-			new Pair<Pair<Float,Float>, Pair<Float,Float>>(
-				new Pair<Float,Float>(toScreenX(this.lastX), toScreenY(this.lastY)),
-				new Pair<Float,Float>(toScreenX(this.x), toScreenY(this.y)));
-		Pair<Pair<Float,Float>, Pair<Float,Float>> edge = 
-			path.getTouchEdge(movement);
-		setBounceVelocity(edge);
+		try {
+			Pair<Pair<Float,Float>, Pair<Float,Float>> movement = 
+					new Pair<Pair<Float,Float>, Pair<Float,Float>>(
+							new Pair<Float,Float>(toScreenX(this.lastX), toScreenY(this.lastY)),
+							new Pair<Float,Float>(toScreenX(this.x), toScreenY(this.y)));
+			Pair<Pair<Float,Float>, Pair<Float,Float>> edge = 
+					path.getTouchEdge(movement);
+			setBounceVelocity(edge);
+		} catch(IllegalArgumentException iae) {
+			/* We arrive in this case if the Spider claimed 
+			 * some land onto which the Bat was present!
+			 * In this case, we are victorious!!!
+			 * */
+			// TODO Victory!!!
+			Log.d(Constants.LOG_TAG, "Victory!!!");
+		}
 	}
 	
 	/**
@@ -117,6 +146,17 @@ public class Bat extends AnimatedSprite implements IBounceable{
 	private double randomRange(Random rnd, double min, double max) {
 		double fraction = Math.abs(rnd.nextDouble()) / Double.MAX_VALUE;
 		return min + fraction * (max - min);
+	}
+
+	@Override
+	public void collide(ICollidee collidee) {
+		// TODO Auto-generated method stub
+		Log.d(Constants.LOG_TAG, "Collision into: " + collidee);
+	}
+
+	@Override
+	public RectF getBoundingBox() {
+		return this.boundingBox;
 	}
 
 }
