@@ -48,6 +48,10 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
     };
     
     private Movement movement;
+    // when dead: the time to stay in death state
+    private float deathTicker = 0;
+    private float deathTime = 0;
+    private boolean blink = false;
     
     public Spider(Spider orig) {
     	super(orig);
@@ -58,6 +62,9 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
     	this.movement = orig.movement;
     	this.lastX = orig.lastX;
     	this.lastY = orig.lastY;
+    	this.deathTicker = orig.deathTicker;
+    	this.deathTime = orig.deathTime;
+    	this.blink = orig.blink;
     	this.trailingPath = new GeometricPath(orig.trailingPath);
     	this.claimedPath = new ClaimedPath(orig.claimedPath);
     }
@@ -81,10 +88,33 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	
 	@Override
 	public void updatePosition(float timeDeltaSeconds) {
-		super.updatePosition(timeDeltaSeconds);
 		updateBoundingBox();
+		if(movement.equals(Movement.DEATH)) {
+			this.deathTime += timeDeltaSeconds;
+			if(this.deathTime > Constants.SPIDER_DEATH_PERIOD) 
+				respawn();
+			this.deathTicker += timeDeltaSeconds;
+			if(this.deathTicker > Constants.SPIDER_DEATH_BLINK_RATE) {
+				this.deathTicker -= Constants.SPIDER_DEATH_BLINK_RATE;
+				blink();
+			}
+		}
+		else
+			super.updatePosition(timeDeltaSeconds);
 	}
 	
+	private void blink() {
+		this.blink = !blink;
+	}
+
+	private void respawn() {
+		this.movement = Movement.NONE;
+		this.blink = false;
+		// TODO 
+		// 1) set position to last position
+		// 2) clear trailing path
+	}
+
 	private void updateBoundingBox() {
 		this.boundingBox.left = this.x;
 		this.boundingBox.right = this.x + this.width;
@@ -104,7 +134,8 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	@Override
 	public boolean moves() {
 		return this.movement.equals(Movement.CLAIM) 
-				|| this.movement.equals(Movement.EDGE);
+				|| this.movement.equals(Movement.EDGE)
+				|| this.movement.equals(Movement.DEATH);
 	}
 	
 	@Override
@@ -120,14 +151,16 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	public void draw(Canvas canvas) {
 		// draw claimed path
 		canvas.drawPath(claimedPath, claimedPathPaint);
-		// draw trailing path
-		canvas.drawPath(this.trailingPath, trailingPathPaint);
-		// draw trailing line
-		if(lastX != -1 && lastY != -1) {
-			canvas.drawLine(toScreenX(lastX), toScreenY(lastY),
-					toScreenX(x), toScreenY(y), trailingPathPaint);
+		if(!blink) {
+			// draw trailing path
+			canvas.drawPath(this.trailingPath, trailingPathPaint);
+			// draw trailing line
+			if(lastX != -1 && lastY != -1) {
+				canvas.drawLine(toScreenX(lastX), toScreenY(lastY),
+						toScreenX(x), toScreenY(y), trailingPathPaint);
+			}
+			super.draw(canvas);
 		}
-		super.draw(canvas);
 	}
 	
 	public ClaimedPath getClaimedPath() {
@@ -184,6 +217,9 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
     	this.lastY = omologSpider.lastY;
     	this.trailingPath.update(omologSpider.trailingPath);
     	this.claimedPath.update(omologSpider.claimedPath);
+    	this.blink = omologSpider.blink;
+    	this.deathTicker = omologSpider.deathTicker;
+    	this.deathTime = omologSpider.deathTime;
 	}
 
 	@Override
@@ -193,10 +229,20 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 
 	@Override
 	public void receive(ICollider collider) {
-		// TODO my collision actions
 		Log.d(Constants.LOG_TAG, "Receive collision from: " + collider);
-		// let the collider do its collision thing
-		collider.collide(this);
+		// if already dead => do nothing!
+		// collision bat => spider
+		if(collider instanceof Bat) {
+			if(movement.equals(Movement.CLAIM)) {
+				// let the collider do its collision thing
+				collider.collide(this);
+				// switch to Death
+				movement = Movement.DEATH;
+				this.deathTicker = 0;
+				this.deathTime = 0;
+				this.blink = true;
+			}
+		}
 	}
 
 	@Override

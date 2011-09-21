@@ -61,6 +61,10 @@ public interface Constants {
 	public static final int ALPHA_DECREMENT = 16;
 	public static final int MIN_ALPHA = 64;
 	public static final int SCORE_TEXT_FPS = 10;
+	
+	/* spider death configuration */
+	public static final float SPIDER_DEATH_BLINK_RATE = 0.3f; // seconds
+	public static final float SPIDER_DEATH_PERIOD = 3.0f; // seconds
 
 	/**
 	 * The sprites will be available only for certain
