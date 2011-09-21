@@ -225,8 +225,18 @@ public class ClaimedPath extends GeometricPath {
 			if(touchEdge != null)
 				return touchEdge;
 		}
-		throw new IllegalArgumentException("The movement vector " + movementVector 
+		throw new IllegalArgumentException("The movement vector " + print(movementVector) 
 				+ " does not intersect the claimed path " + this.toString());
+	}
+
+	private String print(
+			Pair<Pair<Float, Float>, Pair<Float, Float>> movementVector) {
+		StringBuilder sb = new StringBuilder();
+		Pair<Float, Float> e1 = movementVector.first;
+		Pair<Float, Float> e2 = movementVector.second;
+		sb.append("(" + e1.first + "," + e1.second + ") -> " );
+		sb.append("(" + e2.first + "," + e2.second + ")" );
+		return sb.toString();
 	}
 	
 }

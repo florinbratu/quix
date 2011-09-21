@@ -60,16 +60,39 @@ public class Bat extends AnimatedSprite implements IBounceable{
 	 * of the spider bouncing off the edge
 	 * of the Polygon wall
 	 * 
+	 * The formulae for the new velocity is the following:
+	 * (do the math ;)
+	 * Let (vx,vy) be the current velocity, and a be the 
+	 * angle that the edge does with the X axis.
+	 * Then, the new velocity (vx',vy') will be:
+	 * vx'= - vx * cos(2*a) - vy * sin(2*a)
+	 * vy'= - vx * sin(2*a) + vy * cos(2*a) 
+	 * 
 	 * @param edge the edge against which we bounce
 	 * @return the new bounce velocity
 	 */
 	private Pair<Float, Float> bounceVelocity(
 			Pair<Pair<Float, Float>, Pair<Float, Float>> edge) {
-		// TODO Auto-generated method stub
-		// trebe adunate unghiurile : unghiul de intrare al movementVector in edge
-		// plus unghiul relativ al edge la sistemul de referinta al nostru(screenRect)
-		// atentie la cazurile extreme!
+		double angle = angle(edge);
+		double vx = - getVelocityX() * Math.cos(2*angle) - getVelocityY() * Math.sin(2*angle);
+		double vy = - getVelocityX() * Math.sin(2*angle) + getVelocityY() * Math.cos(2*angle);
+		setVelocity((float)vx, (float)vy);
 		return null;
+	}
+
+	/**
+	 * Calculate the angle of the edge against the X axis
+	 * 
+	 * @param edge
+	 * @return
+	 */
+	private double angle(Pair<Pair<Float, Float>, Pair<Float, Float>> edge) {
+		Pair<Float, Float> e1 = edge.first;
+		Pair<Float, Float> e2 = edge.second;
+		if(e2.first == e1.first)
+			return 0.5 * Math.PI ;
+		else
+			return Math.atan2(e2.first - e1.first, e2.second - e1.second); 
 	}
 
 	@Override

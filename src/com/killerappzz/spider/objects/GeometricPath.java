@@ -2,12 +2,12 @@ package com.killerappzz.spider.objects;
 
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.util.Pair;
 
 import com.killerappzz.spider.geometry.Area;
 import com.killerappzz.spider.geometry.Path2D;
 import com.killerappzz.spider.geometry.PathIterator;
 import com.killerappzz.spider.geometry.Point2D;
+import com.killerappzz.spider.geometry.Shape;
 
 /**
  * An Android Path, but augmented with geometrical information,
