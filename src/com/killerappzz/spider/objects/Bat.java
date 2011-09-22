@@ -160,8 +160,8 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	}
 	
 	public Pair<Pair<Float, Float>, Pair<Float, Float>> getMovementVector() {
-		Pair<Float, Float> last = new Pair<Float,Float>(this.lastX, this.lastY);
-		Pair<Float, Float> current = new Pair<Float,Float>(this.getPositionX(), this.getPositionY());
+		Pair<Float, Float> last = new Pair<Float,Float>(toScreenX(this.lastX), toScreenY(this.lastY));
+		Pair<Float, Float> current = new Pair<Float,Float>(toScreenX(this.getPositionX()), toScreenY(this.getPositionY()));
 		return new Pair<Pair<Float, Float>, Pair<Float, Float>>(last, current);
 	}
 

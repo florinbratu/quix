@@ -245,8 +245,8 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 
 	private boolean collisionBatTest(Bat collider) {
 		// test if touches trailing line
-		if(SpiderPath.touch(getTrailingLine(), collider.getMovementVector()))
-			return true;
+		/*if(SpiderPath.touch(getTrailingLine(), collider.getMovementVector()))
+			return true;*/
 		if(this.trailingPath.getTouchEdge(collider.getMovementVector()) != null) 
 			return true;
 		return false;
