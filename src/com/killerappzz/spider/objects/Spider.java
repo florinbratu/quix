@@ -187,12 +187,13 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 			this.claimedPath.reduceToBounds(this.trailingPath, this.screenRect);
 		// close path
 		boundedPath.close();
-		// display the score
-		score.display(boundedPath.getCenter().x,boundedPath.getCenter().y);
 		// merge into claimed path
 		this.claimedPath.merge(boundedPath);
 		// recalculate area!
 		this.data.setClaimedArea(this.claimedPath.area());
+		// display the score. if zero score, don't even bother!
+		if(data.getGain() != 0)
+			score.display(boundedPath.getCenter().x,boundedPath.getCenter().y);
 		// reset trailing path - new adventures await us!
 		this.trailingPath.rewind();
 	}
@@ -209,6 +210,9 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 		updateBoundingBox();
 		// clear trailing path
 		this.trailingPath.rewind();
+		// hackish solution for bug: add initial moveTo to the new position
+		this.trailingPath.moveTo(toScreenX(this.getPositionX()), 
+				toScreenY(this.getPositionY()));
 		this.lastX = this.lastY = -1;
 	}
 	
