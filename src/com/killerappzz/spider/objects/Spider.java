@@ -90,14 +90,14 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	public void updatePosition(float timeDeltaSeconds) {
 		updateBoundingBox();
 		if(movement.equals(Movement.DEATH)) {
-			this.deathTime += timeDeltaSeconds;
-			if(this.deathTime > Constants.SPIDER_DEATH_PERIOD) 
-				respawn();
 			this.deathTicker += timeDeltaSeconds;
 			if(this.deathTicker > Constants.SPIDER_DEATH_BLINK_RATE) {
 				this.deathTicker -= Constants.SPIDER_DEATH_BLINK_RATE;
 				blink();
 			}
+			this.deathTime += timeDeltaSeconds;
+			if(this.deathTime > Constants.SPIDER_DEATH_PERIOD) 
+				respawn();
 		}
 		else
 			super.updatePosition(timeDeltaSeconds);
@@ -108,11 +108,15 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	}
 
 	private void respawn() {
-		this.movement = Movement.NONE;
 		this.blink = false;
-		// TODO 
-		// 1) set position to last position
-		// 2) clear trailing path
+		this.setVelocity(0, 0);
+		// set position to last position
+		setPosition(this.trailingPath.getStartPoint().x - this.width / 2, // hack, I think we have a bug we do too many times toScreenX
+				toScreenY(this.trailingPath.getStartPoint().y));
+		updateBoundingBox();
+		// clear trailing path
+		this.trailingPath.rewind();
+		this.lastX = this.lastY = -1;
 	}
 
 	private void updateBoundingBox() {
