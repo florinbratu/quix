@@ -113,9 +113,8 @@ public class Banner extends DrawableObject{
 		posY = this.screenHeight - (this.height - this.fontSize) / 2;
 		canvas.drawText(Constants.LIVES_TEXT, posX , posY, livesTextPaint);
 		posX += livesTextPaint.measureText(Constants.LIVES_TEXT);
-		this.lifeImg.y = 0;
 		for(int i = 0 ; i < data.getLifesCount() ; i++) {
-			this.lifeImg.x = posX;
+			this.lifeImg.setPosition(posX, 0);
 			this.lifeImg.draw(canvas);
 			posX += this.lifeImg.width;
 		}

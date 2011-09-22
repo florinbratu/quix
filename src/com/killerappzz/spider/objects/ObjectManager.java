@@ -56,7 +56,7 @@ public class ObjectManager {
 		// sort them according to Z order. this is fast for small list(like ours)
 		Collections.sort(drawables, new Comparator<DrawableObject>() {
 			public int compare(DrawableObject object1, DrawableObject object2) {
-				return object1.z - object2.z;
+				return object1.getZ() - object2.getZ();
 			}
 		});
 		// update the draw queue. This op will hold the lock of renderer => simply update the ref

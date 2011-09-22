@@ -67,8 +67,7 @@ public class ScoreGain extends DrawableObject{
 	}
 	
 	public void display(float posX, float posY) {
-		this.x = posX;
-		this.y = posY;
+		setPosition(posX, posY);
 		this.transparency = Constants.MAX_ALPHA;
 		setVelocity(0, -1);
 	}
@@ -86,8 +85,8 @@ public class ScoreGain extends DrawableObject{
 	@Override
 	public void draw(Canvas canvas) {
 		this.textPaint.setAlpha(transparency);
-		canvas.drawText("+" + data.getGain(), this.x, 
-				this.y, this.textPaint);
+		canvas.drawText("+" + data.getGain(), this.getPositionX(), 
+				this.getPositionY(), this.textPaint);
 	}
 	
 	@Override

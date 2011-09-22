@@ -77,8 +77,8 @@ public abstract class AnimatedSprite extends Sprite {
     
     @Override
     public void draw(Canvas canvas) {
-    	RectF destRect = new RectF(this.x, canvas.getHeight() - (this.y + this.height), 
-    			this.x + this.width, canvas.getHeight() - this.y);
+    	RectF destRect = new RectF(this.getPositionX(), canvas.getHeight() - (this.getPositionY() + this.height), 
+    			this.getPositionX() + this.width, canvas.getHeight() - this.getPositionY());
     	// display the selected window to be displayed
     	canvas.drawBitmap(this.mBitmap, sourceRect, destRect, null);
     }

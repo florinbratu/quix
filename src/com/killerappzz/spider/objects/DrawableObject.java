@@ -13,9 +13,9 @@ import com.killerappzz.spider.util.IDGenerator;
 public abstract class DrawableObject implements Cloneable{
 	
     // Position.
-    public float x;
-    public float y;
-    public int z;
+    private float x;
+    private float y;
+    private int z;
     
     // Velocity. Prin velocity eu inteleg directia in care tre sa se miste
     private float velocityX;
@@ -82,6 +82,27 @@ public abstract class DrawableObject implements Cloneable{
     
     public float getVelocityY() {
     	return velocityY;
+    }
+    
+    public float getPositionX() {
+    	return this.x;
+    }
+    
+    public float getPositionY() {
+    	return this.y;
+    }
+    
+    public void setPosition(float x, float y) {
+    	this.x = x;
+    	this.y = y;
+    }
+    
+    public int getZ() {
+    	return this.z;
+    }
+    
+    public void setZ(int z) {
+    	this.z = z;
     }
     
     public void updatePosition(float timeDeltaSeconds) {

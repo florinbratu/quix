@@ -60,7 +60,8 @@ public class Sprite extends DrawableObject {
         // 0,0 is the top-left point of the canvas.  But in order to align
         // with OpenGL's coordinate space (which places 0,0 and the lower-left),
         // for this test I flip the y coordinate.
-        canvas.drawBitmap(mBitmap, x, canvas.getHeight() - (y + height), null);
+        canvas.drawBitmap(mBitmap, this.getPositionX(), 
+        		canvas.getHeight() - (this.getPositionY() + height), null);
     }
     
 

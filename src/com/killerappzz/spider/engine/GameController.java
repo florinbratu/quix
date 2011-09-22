@@ -55,7 +55,7 @@ public class GameController extends SimpleOnGestureListener{
         // so some clipping will occur when it is drawn.
 		Background background = new Background(context, bitmapOpts, 
 				R.drawable.background, screenWidth, screenHeight );
-		background.z = 0;
+		background.setZ(0);
 		this.manager.add(background);
         
         // Make the spider
@@ -64,10 +64,9 @@ public class GameController extends SimpleOnGestureListener{
         		Constants.SPIDER_ANIMATION_FPS, screenWidth, screenHeight, data );
         // Spider location.
         int centerX = (screenWidth - (int)spider.width) / 2;
-        spider.x = centerX;
-        spider.y = 0;
+        spider.setPosition(centerX, 0);
         spider.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
-        spider.z = 1;
+        spider.setZ(1);
         this.manager.add(spider);
         data.setTotalArea( (screenWidth - spider.width) * (screenHeight - spider.height) );
         // register as collisions receiver
@@ -78,9 +77,8 @@ public class GameController extends SimpleOnGestureListener{
         		R.drawable.bat, screenWidth, screenHeight, 
         		Constants.BAT_ANIMATION_FRAMES_COUNT, Constants.BAT_ANIMATION_FPS);
         int centerY = (screenHeight - (int)bat.height) / 2;
-        bat.x = centerX;
-        bat.y = centerY;
-        bat.z = 2;
+        bat.setPosition(centerX, centerY);
+        bat.setZ(2);
         bat.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_BAT_SPEED_FACTOR;
         bat.startMovement();
         this.manager.add(bat);
@@ -90,9 +88,8 @@ public class GameController extends SimpleOnGestureListener{
         // make the score gain floating text
         ScoreGain gain = new ScoreGain(screenWidth, screenHeight, 
         		(int)(spider.height / 4), Constants.SCORE_TEXT_FPS, data );
-        gain.x = centerX;
-        gain.y = centerX;
-        gain.z = 3;
+        gain.setPosition(centerX, centerY);
+        gain.setZ(3);
         gain.speed = spider.speed;
         this.spider.setScoreGain(gain);
         this.manager.add(gain);
@@ -101,7 +98,7 @@ public class GameController extends SimpleOnGestureListener{
         Banner banner = new Banner(context, Constants.STATS_FONT_ASSET,
         		screenWidth	, (int)(spider.height / 2), screenWidth, screenHeight,
         		bitmapOpts, R.drawable.spider_life, data);
-        banner.z = 4;
+        banner.setZ(4);
         this.manager.add(banner);
 	}
 	
@@ -113,7 +110,7 @@ public class GameController extends SimpleOnGestureListener{
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		spider.setLastPosition(spider.x, spider.y);
+		spider.setLastPosition(spider.getPositionX(), spider.getPositionY());
 		spider.setVelocity(e2.getX() - e1.getX(), - e2.getY() + e1.getY() );
 		return true;
 	}

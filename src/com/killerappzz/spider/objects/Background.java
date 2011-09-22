@@ -22,7 +22,7 @@ public class Background extends Sprite{
 		super(context, bitmapOptions, resourceId, width, height);
 		this.originalBitmap = mBitmap;
 		this.mBitmap = Bitmap.createScaledBitmap(originalBitmap, width, height, true);
-		this.x = this.y = 0;
+		this.setPosition(0, 0);
 		setVelocity(0, 0);
 		this.width = width;
 		this.height = height;

@@ -22,8 +22,6 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
     // Last Position
     private float lastX = -1;
     private float lastY = -1;
-    // the bounding box
-    private final RectF boundingBox = new RectF();
     
     // line color
     private final Paint trailingPathPaint;
@@ -52,6 +50,8 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
     private float deathTicker = 0;
     private float deathTime = 0;
     private boolean blink = false;
+    // the bounding box
+    private final RectF boundingBox = new RectF();
     
     public Spider(Spider orig) {
     	super(orig);
@@ -116,10 +116,10 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	}
 
 	private void updateBoundingBox() {
-		this.boundingBox.left = this.x;
-		this.boundingBox.right = this.x + this.width;
-		this.boundingBox.top = this.y;
-		this.boundingBox.bottom = this.y + this.height;
+		this.boundingBox.left = this.getPositionX();
+		this.boundingBox.right = this.getPositionX() + this.width;
+		this.boundingBox.top = this.getPositionY();
+		this.boundingBox.bottom = this.getPositionY() + this.height;
 	}
 	
 	public void setLastPosition(float lastX, float lastY) {
@@ -157,7 +157,7 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 			// draw trailing line
 			if(lastX != -1 && lastY != -1) {
 				canvas.drawLine(toScreenX(lastX), toScreenY(lastY),
-						toScreenX(x), toScreenY(y), trailingPathPaint);
+						toScreenX(this.getPositionX()), toScreenY(this.getPositionY()), trailingPathPaint);
 			}
 			super.draw(canvas);
 		}
@@ -183,7 +183,7 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	private void contactBehaviour() {
 		setVelocity(0,0);
 		// add last line to path
-		this.trailingPath.lineTo(toScreenX(x), toScreenY(y));
+		this.trailingPath.lineTo(toScreenX(this.getPositionX()), toScreenY(this.getPositionY()));
 		// last line reset
 		this.lastX = this.lastY = -1;
 		// add to trailing path segments until bounds

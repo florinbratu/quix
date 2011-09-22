@@ -42,17 +42,17 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	@Override
 	public void updatePosition(float timeDeltaSeconds) {
 		// backup old pos
-		this.lastX = this.x;
-		this.lastY = this.y;
+		this.lastX = this.getPositionX();
+		this.lastY = this.getPositionY();
 		updateBoundingBox();
 		super.updatePosition(timeDeltaSeconds);
 	}
 
 	private void updateBoundingBox() {
-		this.boundingBox.left = this.x;
-		this.boundingBox.right = this.x + this.width;
-		this.boundingBox.top = this.y;
-		this.boundingBox.bottom = this.y + this.height;
+		this.boundingBox.left = this.getPositionX();
+		this.boundingBox.right = this.getPositionX() + this.width;
+		this.boundingBox.top = this.getPositionY();
+		this.boundingBox.bottom = this.getPositionY() + this.height;
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 			Pair<Pair<Float,Float>, Pair<Float,Float>> movement = 
 					new Pair<Pair<Float,Float>, Pair<Float,Float>>(
 							new Pair<Float,Float>(toScreenX(this.lastX), toScreenY(this.lastY)),
-							new Pair<Float,Float>(toScreenX(this.x), toScreenY(this.y)));
+							new Pair<Float,Float>(toScreenX(this.getPositionX()), toScreenY(this.getPositionY())));
 			Pair<Pair<Float,Float>, Pair<Float,Float>> edge = 
 					path.getTouchEdge(movement);
 			setBounceVelocity(edge);
