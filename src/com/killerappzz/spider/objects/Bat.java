@@ -158,5 +158,11 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	public RectF getBoundingBox() {
 		return this.boundingBox;
 	}
+	
+	public Pair<Pair<Float, Float>, Pair<Float, Float>> getMovementVector() {
+		Pair<Float, Float> last = new Pair<Float,Float>(this.lastX, this.lastY);
+		Pair<Float, Float> current = new Pair<Float,Float>(this.getPositionX(), this.getPositionY());
+		return new Pair<Pair<Float, Float>, Pair<Float, Float>>(last, current);
+	}
 
 }

@@ -36,6 +36,14 @@ public class Polygon extends GeometricPath {
 		this.screenRect = screenRect;
 	}
 	
+	public Polygon(Polygon orig) {
+		super(orig);
+		this.ID = orig.ID;
+		this.vertices = orig.vertices;
+		this.borderPoint = orig.borderPoint;
+		this.screenRect = orig.screenRect;
+	}
+	
 	@Override
 	public void moveTo(float x, float y) {
 		Pair<Float, Float> point = new Pair<Float, Float>(x, y);
@@ -149,7 +157,7 @@ public class Polygon extends GeometricPath {
 	 * The "different sides" test is being performed via cross product
 	 * Each side is identified by the sign of the cross product over the edge
 	 */
-	private boolean touch(Pair<Pair<Float, Float>, Pair<Float, Float>> edge,
+	public static boolean touch(Pair<Pair<Float, Float>, Pair<Float, Float>> edge,
 			Pair<Pair<Float, Float>, Pair<Float, Float>> movementVector) {
 		return Math.signum(crossprod(movementVector.first, edge)) 
 			!= Math.signum(crossprod(movementVector.second, edge));
@@ -165,7 +173,7 @@ public class Polygon extends GeometricPath {
 	 * @param edge is (e1,e2)
 	 * @return
 	 */
-	private double crossprod(Pair<Float, Float> point,
+	public static double crossprod(Pair<Float, Float> point,
 			Pair<Pair<Float, Float>, Pair<Float, Float>> edge) {
 		Pair<Float, Float> e1 = edge.first;
 		Pair<Float, Float> e2 = edge.second;

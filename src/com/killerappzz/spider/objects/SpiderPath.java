@@ -8,7 +8,7 @@ import android.graphics.RectF;
  * @author florin
  *
  */
-public class SpiderPath extends GeometricPath {
+public class SpiderPath extends Polygon {
 	
 	private float firstPointX;
 	private float firstPointY;
@@ -23,11 +23,19 @@ public class SpiderPath extends GeometricPath {
 	private final float rightX;
 	
 	public SpiderPath(RectF screenRect) {
-		super();
+		super(screenRect);
 		this.bottomY = screenRect.bottom;
 		this.topY = screenRect.top;
 		this.leftX = screenRect.left;
 		this.rightX = screenRect.right;
+	}
+
+	public SpiderPath(SpiderPath trailingPath) {
+		super(trailingPath);
+		this.bottomY = 0;
+		this.topY = 0;
+		this.leftX = 0;
+		this.rightX = 0;
 	}
 
 	/** 

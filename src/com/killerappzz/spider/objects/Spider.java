@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.Log;
+import android.util.Pair;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
@@ -26,7 +27,7 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
     // line color
     private final Paint trailingPathPaint;
     // recent path took by spider
-    private final GeometricPath trailingPath;
+    private final SpiderPath trailingPath;
     // path claimed so far
     private final ClaimedPath claimedPath;
     private final Paint claimedPathPaint;
@@ -65,7 +66,7 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
     	this.deathTicker = orig.deathTicker;
     	this.deathTime = orig.deathTime;
     	this.blink = orig.blink;
-    	this.trailingPath = new GeometricPath(orig.trailingPath);
+    	this.trailingPath = new SpiderPath(orig.trailingPath);
     	this.claimedPath = new ClaimedPath(orig.claimedPath);
     }
 
@@ -96,8 +97,9 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 				blink();
 			}
 			this.deathTime += timeDeltaSeconds;
-			if(this.deathTime > Constants.SPIDER_DEATH_PERIOD) 
+			if(this.deathTime > Constants.SPIDER_DEATH_PERIOD) { 
 				respawn();
+			}
 		}
 		else
 			super.updatePosition(timeDeltaSeconds);
@@ -233,7 +235,27 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 
 	@Override
 	public boolean collisionTest(ICollider collider) {
-		return RectF.intersects(this.boundingBox, collider.getBoundingBox());
+		// test if it intersects with Spider
+		if(RectF.intersects(this.boundingBox, collider.getBoundingBox()))
+			return true;
+		if(collider instanceof Bat) 
+			return collisionBatTest((Bat)collider);
+		return false; 
+	}
+
+	private boolean collisionBatTest(Bat collider) {
+		// test if touches trailing line
+		if(SpiderPath.touch(getTrailingLine(), collider.getMovementVector()))
+			return true;
+		if(this.trailingPath.getTouchEdge(collider.getMovementVector()) != null) 
+			return true;
+		return false;
+	}
+
+	private Pair<Pair<Float, Float>, Pair<Float, Float>> getTrailingLine() {
+		Pair<Float, Float> v1 = new Pair<Float, Float>(lastX, lastY);
+		Pair<Float, Float> v2 = new Pair<Float, Float>(this.getPositionX(), this.getPositionY());
+		return new Pair<Pair<Float, Float>, Pair<Float, Float>>(v1, v2);
 	}
 
 	@Override
