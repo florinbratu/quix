@@ -245,16 +245,17 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 
 	private boolean collisionBatTest(Bat collider) {
 		// test if touches trailing line
-		/*if(SpiderPath.touch(getTrailingLine(), collider.getMovementVector()))
-			return true;*/
+		if(SpiderPath.touch(getTrailingLine(), collider.getMovementVector())
+				&& SpiderPath.touch(collider.getMovementVector(), getTrailingLine()))
+			return true;
 		if(this.trailingPath.getTouchEdge(collider.getMovementVector()) != null) 
 			return true;
 		return false;
 	}
 
 	private Pair<Pair<Float, Float>, Pair<Float, Float>> getTrailingLine() {
-		Pair<Float, Float> v1 = new Pair<Float, Float>(lastX, lastY);
-		Pair<Float, Float> v2 = new Pair<Float, Float>(this.getPositionX(), this.getPositionY());
+		Pair<Float, Float> v1 = new Pair<Float, Float>(toScreenX(lastX), toScreenY(lastY));
+		Pair<Float, Float> v2 = new Pair<Float, Float>(toScreenX(this.getPositionX()), toScreenY(this.getPositionY()));
 		return new Pair<Pair<Float, Float>, Pair<Float, Float>>(v1, v2);
 	}
 
