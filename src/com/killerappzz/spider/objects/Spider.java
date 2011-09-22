@@ -107,18 +107,6 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 		this.blink = !blink;
 	}
 
-	private void respawn() {
-		this.blink = false;
-		this.setVelocity(0, 0);
-		// set position to last position
-		setPosition(this.trailingPath.getStartPoint().x - this.width / 2, // hack, I think we have a bug we do too many times toScreenX
-				toScreenY(this.trailingPath.getStartPoint().y));
-		updateBoundingBox();
-		// clear trailing path
-		this.trailingPath.rewind();
-		this.lastX = this.lastY = -1;
-	}
-
 	private void updateBoundingBox() {
 		this.boundingBox.left = this.getPositionX();
 		this.boundingBox.right = this.getPositionX() + this.width;
@@ -145,10 +133,16 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	@Override
 	public void setVelocity(float velocityX, float velocityY) {
 		super.setVelocity(velocityX, velocityY);
-		if(velocityX == 0 && velocityY == 0) 
+		this.movement = Movement.CLAIM;
+		/*if(velocityX == 0.0f && velocityY == 0.0f) 
 			this.movement = Movement.NONE;
 		else 
-			this.movement = Movement.CLAIM;
+			this.movement = Movement.CLAIM;*/
+	}
+	
+	public void stopMovement() {
+		super.setVelocity(0, 0);
+		this.movement = Movement.NONE;
 	}
 	
 	@Override
@@ -185,7 +179,7 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	 * Common behaviour for border and claimed path touch
 	 */
 	private void contactBehaviour() {
-		setVelocity(0,0);
+		stopMovement();
 		// add last line to path
 		this.trailingPath.lineTo(toScreenX(this.getPositionX()), toScreenY(this.getPositionY()));
 		// last line reset
@@ -203,6 +197,21 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 		this.data.setClaimedArea(this.claimedPath.area());
 		// reset trailing path - new adventures await us!
 		this.trailingPath.rewind();
+	}
+	
+	private void respawn() {
+		this.blink = false;
+		this.stopMovement();
+		// set position to last position
+		if(this.trailingPath.isEmpty()) 
+			setPosition(this.lastX, this.lastY);
+		else 
+			setPosition(this.trailingPath.getStartPoint().x - this.width / 2, // hack, I think we have a bug we do too many times toScreenX TODO investigate bug
+				toScreenY(this.trailingPath.getStartPoint().y));
+		updateBoundingBox();
+		// clear trailing path
+		this.trailingPath.rewind();
+		this.lastX = this.lastY = -1;
 	}
 	
 	@Override
