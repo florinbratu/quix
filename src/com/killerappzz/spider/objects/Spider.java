@@ -134,10 +134,6 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	public void setVelocity(float velocityX, float velocityY) {
 		super.setVelocity(velocityX, velocityY);
 		this.movement = Movement.CLAIM;
-		/*if(velocityX == 0.0f && velocityY == 0.0f) 
-			this.movement = Movement.NONE;
-		else 
-			this.movement = Movement.CLAIM;*/
 	}
 	
 	public void stopMovement() {
