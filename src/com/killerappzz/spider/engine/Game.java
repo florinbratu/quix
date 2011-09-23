@@ -121,4 +121,8 @@ public class Game {
 		this.engine.onResume();
 	}
 
+	public boolean isPaused() {
+		return engine.isPaused();
+	}
+
 }

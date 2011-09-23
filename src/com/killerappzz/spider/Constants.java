@@ -119,4 +119,10 @@ public interface Constants {
 	
 	// programming-related constants
 	public static final String LOG_TAG = "QUIX";
+	// quit dialog ID
+	public static final int QUIT_GAME_DIALOG_ID = 0;
+	public static final int ROLL_TO_FACE_BUTTON_DELAY = 400;
+	// avoid touch events flooding
+	public static final int TOUCH_EVENTS_FUSE = 32;
+	
 }

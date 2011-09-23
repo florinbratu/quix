@@ -66,4 +66,8 @@ public class Engine{
     		mGameThread.resumeGame();
     }
 
+	public boolean isPaused() {
+		return (mRunning && mGameThread != null && mGameThread.getPaused());
+	}
+
 }
