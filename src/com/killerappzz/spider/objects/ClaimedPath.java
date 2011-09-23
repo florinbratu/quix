@@ -110,7 +110,7 @@ public class ClaimedPath extends GeometricPath {
 			path.lineTo(endClosest.getX(), endClosest.getY());
 			// it's enough to go from endpoint to edge
 			// by following the polygon line containing the endpoint
-			pushToBounds(path, endPoly, endClosest);
+			pushToBounds(path, endPoly, endClosest, startPoint);
 			return path;
 		} else if(startPoly.equals(endPoly)) {
 			// start and end points are on the same polygon
@@ -136,7 +136,7 @@ public class ClaimedPath extends GeometricPath {
 			// goto closest vertex from endpoint
 			ret.lineTo(endClosest.getX(), endClosest.getY());
 			// add the path to the bounds on the end polygon
-			pushToBounds(ret, endPoly, endClosest);
+			pushToBounds(ret, endPoly, endClosest, ret.getStartPoint());
 			return ret;
 		}
 	}
@@ -144,6 +144,7 @@ public class ClaimedPath extends GeometricPath {
 	private GeometricPath getPathToStartPoint(Polygon bound, 
 			Point2D startPoint, RectF screenRect) {
 		GeometricPath path = new SpiderPath(screenRect);
+		Point2D borderVertex = bound.getClosestBorderVertex(startPoint);
 		boolean found = false;
 		for(Point2D vertex : bound.vertices) {
 			if(found) {
@@ -152,10 +153,9 @@ public class ClaimedPath extends GeometricPath {
 						vertex.getY() == startPoint.getY())
 					break;
 			} else {
-				if(vertex.getX() == bound.getBorderPoint().getX() && 
-						vertex.getY() == bound.getBorderPoint().getY()) {
-					path.moveTo(bound.getBorderPoint().getX(), 
-							bound.getBorderPoint().getY());
+				if(vertex.getX() == borderVertex.getX() && 
+						vertex.getY() == borderVertex.getY()) {
+					path.moveTo(borderVertex.getX(), borderVertex.getY());
 					found = true;
 				}
 			}
@@ -181,13 +181,20 @@ public class ClaimedPath extends GeometricPath {
 		}
 	}
 
-	private void pushToBounds(GeometricPath path, Polygon bound, Point2D endPoint) {
+	/*
+	 * The omolog point is a point on border and we prefer to have the second 
+	 * border point on the same border - if exists. Otherwise we have 
+	 * some pretty nasty merges
+	 */
+	private void pushToBounds(GeometricPath path, Polygon bound, 
+			Point2D endPoint, Point2D omolog) {
 		boolean found = false;
+		Point2D borderVertex = bound.getSameBorderVertex(omolog);
 		for(Point2D vertex : bound.vertices) {
 			if(found) {
 				path.lineTo(vertex.getX(), vertex.getY());
-				if(vertex.getX() == bound.getBorderPoint().getX() && 
-						vertex.getY() == bound.getBorderPoint().getY())
+				if(vertex.getX() == borderVertex.getX() && 
+						vertex.getY() == borderVertex.getY())
 					break;
 			}
 			else {

@@ -1,5 +1,6 @@
 package com.killerappzz.spider.objects;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.RectF;
@@ -24,7 +25,7 @@ public class Polygon extends GeometricPath {
 
 	final List<Point2D> vertices;
 	// the point which is also located on the edge
-	private Point2D borderPoint;
+	private List<Point2D> borderVertices;
 	// for comparison. faster than comparing all vertices!
 	private final long ID;
 	private final RectF screenRect;
@@ -32,7 +33,7 @@ public class Polygon extends GeometricPath {
 	public Polygon(RectF screenRect) {
 		this.ID = IDGenerator.generate();
 		this.vertices = new CircularLinkedList<Point2D>();
-		this.borderPoint = null;
+		this.borderVertices = new LinkedList<Point2D>();
 		this.screenRect = screenRect;
 	}
 	
@@ -40,7 +41,7 @@ public class Polygon extends GeometricPath {
 		super(orig);
 		this.ID = orig.ID;
 		this.vertices = orig.vertices;
-		this.borderPoint = orig.borderPoint;
+		this.borderVertices = orig.borderVertices;
 		this.screenRect = orig.screenRect;
 	}
 	
@@ -48,7 +49,7 @@ public class Polygon extends GeometricPath {
 	public void moveTo(float x, float y) {
 		Point2D point = new Point2D.Float(x, y);
 		if(boundsTest(this.screenRect, x, y))
-			this.borderPoint = point;
+			this.borderVertices.add(point);
 		this.vertices.add(point);
 		super.moveTo(x, y);
 	}
@@ -57,7 +58,7 @@ public class Polygon extends GeometricPath {
 	public void lineTo(float x, float y) {
 		Point2D point = new Point2D.Float(x, y);
 		if(boundsTest(this.screenRect, x,y))
-			this.borderPoint = point;
+			this.borderVertices.add(point);
 		this.vertices.add(point);
 		super.lineTo(x, y);
 	}
@@ -65,14 +66,14 @@ public class Polygon extends GeometricPath {
 	@Override
 	public void rewind() {
 		this.vertices.clear();
-		this.borderPoint = null;
+		this.borderVertices.clear();
 		super.rewind();
 	}
 	
 	@Override
 	public void reset() {
 		this.vertices.clear();
-		this.borderPoint = null;
+		this.borderVertices.clear();
 		super.reset();
 	}
 	
@@ -84,10 +85,39 @@ public class Polygon extends GeometricPath {
 		return other.ID == this.ID;
 	}
 	
-	public Point2D getBorderPoint() {
-		return this.borderPoint;
+	public Point2D getClosestBorderVertex(Point2D point) {
+		// get the border point closest to the given point
+		double dist = Double.MAX_VALUE;
+		Point2D closestPoint = null;
+		for(Point2D vertex: this.borderVertices) {
+			double d = vertex.distance(point);
+			if( d < dist) {
+				dist = d;
+				closestPoint = vertex;
+			}
+		}
+		return closestPoint;
 	}
 	
+	/**
+	 * Try to return a point that is on the same 
+	 * border as the given omolog, if exists.
+	 * Otherwise default to the closest border point
+	 *  
+	 * @param omolog the point which is on the border already
+	 * @return
+	 */
+	public Point2D getSameBorderVertex(Point2D omolog) {
+		for(Point2D vertex: this.borderVertices) 
+			if( sameBorder(vertex, omolog)) 
+				return vertex;
+		return getClosestBorderVertex(omolog);
+	}
+	
+	private boolean sameBorder(Point2D vertex, Point2D omolog) {
+		return vertex.getX() == omolog.getX() || vertex.getY() == omolog.getY();
+	}
+
 	/**
 	 * Get closest vertex to given point
 	 */
