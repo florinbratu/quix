@@ -11,6 +11,7 @@ import android.util.Pair;
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.engine.GameData;
+import com.killerappzz.spider.geometry.Edge2D;
 
 /**
  * The Spider.
@@ -193,7 +194,7 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 		this.data.setClaimedArea(this.claimedPath.area());
 		// display the score. if zero score, don't even bother!
 		if(data.getGain() != 0)
-			score.display(boundedPath.getCenter().x,boundedPath.getCenter().y);
+			score.display((float)boundedPath.getCenter().getX(), (float)boundedPath.getCenter().getY());
 		// reset trailing path - new adventures await us!
 		this.trailingPath.rewind();
 	}
@@ -205,8 +206,8 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 		if(this.trailingPath.isEmpty()) 
 			setPosition(this.lastX, this.lastY);
 		else 
-			setPosition(this.trailingPath.getStartPoint().x - this.width / 2, // hack, I think we have a bug we do too many times toScreenX TODO investigate bug
-				toScreenY(this.trailingPath.getStartPoint().y));
+			setPosition((float)this.trailingPath.getStartPoint().getX() - this.width / 2, // hack, I think we have a bug we do too many times toScreenX TODO investigate bug
+				toScreenY((float)this.trailingPath.getStartPoint().getY()));
 		updateBoundingBox();
 		// clear trailing path
 		this.trailingPath.rewind();
@@ -249,18 +250,19 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 
 	private boolean collisionBatTest(Bat collider) {
 		// test if touches trailing line
-		if(SpiderPath.touch(getTrailingLine(), collider.getMovementVector())
-				&& SpiderPath.touch(collider.getMovementVector(), getTrailingLine()))
+		Edge2D trailingLine = getTrailingLine();
+		Edge2D movementVector = collider.getMovementVector();
+		if(trailingLine.touches(movementVector) 
+				&& movementVector.touches(trailingLine))
 			return true;
 		if(this.trailingPath.getTouchEdge(collider.getMovementVector()) != null) 
 			return true;
 		return false;
 	}
 
-	private Pair<Pair<Float, Float>, Pair<Float, Float>> getTrailingLine() {
-		Pair<Float, Float> v1 = new Pair<Float, Float>(toScreenX(lastX), toScreenY(lastY));
-		Pair<Float, Float> v2 = new Pair<Float, Float>(toScreenX(this.getPositionX()), toScreenY(this.getPositionY()));
-		return new Pair<Pair<Float, Float>, Pair<Float, Float>>(v1, v2);
+	private Edge2D getTrailingLine() {
+		return new Edge2D.Float(toScreenX(lastX), toScreenY(lastY), 
+				toScreenX(this.getPositionX()), toScreenY(this.getPositionY()));
 	}
 
 	@Override

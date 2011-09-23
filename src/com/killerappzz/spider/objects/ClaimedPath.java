@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.RectF;
-import android.util.Pair;
 
+import com.killerappzz.spider.geometry.Edge2D;
 import com.killerappzz.spider.geometry.Point2D;
 
 /**
@@ -71,20 +71,20 @@ public class ClaimedPath extends GeometricPath {
 	 * @param screenRect the rectangle defining the screen area
 	 */
 	public GeometricPath reduceToBounds(GeometricPath path, RectF screenRect) {
-		Point2D.Float startPoint = path.getStartPoint();
-		Point2D.Float endPoint = path.getEndPoint();
+		Point2D startPoint = path.getStartPoint();
+		Point2D endPoint = path.getEndPoint();
 		// if both points on border
 		if(boundsTest(screenRect, startPoint) && boundsTest(screenRect, endPoint))
 			// nothing to be done
 			return path;
 		Polygon endPoly = null, startPoly = null;
-		Point2D.Float endClosest = null, startClosest = null;
+		Point2D endClosest = null, startClosest = null;
 		for(Polygon p : polygons) {
-			if(p.contains(endPoint.x, endPoint.y)) {
+			if(p.contains(endPoint.getX(), endPoint.getY())) {
 				endPoly = p;
 				endClosest = p.getClosestVertex(endPoint);
 			}
-			if(p.contains(startPoint.x, startPoint.y)) {
+			if(p.contains(startPoint.getX(), startPoint.getY())) {
 				startPoly = p;
 				startClosest = p.getClosestVertex(startPoint);
 			}
@@ -96,7 +96,7 @@ public class ClaimedPath extends GeometricPath {
 				// get the path from the bound point on start polygon to the start point
 				GeometricPath ret = getPathToStartPoint(startPoly, startClosest, screenRect);
 				// add the start point
-				ret.lineTo(startPoint.x, startPoint.y);
+				ret.lineTo(startPoint.getX(), startPoint.getY());
 				// add the path done by the spider
 				ret.addGeometricPath(path);
 				return ret;
@@ -107,7 +107,7 @@ public class ClaimedPath extends GeometricPath {
 		} else if( startPoly == null ) {
 			// the starting point is on the edge
 			// move to endpoint closest on end path
-			path.lineTo(endClosest.x, endClosest.y);
+			path.lineTo(endClosest.getX(), endClosest.getY());
 			// it's enough to go from endpoint to edge
 			// by following the polygon line containing the endpoint
 			pushToBounds(path, endPoly, endClosest);
@@ -118,11 +118,11 @@ public class ClaimedPath extends GeometricPath {
 			// but first! get to the closest vertex
 			// start closest
 			GeometricPath ret = new SpiderPath(screenRect);
-			ret.moveTo(startClosest.x, startClosest.y);
-			ret.lineTo(startPoint.x, startPoint.y);
+			ret.moveTo(startClosest.getX(), startClosest.getY());
+			ret.lineTo(startPoint.getX(), startPoint.getY());
 			ret.addGeometricPath(path);
 			// end closest
-			ret.lineTo(endClosest.x, endClosest.y);
+			ret.lineTo(endClosest.getX(), endClosest.getY());
 			pushEndpoint(ret, endPoly, startClosest, endClosest);
 			return ret;
 		} else {
@@ -130,11 +130,11 @@ public class ClaimedPath extends GeometricPath {
 			// get the path from the bound point on start polygon to the start point
 			GeometricPath ret = getPathToStartPoint(startPoly, startClosest, screenRect);
 			// add the start point
-			ret.lineTo(startPoint.x, startPoint.y);
+			ret.lineTo(startPoint.getX(), startPoint.getY());
 			// add the path done by the spider
 			ret.addGeometricPath(path);
 			// goto closest vertex from endpoint
-			ret.lineTo(endClosest.x, endClosest.y);
+			ret.lineTo(endClosest.getX(), endClosest.getY());
 			// add the path to the bounds on the end polygon
 			pushToBounds(ret, endPoly, endClosest);
 			return ret;
@@ -142,20 +142,20 @@ public class ClaimedPath extends GeometricPath {
 	}
 
 	private GeometricPath getPathToStartPoint(Polygon bound, 
-			Point2D.Float startPoint, RectF screenRect) {
+			Point2D startPoint, RectF screenRect) {
 		GeometricPath path = new SpiderPath(screenRect);
 		boolean found = false;
-		for(Pair<Float,Float> vertex : bound.vertices) {
+		for(Point2D vertex : bound.vertices) {
 			if(found) {
-				path.lineTo(vertex.first, vertex.second);
-				if(vertex.first == startPoint.x && 
-						vertex.second == startPoint.y)
+				path.lineTo(vertex.getX(), vertex.getY());
+				if(vertex.getX() == startPoint.getX() && 
+						vertex.getY() == startPoint.getY())
 					break;
 			} else {
-				if(vertex.first == bound.getBorderPoint().x && 
-						vertex.second == bound.getBorderPoint().y) {
-					path.moveTo(bound.getBorderPoint().x, 
-							bound.getBorderPoint().y);
+				if(vertex.getX() == bound.getBorderPoint().getX() && 
+						vertex.getY() == bound.getBorderPoint().getY()) {
+					path.moveTo(bound.getBorderPoint().getX(), 
+							bound.getBorderPoint().getY());
 					found = true;
 				}
 			}
@@ -164,36 +164,35 @@ public class ClaimedPath extends GeometricPath {
 	}
 
 	private void pushEndpoint(GeometricPath path, Polygon endPoly, 
-			Point2D.Float startPoint, Point2D.Float endPoint) {
+			Point2D startPoint, Point2D endPoint) {
 		boolean found = false;
-		for(Pair<Float,Float> vertex : endPoly.vertices) {
+		for(Point2D vertex : endPoly.vertices) {
 			if(found) {
-				if(vertex.first == startPoint.x && 
-						vertex.second == startPoint.y)
+				if(vertex.getX() == startPoint.getX() && 
+						vertex.getY() == startPoint.getY())
 					break;
-				path.lineTo(vertex.first, vertex.second);
+				path.lineTo(vertex.getX(), vertex.getY());
 			}
 			else {
-				if(vertex.first == endPoint.x && 
-						vertex.second == endPoint.y)
+				if(vertex.getX() == endPoint.getX() && 
+						vertex.getY() == endPoint.getY())
 					found = true;
 			}
 		}
 	}
 
-	private void pushToBounds(GeometricPath path, Polygon bound, 
-			Point2D.Float endPoint) {
+	private void pushToBounds(GeometricPath path, Polygon bound, Point2D endPoint) {
 		boolean found = false;
-		for(Pair<Float,Float> vertex : bound.vertices) {
+		for(Point2D vertex : bound.vertices) {
 			if(found) {
-				path.lineTo(vertex.first, vertex.second);
-				if(vertex.first == bound.getBorderPoint().x && 
-						vertex.second == bound.getBorderPoint().y)
+				path.lineTo(vertex.getX(), vertex.getY());
+				if(vertex.getX() == bound.getBorderPoint().getX() && 
+						vertex.getY() == bound.getBorderPoint().getY())
 					break;
 			}
 			else {
-				if(vertex.first == endPoint.x && 
-						vertex.second == endPoint.y) 
+				if(vertex.getX() == endPoint.getX() && 
+						vertex.getY() == endPoint.getY()) 
 					found = true;
 			}
 		}
@@ -217,9 +216,8 @@ public class ClaimedPath extends GeometricPath {
 	 * @return the edge touched by the movement vector
 	 * @throws IllegalArgumentException if the movement vector does not touch the claimed path
 	 */
-	public Pair<Pair<Float, Float>, Pair<Float, Float>> getTouchEdge(
-			Pair<Pair<Float, Float>, Pair<Float, Float>> movementVector) {
-		Pair<Pair<Float, Float>, Pair<Float, Float>> touchEdge = null;
+	public Edge2D getTouchEdge(Edge2D movementVector) {
+		Edge2D touchEdge = null;
 		for(Polygon poly : this.polygons) {
 			touchEdge = poly.getTouchEdge(movementVector);
 			if(touchEdge != null)
@@ -229,13 +227,12 @@ public class ClaimedPath extends GeometricPath {
 				+ " does not intersect the claimed path " + this.toString());
 	}
 
-	private String print(
-			Pair<Pair<Float, Float>, Pair<Float, Float>> movementVector) {
+	private String print(Edge2D movementVector) {
 		StringBuilder sb = new StringBuilder();
-		Pair<Float, Float> e1 = movementVector.first;
-		Pair<Float, Float> e2 = movementVector.second;
-		sb.append("(" + e1.first + "," + e1.second + ") -> " );
-		sb.append("(" + e2.first + "," + e2.second + ")" );
+		Point2D e1 = movementVector.getStartPoint();
+		Point2D e2 = movementVector.getEndPoint();
+		sb.append("(" + e1.getX() + "," + e1.getY() + ") -> " );
+		sb.append("(" + e2.getX() + "," + e2.getY() + ")" );
 		return sb.toString();
 	}
 	

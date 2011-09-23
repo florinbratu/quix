@@ -21,10 +21,10 @@ public class GeometricPath extends Path {
 	// so we can do advanced ops on it
 	private final Path2D geometry;
 	// store the start point and end point
-	private final Point2D.Float startPoint;
-	private final Point2D.Float endPoint;
+	private final Point2D startPoint;
+	private final Point2D endPoint;
 	// the geometrical center of the Path. for the score ;)
-	private final Point2D.Float center;
+	private final Point2D center;
 	// the path number of points
 	private int vertexCount;
 	
@@ -48,23 +48,29 @@ public class GeometricPath extends Path {
 	@Override
 	public void moveTo(float x, float y) {
 		this.geometry.moveTo(x, y);
-		this.startPoint.x = x;
-		this.startPoint.y = y;
-		this.center.x = x;
-		this.center.y = y;
+		this.startPoint.setLocation(x, y);
+		this.endPoint.setLocation(x, y);
+		this.center.setLocation(x, y);
 		this.vertexCount++;
 		super.moveTo(x, y);
+	}
+	
+	public void moveTo(double x, double y) {
+		moveTo((float)x, (float)y);
 	}
 	
 	@Override
 	public void lineTo(float x, float y) {
 		this.geometry.lineTo(x, y);
-		this.endPoint.x = x;
-		this.endPoint.y = y;
-		this.center.x = (vertexCount * center.x + x) / (vertexCount + 1);
-		this.center.y = (vertexCount * center.y + y) / (vertexCount + 1);
+		this.endPoint.setLocation(x, y);
+		this.center.setLocation((vertexCount * center.getX() + x) / (vertexCount + 1), 
+				(vertexCount * center.getY() + y) / (vertexCount + 1));
 		this.vertexCount++;
 		super.lineTo(x, y);
+	}
+	
+	public void lineTo(double x, double y) {
+		this.lineTo((float)x, (float)y);
 	}
 	
 	@Override
@@ -77,7 +83,7 @@ public class GeometricPath extends Path {
 	public void rewind() {
 		this.geometry.reset();
 		// reset center
-		this.center.x = this.center.y = 0;
+		this.center.setLocation(0, 0);
 		this.vertexCount = 0;
 		super.rewind();
 	}
@@ -163,19 +169,23 @@ public class GeometricPath extends Path {
 		return this.geometry.contains(x, y);
 	}
 	
+	public boolean contains(double x, double y) {
+		return contains((float)x, (float)y);
+	}
+	
 	public Path2D getGeometry() {
 		return geometry;
 	}
 	
-	public Point2D.Float getStartPoint() {
+	public Point2D getStartPoint() {
 		return this.startPoint;
 	}
 	
-	public Point2D.Float getEndPoint() {
+	public Point2D getEndPoint() {
 		return this.endPoint;
 	}
 	
-	public Point2D.Float getCenter() {
+	public Point2D getCenter() {
 		return this.center;
 	}
 	
@@ -184,8 +194,8 @@ public class GeometricPath extends Path {
 			|| bounds.left == x || bounds.right == x;
 	}
 	
-	protected boolean boundsTest(RectF bounds, Point2D.Float point) {
-		return boundsTest(bounds, point.x, point.y);
+	protected boolean boundsTest(RectF bounds, Point2D point) {
+		return boundsTest(bounds, (float)point.getX(), (float)point.getY());
 	}
 	
 	@Override
@@ -199,12 +209,12 @@ public class GeometricPath extends Path {
 			sb.append(";Coords:(" + coords[0] + "," + coords[1] + ");");
 			it.next();
 		}
-		sb.append("Geometrical center: " + "(" + center.x + "," + center.y + ");");
+		sb.append("Geometrical center: " + "(" + center.getX() + "," + center.getY() + ");");
 		return sb.toString();
 	}
 
 	public void update(GeometricPath trailingPath) {
 		set(trailingPath);
 	}
-
+	
 }

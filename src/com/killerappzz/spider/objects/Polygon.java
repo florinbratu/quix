@@ -3,8 +3,8 @@ package com.killerappzz.spider.objects;
 import java.util.List;
 
 import android.graphics.RectF;
-import android.util.Pair;
 
+import com.killerappzz.spider.geometry.Edge2D;
 import com.killerappzz.spider.geometry.Point2D;
 import com.killerappzz.spider.util.CircularLinkedList;
 import com.killerappzz.spider.util.IDGenerator;
@@ -22,16 +22,16 @@ import com.killerappzz.spider.util.IDGenerator;
  */
 public class Polygon extends GeometricPath {
 
-	final List<Pair<Float, Float>> vertices;
+	final List<Point2D> vertices;
 	// the point which is also located on the edge
-	private Pair<Float, Float> borderPoint;
+	private Point2D borderPoint;
 	// for comparison. faster than comparing all vertices!
 	private final long ID;
 	private final RectF screenRect;
 	
 	public Polygon(RectF screenRect) {
 		this.ID = IDGenerator.generate();
-		this.vertices = new CircularLinkedList<Pair<Float,Float>>();
+		this.vertices = new CircularLinkedList<Point2D>();
 		this.borderPoint = null;
 		this.screenRect = screenRect;
 	}
@@ -46,8 +46,8 @@ public class Polygon extends GeometricPath {
 	
 	@Override
 	public void moveTo(float x, float y) {
-		Pair<Float, Float> point = new Pair<Float, Float>(x, y);
-		if(boundsTest(this.screenRect, x,y))
+		Point2D point = new Point2D.Float(x, y);
+		if(boundsTest(this.screenRect, x, y))
 			this.borderPoint = point;
 		this.vertices.add(point);
 		super.moveTo(x, y);
@@ -55,7 +55,7 @@ public class Polygon extends GeometricPath {
 	
 	@Override
 	public void lineTo(float x, float y) {
-		Pair<Float, Float> point = new Pair<Float, Float>(x, y);
+		Point2D point = new Point2D.Float(x, y);
 		if(boundsTest(this.screenRect, x,y))
 			this.borderPoint = point;
 		this.vertices.add(point);
@@ -84,30 +84,24 @@ public class Polygon extends GeometricPath {
 		return other.ID == this.ID;
 	}
 	
-	public Point2D.Float getBorderPoint() {
-		return new Point2D.Float(this.borderPoint.first, this.borderPoint.second);
+	public Point2D getBorderPoint() {
+		return this.borderPoint;
 	}
 	
 	/**
 	 * Get closest vertex to given point
 	 */
-	public Point2D.Float getClosestVertex(Point2D.Float point) {
+	public Point2D getClosestVertex(Point2D point) {
 		double dist = Double.MAX_VALUE;
-		Pair<Float,Float> closestVertex = null;
-		for(Pair<Float,Float> vertex: this.vertices) {
-			double d = distance(vertex,point);
+		Point2D closestVertex = null;
+		for(Point2D vertex: this.vertices) {
+			double d = vertex.distance(point);
 			if( d < dist) {
 				dist = d;
 				closestVertex = vertex;
 			}
 		}
-		return new Point2D.Float(closestVertex.first, closestVertex.second);
-	}
-	
-	/* Euclidean distance between two points */
-	private double distance(Pair<Float,Float> vertex, Point2D.Float point) {
-		return Math.sqrt( (vertex.first - point.x) * (vertex.first - point.x)
-				+ (vertex.second - point.y) * (vertex.second - point.y));
+		return closestVertex;
 	}
 	
 	/**
@@ -117,13 +111,13 @@ public class Polygon extends GeometricPath {
 	 */
 	public float area() {
 		float area = 0;
-		Pair<Float, Float> currentVertex;
-		Pair<Float, Float> nextVertex;
+		Point2D currentVertex;
+		Point2D nextVertex;
 		for( int i = 0 ; i < this.vertices.size() - 1; i++) {
 			currentVertex = this.vertices.get(i);
 			nextVertex = this.vertices.get(i+1);
-			area += currentVertex.first * nextVertex.second - 
-				currentVertex.second * nextVertex.first;
+			area += currentVertex.getX() * nextVertex.getY() - 
+				currentVertex.getY() * nextVertex.getX();
 		}
 		area = Math.abs( 0.5f * area);
 		return area;
@@ -134,54 +128,18 @@ public class Polygon extends GeometricPath {
 	 * @param movementVector
 	 * @return the edge which we touched or null if this polygon hasn't been touched
 	 */
-	public Pair<Pair<Float, Float>, Pair<Float, Float>> getTouchEdge(
-			Pair<Pair<Float, Float>, Pair<Float, Float>> movementVector) {
-		Pair<Float, Float> currentVertex;
-		Pair<Float, Float> nextVertex;
+	public Edge2D getTouchEdge(Edge2D movementVector) {
+		Point2D currentVertex;
+		Point2D nextVertex;
+		Edge2D currentEdge = new Edge2D.Float();
 		for( int i = 0 ; i < this.vertices.size() - 1; i++) {
 			currentVertex = this.vertices.get(i);
 			nextVertex = this.vertices.get(i+1);
-			Pair<Pair<Float, Float>, Pair<Float, Float>> edge 
-		 		= new Pair<Pair<Float, Float>, Pair<Float, Float>>(currentVertex, nextVertex);
-			if(touch(edge, movementVector))
-				return edge;
+			currentEdge.set(currentVertex, nextVertex); 
+			if(movementVector.touches(currentEdge))
+				return currentEdge;
 		}
 		return null;
 	}
 
-	/**
-	 * Test if two vectors "intersect"
-	 * The test verifies if the two extreme points of the movement vector
-	 * are on "different sides" of the edge.
-	 * 
-	 * The "different sides" test is being performed via cross product
-	 * Each side is identified by the sign of the cross product over the edge
-	 */
-	public static boolean touch(Pair<Pair<Float, Float>, Pair<Float, Float>> edge,
-			Pair<Pair<Float, Float>, Pair<Float, Float>> movementVector) {
-		return Math.signum(crossprod(movementVector.first, edge)) 
-			!= Math.signum(crossprod(movementVector.second, edge));
-	}
-
-	/**
-	 * Calculate the following cross product: 
-	 * 	(e1, point) x (e1, e2)
-	 * 
-	 * e1 and e2 are the two extremes of the edge
-	 * 
-	 * @param point
-	 * @param edge is (e1,e2)
-	 * @return
-	 */
-	public static double crossprod(Pair<Float, Float> point,
-			Pair<Pair<Float, Float>, Pair<Float, Float>> edge) {
-		Pair<Float, Float> e1 = edge.first;
-		Pair<Float, Float> e2 = edge.second;
-		float x1 = point.first - e1.first;
-		float y1 = point.second - e1.second;
-		float x2 = e2.first - e1.first;
-		float y2 = e2.second - e1.second;
-		return x1 * y2 - x2 * y1;
-	}
-	
 }

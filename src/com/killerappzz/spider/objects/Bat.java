@@ -6,9 +6,10 @@ import android.content.Context;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.RectF;
 import android.util.Log;
-import android.util.Pair;
 
 import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.geometry.Edge2D;
+import com.killerappzz.spider.geometry.Point2D;
 
 /**
  * The Bat is the Bad Guy
@@ -66,12 +67,10 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	@Override
 	public void claimedPathTouch(ClaimedPath path) {
 		try {
-			Pair<Pair<Float,Float>, Pair<Float,Float>> movement = 
-					new Pair<Pair<Float,Float>, Pair<Float,Float>>(
-							new Pair<Float,Float>(toScreenX(this.lastX), toScreenY(this.lastY)),
-							new Pair<Float,Float>(toScreenX(this.getPositionX()), toScreenY(this.getPositionY())));
-			Pair<Pair<Float,Float>, Pair<Float,Float>> edge = 
-					path.getTouchEdge(movement);
+			Edge2D movement = new Edge2D.Float(toScreenX(this.lastX), 
+					toScreenY(this.lastY), toScreenX(this.getPositionX()), 
+					toScreenY(this.getPositionY()));
+			Edge2D edge = path.getTouchEdge(movement);
 			setBounceVelocity(edge);
 		} catch(IllegalArgumentException iae) {
 			/* We arrive in this case if the Spider claimed 
@@ -99,8 +98,7 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	 * @param edge the edge against which we bounce
 	 * @return the new bounce velocity
 	 */
-	private void setBounceVelocity(
-			Pair<Pair<Float, Float>, Pair<Float, Float>> edge) {
+	private void setBounceVelocity(Edge2D edge) {
 		double angle = angle(edge);
 		double vx = - getVelocityX() * Math.cos(2*angle) - getVelocityY() * Math.sin(2*angle);
 		double vy = - getVelocityX() * Math.sin(2*angle) + getVelocityY() * Math.cos(2*angle);
@@ -113,13 +111,10 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	 * @param edge
 	 * @return
 	 */
-	private double angle(Pair<Pair<Float, Float>, Pair<Float, Float>> edge) {
-		Pair<Float, Float> e1 = edge.first;
-		Pair<Float, Float> e2 = edge.second;
-		if(e2.first == e1.first)
-			return 0.5 * Math.PI ;
-		else
-			return Math.atan2(e2.first - e1.first, e2.second - e1.second); 
+	private double angle(Edge2D edge) {
+		Point2D e1 = edge.getStartPoint();
+		Point2D e2 = edge.getEndPoint();
+		return Math.atan2(e2.getX() - e1.getX(), e2.getY() - e1.getY()); 
 	}
 
 	@Override
@@ -159,10 +154,9 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 		return this.boundingBox;
 	}
 	
-	public Pair<Pair<Float, Float>, Pair<Float, Float>> getMovementVector() {
-		Pair<Float, Float> last = new Pair<Float,Float>(toScreenX(this.lastX), toScreenY(this.lastY));
-		Pair<Float, Float> current = new Pair<Float,Float>(toScreenX(this.getPositionX()), toScreenY(this.getPositionY()));
-		return new Pair<Pair<Float, Float>, Pair<Float, Float>>(last, current);
+	public Edge2D getMovementVector() {
+		return new Edge2D.Float(toScreenX(this.lastX), toScreenY(this.lastY), 
+				toScreenX(this.getPositionX()), toScreenY(this.getPositionY()));
 	}
 
 }
