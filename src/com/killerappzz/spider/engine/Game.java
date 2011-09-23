@@ -3,6 +3,7 @@ package com.killerappzz.spider.engine;
 import android.app.Activity;
 import android.content.Context;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 

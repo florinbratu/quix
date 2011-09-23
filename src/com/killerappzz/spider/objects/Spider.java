@@ -6,10 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.Log;
-import android.util.Pair;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
+import com.killerappzz.spider.engine.GameController;
 import com.killerappzz.spider.engine.GameData;
 import com.killerappzz.spider.geometry.Edge2D;
 
@@ -38,6 +38,8 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
     private final GameData data;
     // the score display
     private ScoreGain score;
+    // the game - for vibration
+    private GameController theGame;
     
     // define spider movement type
     public enum Movement {
@@ -69,11 +71,13 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
     	this.blink = orig.blink;
     	this.trailingPath = new SpiderPath(orig.trailingPath);
     	this.claimedPath = new ClaimedPath(orig.claimedPath);
+    	this.theGame = orig.theGame;
     }
 
-	public Spider(Context context, Options bitmapOptions, int resourceId,
-			int framesNo, int fps, int scrW, int scrH, GameData data ) {
+	public Spider(GameController game, GameData data, Context context, Options bitmapOptions, int resourceId,
+			int framesNo, int fps, int scrW, int scrH) {
 		super(context, bitmapOptions, resourceId, scrW, scrH, framesNo, fps);
+		this.theGame = game;
 		this.data = data;
 		this.screenRect = new RectF(this.width / 2 , this.height / 2, 
         		this.screenWidth - this.width / 2, this.screenHeight - this.height / 2);
@@ -274,6 +278,8 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 			if(movement.equals(Movement.CLAIM)) {
 				// let the collider do its collision thing
 				collider.collide(this);
+				// haptic feedback
+				theGame.vibrate();
 				// switch to Death
 				movement = Movement.DEATH;
 				this.deathTicker = 0;

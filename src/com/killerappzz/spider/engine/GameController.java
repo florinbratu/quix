@@ -3,6 +3,7 @@ package com.killerappzz.spider.engine;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
 
@@ -36,6 +37,8 @@ public class GameController extends SimpleOnGestureListener{
 	private final CollisionSystem collisionHandler;
 	// config shit
 	private BitmapFactory.Options bitmapOpts;
+	// the Vibrator - for haptic feedback
+	private Vibrator vibrator;
 	
 	public GameController(ObjectManager manager) {
 		this.manager = manager;
@@ -48,6 +51,8 @@ public class GameController extends SimpleOnGestureListener{
 	 * Loads all objects from the scene. Will be called once, at game/level creation
 	 */
 	public void loadObjects(Context context, int screenWidth, int screenHeight) {
+		// init vibrator
+		vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
 		// Sets our preferred image format to 16-bit, 565 format.
 		bitmapOpts.inPreferredConfig = Bitmap.Config.RGB_565;
 		// Make the background.
@@ -59,9 +64,9 @@ public class GameController extends SimpleOnGestureListener{
 		this.manager.add(background);
         
         // Make the spider
-        this.spider = new Spider(context, bitmapOpts, 
+        this.spider = new Spider(this, data, context, bitmapOpts, 
         		R.drawable.spider, Constants.SPIDER_ANIMATION_FRAMES_COUNT, 
-        		Constants.SPIDER_ANIMATION_FPS, screenWidth, screenHeight, data );
+        		Constants.SPIDER_ANIMATION_FPS, screenWidth, screenHeight);
         // Spider location.
         int centerX = (screenWidth - (int)spider.width) / 2;
         spider.setPosition(centerX, 0);
@@ -113,6 +118,13 @@ public class GameController extends SimpleOnGestureListener{
 		spider.setLastPosition(spider.getPositionX(), spider.getPositionY());
 		spider.setVelocity(e2.getX() - e1.getX(), - e2.getY() + e1.getY() );
 		return true;
+	}
+	
+	// haptic feedback
+	public void vibrate() {
+		// if(vibrator.hasVibrator()) -> this is available only since API V11 bleah!
+		// TODO test this on a device with no vibrator!
+		vibrator.vibrate(Constants.VIBRATION_PERIOD);
 	}
 
 	public void updatePositions(float timeDeltaSeconds) {

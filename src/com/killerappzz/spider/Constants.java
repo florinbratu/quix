@@ -9,6 +9,8 @@ import android.graphics.Color;
  */
 public interface Constants {
 
+	// vibration period for haptic feedback
+	public static final long VIBRATION_PERIOD = 300;
 	/* vitezele le masor in felul urmator: cate secunde ii ia
 	 * sa traverseze tot ecranul!
 	 */
