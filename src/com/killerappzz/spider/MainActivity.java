@@ -19,6 +19,15 @@ public class MainActivity extends Activity {
     private Game game;
     private long mLastTouchTime = 0L;
     private long mLastRollTime = 0L;
+    
+    private View.OnClickListener sResumeGameListener = new View.OnClickListener() {
+        public void onClick(View v) {
+        	if(v.getVisibility() == View.VISIBLE) {
+        		hidePauseMessage();
+        		game.onResume();
+        	}
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +36,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         mCanvasSurfaceView = (CanvasSurfaceView) findViewById(R.id.glsurfaceview);
         mPauseMenu = findViewById(R.id.pausedMenu);
+        // when user clicks on Pause button -> game is resumed
+        mPauseMenu.setOnClickListener(sResumeGameListener);
         game = new Game(this);
         // load the game
         game.load(this);
@@ -131,12 +142,14 @@ public class MainActivity extends Activity {
     private void showPauseMessage() {
     	if (mPauseMenu != null) {
     		mPauseMenu.setVisibility(View.VISIBLE);
+            mPauseMenu.setClickable(true);
     	}
 	}
 
 	private void hidePauseMessage() {
 		if (mPauseMenu != null) {
     		mPauseMenu.setVisibility(View.GONE);
+    		mPauseMenu.setClickable(false);
     	}
 	}
 
