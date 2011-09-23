@@ -97,99 +97,120 @@ public class SpiderPath extends Polygon {
 		// let's label the start and end points of our path
 		BorderLabel firstPointLabel = fromPos(firstPointX, firstPointY);
 		BorderLabel lastPointLabel = fromPos(lastPointX, lastPointY);
+		float threshold = 0;
 		if(firstPointLabel != lastPointLabel &&
 			!firstPointLabel.equals(BorderLabel.CENTER) &&
 			!lastPointLabel.equals(BorderLabel.CENTER)) { 
 			switch(lastPointLabel) {
-				case LEFT:
-					switch(firstPointLabel){
-					case RIGHT:
-						handleHorizontal();
-						break;
-					case BOTTOM:
-						this.lineTo(leftX, bottomY);
-						break;
-					case TOP:
-						this.lineTo(leftX, topY);
-						break;
-					}
-					break;
+			case LEFT:
+				switch(firstPointLabel){
 				case RIGHT:
-					switch(firstPointLabel){
-					case LEFT:
-						handleHorizontal();
-						break;
-					case BOTTOM:
-						this.lineTo(rightX, bottomY);
-						break;
-					case TOP:
+					threshold = handleHorizontal();
+					if(firstPointY + lastPointY < threshold) {
+						// select top points
+						this.lineTo(leftX, topY);
 						this.lineTo(rightX, topY);
-						break;
+					}
+					else {
+						// select bottom points
+						this.lineTo(leftX, bottomY);
+						this.lineTo(rightX, bottomY);
 					}
 					break;
 				case BOTTOM:
-					switch(firstPointLabel){
-					case TOP:
-						handleVertical();
-						break;
-					case RIGHT:
-						this.lineTo(rightX, bottomY);
-						break;
-					case LEFT:
-						this.lineTo(leftX, bottomY);
-						break;
-					}
+					this.lineTo(leftX, bottomY);
 					break;
 				case TOP:
-					switch(firstPointLabel){
-					case BOTTOM:
-						handleVertical();
-						break;
-					case LEFT:
-						this.lineTo(leftX, topY);
-						break;
-					case RIGHT:
+					this.lineTo(leftX, topY);
+					break;
+				}
+				break;
+			case RIGHT:
+				switch(firstPointLabel){
+				case LEFT:
+					threshold = handleHorizontal();
+					if(firstPointY + lastPointY < threshold) {
+						// select top points
 						this.lineTo(rightX, topY);
-						break;
+						this.lineTo(leftX, topY);
+					}
+					else {
+						// select bottom points
+						this.lineTo(rightX, bottomY);
+						this.lineTo(leftX, bottomY);
 					}
 					break;
+				case BOTTOM:
+					this.lineTo(rightX, bottomY);
+					break;
+				case TOP:
+					this.lineTo(rightX, topY);
+					break;
+				}
+				break;
+			case BOTTOM:
+				switch(firstPointLabel){
+				case TOP:
+					threshold = handleVertical();
+					if(firstPointY + lastPointY < threshold) {
+						// select left points
+						this.lineTo(leftX, bottomY);
+						this.lineTo(leftX, topY);
+					} else {
+						// select right points
+						this.lineTo(rightX, bottomY);
+						this.lineTo(rightX, topY);
+					}
+					break;
+				case RIGHT:
+					this.lineTo(rightX, bottomY);
+					break;
+				case LEFT:
+					this.lineTo(leftX, bottomY);
+					break;
+				}
+				break;
+			case TOP:
+				switch(firstPointLabel){
+				case BOTTOM:
+					threshold = handleVertical();
+					if(firstPointY + lastPointY < threshold) {
+						// select left points
+						this.lineTo(leftX, topY);
+						this.lineTo(leftX, bottomY);
+					} else {
+						// select right points
+						this.lineTo(rightX, topY);
+						this.lineTo(rightX, bottomY);
+					}
+					break;
+				case LEFT:
+					this.lineTo(leftX, topY);
+					break;
+				case RIGHT:
+					this.lineTo(rightX, topY);
+					break;
+				}
+				break;
 			}
 		}
 	}
 
-	private void handleHorizontal() {
+	private float handleHorizontal() {
 		Point2D topExtremes = tbh.getTopExtremes();
 		Point2D bottomExtremes = tbh.getBottomExtremes();
-		double threshold = topExtremes.getX() + topExtremes.getY() + 
-				bottomExtremes.getX() + bottomExtremes.getY();
-		if(firstPointY + lastPointY < threshold) {
-			// select top points
-			this.lineTo(leftX, topY);
-			this.lineTo(rightX, topY);
-		}
-		else {
-			// select bottom points
-			this.lineTo(leftX, bottomY);
-			this.lineTo(rightX, bottomY);
-		}
+		double threshold = (topExtremes.getX() + topExtremes.getY() + 
+				bottomExtremes.getX() + bottomExtremes.getY()) / 2;
+		return (float)threshold;
 	}
 	
 	/* handle vertical corners add op */
-	private void handleVertical() {
+	private float handleVertical() {
 		Point2D topExtremes = tbh.getLeftExtremes();
 		Point2D bottomExtremes = tbh.getRightExtremes();
-		double threshold = topExtremes.getX() + topExtremes.getY() + 
-				bottomExtremes.getX() + bottomExtremes.getY();
-		if(lastPointX + firstPointX < threshold) {
-			// select left points
-			this.lineTo(leftX, bottomY);
-			this.lineTo(leftX, topY);
-		} else {
-			// select right points
-			this.lineTo(rightX, bottomY);
-			this.lineTo(rightX, topY);
-		}
-
+		double threshold = (topExtremes.getX() + topExtremes.getY() + 
+				bottomExtremes.getX() + bottomExtremes.getY()) / 2;
+		return (float)threshold;
 	}
 
 	private BorderLabel fromPos(float posX, float posY) {
