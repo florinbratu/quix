@@ -18,35 +18,33 @@ import com.killerappzz.spider.geometry.Point2D;
  *
  */
 public class Bat extends AnimatedSprite implements IBounceable, ICollider{
-	
-	// Last Position
-    private float lastX = -1;
-    private float lastY = -1;
-    // the Spider. don't need to shadow it, not needed for rendering
-    private Spider spider;
+
+	// movement vector
+	private final Edge2D movementVector;
     // the bounding box
     private final RectF boundingBox = new RectF();
 
 	public Bat(Context context, Options bitmapOptions, int resourceId,
 			int scrW, int scrH, int framesNo, int fps) {
 		super(context, bitmapOptions, resourceId, scrW, scrH, framesNo, fps);
+		this.movementVector = new Edge2D.Float();
 	}
 	
 	public Bat(Bat orig) {
 		super(orig);
-	}
-	
-	public void setSpider(Spider spider) {
-		this.spider = spider;
+		this.movementVector = new Edge2D.Float();
 	}
 	
 	@Override
 	public void updatePosition(float timeDeltaSeconds) {
 		// backup old pos
-		this.lastX = this.getPositionX();
-		this.lastY = this.getPositionY();
+		this.movementVector.setStartPoint(toScreenX(this.getPositionX()), 
+				toScreenY(this.getPositionY()));
 		updateBoundingBox();
 		super.updatePosition(timeDeltaSeconds);
+		// set new pos - after update!
+		this.movementVector.setEndPoint(toScreenX(this.getPositionX()), 
+				toScreenY(this.getPositionY()));
 	}
 
 	private void updateBoundingBox() {
@@ -67,9 +65,7 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	@Override
 	public void claimedPathTouch(ClaimedPath path) {
 		try {
-			Edge2D movement = new Edge2D.Float(toScreenX(this.lastX), 
-					toScreenY(this.lastY), toScreenX(this.getPositionX()), 
-					toScreenY(this.getPositionY()));
+			Edge2D movement = getMovementVector();
 			Edge2D edge = path.getTouchEdge(movement);
 			setBounceVelocity(edge);
 		} catch(IllegalArgumentException iae) {
@@ -155,8 +151,7 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	}
 	
 	public Edge2D getMovementVector() {
-		return new Edge2D.Float(toScreenX(this.lastX), toScreenY(this.lastY), 
-				toScreenX(this.getPositionX()), toScreenY(this.getPositionY()));
+		return movementVector;
 	}
 
 }
