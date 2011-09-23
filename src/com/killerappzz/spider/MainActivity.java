@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.killerappzz.spider.engine.Game;
 import com.killerappzz.spider.rendering.CanvasSurfaceView;
@@ -14,6 +15,7 @@ import com.killerappzz.spider.rendering.CanvasSurfaceView;
 public class MainActivity extends Activity {
 	
     private CanvasSurfaceView mCanvasSurfaceView;
+    private View mPauseMenu = null;
     private Game game;
     private long mLastTouchTime = 0L;
     private long mLastRollTime = 0L;
@@ -21,12 +23,14 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCanvasSurfaceView = new CanvasSurfaceView(this);
+        // load up view contents from layout
+        setContentView(R.layout.main);
+        mCanvasSurfaceView = (CanvasSurfaceView) findViewById(R.id.glsurfaceview);
+        mPauseMenu = findViewById(R.id.pausedMenu);
         game = new Game(this);
         // load the game
         game.load(this);
         mCanvasSurfaceView.setRenderer(game.getRenderer());
-        setContentView(mCanvasSurfaceView);
     }
     
     
@@ -125,13 +129,15 @@ public class MainActivity extends Activity {
     }
     
     private void showPauseMessage() {
-		// TODO Auto-generated method stub
-		
+    	if (mPauseMenu != null) {
+    		mPauseMenu.setVisibility(View.VISIBLE);
+    	}
 	}
 
 	private void hidePauseMessage() {
-		// TODO Auto-generated method stub
-		
+		if (mPauseMenu != null) {
+    		mPauseMenu.setVisibility(View.GONE);
+    	}
 	}
 
 	/*
