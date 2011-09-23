@@ -24,6 +24,11 @@ public abstract class Edge2D {
 			this.end = new Point2D.Float(endx, endy);
 		}
 
+		public Float(Point2D start, Point2D end) {
+			this((float)start.getX(),(float)start.getY(),
+					(float)end.getX(),(float)end.getY());
+		}
+
 		@Override
 		public Point2D getStartPoint() {
 			return this.start;
@@ -49,7 +54,23 @@ public abstract class Edge2D {
 		public void setEndPoint(double endx, double endy) {
 			this.end.setLocation(endx, endy);
 		}
-
+		
+		@Override
+		public boolean equals(Object o) {
+			if(o == null || !(o instanceof Edge2D.Float))
+				return false;
+			Edge2D.Float other = (Edge2D.Float)o;
+			return this.start.equals(other.start) && this.end.equals(other.end);
+		}
+		
+		@Override
+		public int hashCode() {
+			int hash = 1;
+			hash = hash * 31 + this.start.hashCode();
+			hash = hash * 31 + this.end.hashCode(); 
+			return hash;
+		}
+		
 	}
 	
 	public abstract Point2D getStartPoint();
@@ -68,6 +89,10 @@ public abstract class Edge2D {
 	
 	public void set(Point2D startPoint, Point2D endPoint) {
 		set(startPoint.getX(), startPoint.getY(), endPoint.getX(), endPoint.getY());
+	}
+	
+	public void set(Edge2D edge) {
+		set(edge.getStartPoint(),edge.getEndPoint());
 	}
 	
 	/**
@@ -103,6 +128,10 @@ public abstract class Edge2D {
 		double x2 = e2.getX() - e1.getX();
 		double y2 = e2.getY() - e1.getY();
 		return x1 * y2 - x2 * y1;
+	}
+	
+	public boolean equals(Point2D start, Point2D end) {
+		return this.getStartPoint().equals(start) && this.getEndPoint().equals(end);
 	}
 
 }

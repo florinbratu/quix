@@ -117,4 +117,5 @@ public interface Constants {
 	
 	// programming-related constants
 	public static final String LOG_TAG = "QUIX";
+	public static final int HASH_SEED = 31;
 }

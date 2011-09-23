@@ -21,17 +21,20 @@ public class ClaimedPath extends GeometricPath {
 	// the currently-observed polygon
 	private Polygon currentPolygon = null;
 	private final RectF screenRect;
+	private final TopBottomHandler tbh;
 	
-	public ClaimedPath(RectF sr) {
+	public ClaimedPath(RectF sr, TopBottomHandler t) {
 		super();
 		this.polygons = new LinkedList<Polygon>();
 		this.screenRect = sr;
+		this.tbh = t;
 	}
 	
 	public ClaimedPath(ClaimedPath orig) {
 		super(orig);
 		this.polygons = orig.polygons;
 		this.screenRect = orig.screenRect;
+		this.tbh = orig.tbh;
 	}
 
 	@Override
@@ -51,6 +54,11 @@ public class ClaimedPath extends GeometricPath {
 	public void close() {
 		currentPolygon.close();
 		polygons.add(currentPolygon);
+		if(currentPolygon.vertices.size() > 3 // if not triange 
+				&& currentPolygon.corners.size() == 2){ // and two vertices are screen corners
+			tbh.addBorderPolygon(
+					currentPolygon.corners.get(0), currentPolygon.corners.get(1), currentPolygon);
+		}
 		currentPolygon = null;
 		super.close();
 	}
@@ -117,7 +125,7 @@ public class ClaimedPath extends GeometricPath {
 			// just connect them via polygon lines
 			// but first! get to the closest vertex
 			// start closest
-			GeometricPath ret = new SpiderPath(screenRect);
+			GeometricPath ret = new SpiderPath(screenRect, tbh);
 			ret.moveTo(startClosest.getX(), startClosest.getY());
 			ret.lineTo(startPoint.getX(), startPoint.getY());
 			ret.addGeometricPath(path);
@@ -143,7 +151,7 @@ public class ClaimedPath extends GeometricPath {
 
 	private GeometricPath getPathToStartPoint(Polygon bound, 
 			Point2D startPoint, RectF screenRect) {
-		GeometricPath path = new SpiderPath(screenRect);
+		GeometricPath path = new SpiderPath(screenRect, tbh);
 		Point2D borderVertex = bound.getClosestBorderVertex(startPoint);
 		boolean found = false;
 		for(Point2D vertex : bound.vertices) {

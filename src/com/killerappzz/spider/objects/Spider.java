@@ -78,9 +78,10 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 		this.screenRect = new RectF(this.width / 2 , this.height / 2, 
         		this.screenWidth - this.width / 2, this.screenHeight - this.height / 2);
 		this.trailingPathPaint = Customization.getTrailingPathPaint();
-        this.trailingPath = new SpiderPath(this.screenRect);
+		TopBottomHandler tbh = new TopBottomHandler(screenRect);
+        this.trailingPath = new SpiderPath(this.screenRect, tbh);
         this.claimedPathPaint = Customization.getClaimedPathPaint(context,bitmapOptions);
-        this.claimedPath = new ClaimedPath(this.screenRect);
+        this.claimedPath = new ClaimedPath(this.screenRect, tbh);
         this.movement = Movement.NONE;
 	}
 	

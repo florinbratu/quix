@@ -25,15 +25,18 @@ public class Polygon extends GeometricPath {
 
 	final List<Point2D> vertices;
 	// the point which is also located on the edge
-	private List<Point2D> borderVertices;
+	private final List<Point2D> borderVertices;
 	// for comparison. faster than comparing all vertices!
 	private final long ID;
 	private final RectF screenRect;
+	// if the polygon contains any corners, they will be stored here
+	final List<Point2D> corners; 
 	
 	public Polygon(RectF screenRect) {
 		this.ID = IDGenerator.generate();
 		this.vertices = new CircularLinkedList<Point2D>();
 		this.borderVertices = new LinkedList<Point2D>();
+		this.corners = new LinkedList<Point2D>();
 		this.screenRect = screenRect;
 	}
 	
@@ -42,6 +45,7 @@ public class Polygon extends GeometricPath {
 		this.ID = orig.ID;
 		this.vertices = orig.vertices;
 		this.borderVertices = orig.borderVertices;
+		this.corners = orig.corners;
 		this.screenRect = orig.screenRect;
 	}
 	
@@ -50,15 +54,19 @@ public class Polygon extends GeometricPath {
 		Point2D point = new Point2D.Float(x, y);
 		if(boundsTest(this.screenRect, x, y))
 			this.borderVertices.add(point);
+		if(cornersTest(x,y))
+			this.corners.add(point);
 		this.vertices.add(point);
 		super.moveTo(x, y);
 	}
-	
+
 	@Override
 	public void lineTo(float x, float y) {
 		Point2D point = new Point2D.Float(x, y);
 		if(boundsTest(this.screenRect, x,y))
 			this.borderVertices.add(point);
+		if(cornersTest(x,y))
+			this.corners.add(point);
 		this.vertices.add(point);
 		super.lineTo(x, y);
 	}
@@ -83,6 +91,14 @@ public class Polygon extends GeometricPath {
 			return false;
 		Polygon other = (Polygon)o;
 		return other.ID == this.ID;
+	}
+	
+	private boolean cornersTest(float x, float y) {
+		return (this.screenRect.left == x && this.screenRect.top == y)
+				|| (this.screenRect.right == x && this.screenRect.top == y)
+				|| (this.screenRect.left == x && this.screenRect.bottom == y)
+				|| (this.screenRect.right == x && this.screenRect.bottom == y);
+		
 	}
 	
 	public Point2D getClosestBorderVertex(Point2D point) {
@@ -171,5 +187,5 @@ public class Polygon extends GeometricPath {
 		}
 		return null;
 	}
-
+	
 }

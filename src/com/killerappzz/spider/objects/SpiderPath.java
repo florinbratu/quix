@@ -1,5 +1,7 @@
 package com.killerappzz.spider.objects;
 
+import com.killerappzz.spider.geometry.Point2D;
+
 import android.graphics.RectF;
 
 
@@ -21,21 +23,26 @@ public class SpiderPath extends Polygon {
 	private final float topY;
 	private final float leftX;
 	private final float rightX;
+
+	// handler for an ugly case
+	private final TopBottomHandler tbh;
 	
-	public SpiderPath(RectF screenRect) {
+	public SpiderPath(RectF screenRect, TopBottomHandler t) {
 		super(screenRect);
 		this.bottomY = screenRect.bottom;
 		this.topY = screenRect.top;
 		this.leftX = screenRect.left;
 		this.rightX = screenRect.right;
+		this.tbh = t;
 	}
 
 	public SpiderPath(SpiderPath trailingPath) {
 		super(trailingPath);
-		this.bottomY = 0;
-		this.topY = 0;
-		this.leftX = 0;
-		this.rightX = 0;
+		this.bottomY = trailingPath.bottomY;
+		this.topY = trailingPath.topY;
+		this.leftX = trailingPath.leftX;
+		this.rightX = trailingPath.rightX;
+		this.tbh = trailingPath.tbh;
 	}
 
 	/** 
@@ -97,16 +104,7 @@ public class SpiderPath extends Polygon {
 				case LEFT:
 					switch(firstPointLabel){
 					case RIGHT:
-						if(firstPointY + lastPointY < bottomY) {
-							// select top points
-							this.lineTo(leftX, topY);
-							this.lineTo(rightX, topY);
-						}
-						else {
-							// select bottom points
-							this.lineTo(leftX, bottomY);
-							this.lineTo(rightX, bottomY);
-						}
+						handleHorizontal();
 						break;
 					case BOTTOM:
 						this.lineTo(leftX, bottomY);
@@ -119,16 +117,7 @@ public class SpiderPath extends Polygon {
 				case RIGHT:
 					switch(firstPointLabel){
 					case LEFT:
-						if(firstPointY + lastPointY < bottomY) {
-							// select top points
-							this.lineTo(rightX, topY);
-							this.lineTo(leftX, topY);
-						}
-						else {
-							// select bottom points
-							this.lineTo(rightX, bottomY);
-							this.lineTo(leftX, bottomY);
-						}
+						handleHorizontal();
 						break;
 					case BOTTOM:
 						this.lineTo(rightX, bottomY);
@@ -141,15 +130,7 @@ public class SpiderPath extends Polygon {
 				case BOTTOM:
 					switch(firstPointLabel){
 					case TOP:
-						if(lastPointX + firstPointX < rightX) {
-							// select left points
-							this.lineTo(leftX, bottomY);
-							this.lineTo(leftX, topY);
-						} else {
-							// select right points
-							this.lineTo(rightX, bottomY);
-							this.lineTo(rightX, topY);
-						}
+						handleVertical();
 						break;
 					case RIGHT:
 						this.lineTo(rightX, bottomY);
@@ -162,15 +143,7 @@ public class SpiderPath extends Polygon {
 				case TOP:
 					switch(firstPointLabel){
 					case BOTTOM:
-						if(lastPointX + firstPointX < rightX) {
-							// select left points
-							this.lineTo(leftX, topY);
-							this.lineTo(leftX, bottomY);
-						} else {
-							// select right points
-							this.lineTo(rightX, topY);
-							this.lineTo(rightX, bottomY);
-						}
+						handleVertical();
 						break;
 					case LEFT:
 						this.lineTo(leftX, topY);
@@ -183,7 +156,42 @@ public class SpiderPath extends Polygon {
 			}
 		}
 	}
+
+	private void handleHorizontal() {
+		Point2D topExtremes = tbh.getTopExtremes();
+		Point2D bottomExtremes = tbh.getBottomExtremes();
+		double threshold = topExtremes.getX() + topExtremes.getY() + 
+				bottomExtremes.getX() + bottomExtremes.getY();
+		if(firstPointY + lastPointY < threshold) {
+			// select top points
+			this.lineTo(leftX, topY);
+			this.lineTo(rightX, topY);
+		}
+		else {
+			// select bottom points
+			this.lineTo(leftX, bottomY);
+			this.lineTo(rightX, bottomY);
+		}
+	}
 	
+	/* handle vertical corners add op */
+	private void handleVertical() {
+		Point2D topExtremes = tbh.getLeftExtremes();
+		Point2D bottomExtremes = tbh.getRightExtremes();
+		double threshold = topExtremes.getX() + topExtremes.getY() + 
+				bottomExtremes.getX() + bottomExtremes.getY();
+		if(lastPointX + firstPointX < threshold) {
+			// select left points
+			this.lineTo(leftX, bottomY);
+			this.lineTo(leftX, topY);
+		} else {
+			// select right points
+			this.lineTo(rightX, bottomY);
+			this.lineTo(rightX, topY);
+		}
+
+	}
+
 	private BorderLabel fromPos(float posX, float posY) {
 		if(posX == leftX) 
 			return BorderLabel.LEFT;
