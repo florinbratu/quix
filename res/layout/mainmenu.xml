@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+		android:layout_width="fill_parent"
+  		android:layout_height="fill_parent" 
+  		xmlns:android="http://schemas.android.com/apk/res/android">
+	<ImageView 
+          android:id="@+id/mainMenuBackground"
+          android:src="@drawable/title_background"
+          android:adjustViewBounds="true"
+          android:gravity="center_vertical"
+          android:scaleType="fitXY"
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent"/>
+	
+	<ImageView 
+	      android:id="@+id/mainMenuTitle"
+	      android:src="@drawable/title"
+	      android:adjustViewBounds="true"
+	      android:layout_width="336dp" 
+	      android:layout_height="153dp" 
+	      android:layout_gravity="center_horizontal" 
+	      android:layout_marginTop="20dp"/>
+	      
+	   <LinearLayout
+	     	android:layout_width="fill_parent"
+			android:layout_height="fill_parent" 
+			xmlns:android="http://schemas.android.com/apk/res/android"
+	     	android:orientation="vertical"
+	     	android:gravity="bottom"
+	     	android:id="@+id/mainMenu">
+	    
+	    <Button
+	        android:id="@+id/newGameButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:background="@layout/mainmenu_item" />
+	    
+	    <Button
+	        android:id="@+id/continueGameButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingTop="10dp"
+	        android:background="@layout/mainmenu_item" />
+	        
+	    <Button
+	        android:id="@+id/optionsButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingTop="10dp"
+	        android:background="@layout/mainmenu_item" />
+	    
+	    <Button
+	        android:id="@+id/aboutButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingTop="10dp"
+	        android:background="@layout/mainmenu_item" />
+	        
+	    <Button
+	        android:id="@+id/quitButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingTop="10dp"
+	        android:background="@layout/mainmenu_item" />
+	        
+	</LinearLayout>
+	
+</FrameLayout> 

@@ -5,6 +5,6 @@
     <string name="quit_game_dialog_title">Quit Game</string>
 	<string name="quit_game_dialog_ok">Quit</string>
 	<string name="quit_game_dialog_cancel">Cancel</string>
-	<string name="quit_game_dialog_message">Really quit?</string>
+	<string name="quit_game_dialog_message">Quit game and return to main menu?</string>
     
 </resources>
