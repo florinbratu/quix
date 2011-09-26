@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.killerappzz.spider.engine.Game;
 import com.killerappzz.spider.menus.OptionsActivity;
@@ -44,6 +45,9 @@ public class MainActivity extends Activity {
     private void inflatePauseMenu() {
     	Typeface font = Typeface.createFromAsset(
         		getAssets(), Constants.MAIN_MENU_FONT_ASSET);  
+    	
+    	TextView pausedTitle = (TextView)findViewById(R.id.pausedMenuText);
+    	pausedTitle.setTypeface(font);
         
         Button resumeButton = (Button)findViewById(R.id.pause_resumeButton);
         resumeButton.setTypeface(font);
