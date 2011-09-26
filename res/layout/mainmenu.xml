@@ -53,14 +53,6 @@
 	        android:background="@layout/mainmenu_item" />
 	    
 	    <Button
-	        android:id="@+id/aboutButton"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_horizontal"
-	        android:paddingTop="10dp"
-	        android:background="@layout/mainmenu_item" />
-	        
-	    <Button
 	        android:id="@+id/quitButton"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"

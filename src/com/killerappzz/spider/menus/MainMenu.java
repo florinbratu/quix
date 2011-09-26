@@ -34,15 +34,6 @@ public class MainMenu extends Activity {
         	}
         });
         
-        Button aboutButton = (Button)findViewById(R.id.aboutButton);
-        aboutButton.setOnClickListener(new OnClickListener() {
-        	
-        	public void onClick(View v) {
-        		Intent HelpIntent = new Intent(MainMenu.this, CreditsActivity.class);
-        		startActivity(HelpIntent);
-        	}
-        });
-        
         Button optionsButton = (Button)findViewById(R.id.optionsButton);
         optionsButton.setOnClickListener(new OnClickListener() {
         	
