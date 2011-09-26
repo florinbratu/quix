@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.killerappzz.spider.engine.Game;
+import com.killerappzz.spider.menus.OptionsActivity;
 import com.killerappzz.spider.rendering.CanvasSurfaceView;
 
 public class MainActivity extends Activity {
@@ -20,15 +25,6 @@ public class MainActivity extends Activity {
     private long mLastTouchTime = 0L;
     private long mLastRollTime = 0L;
     
-    private View.OnClickListener sResumeGameListener = new View.OnClickListener() {
-        public void onClick(View v) {
-        	if(v.getVisibility() == View.VISIBLE) {
-        		hidePauseMessage();
-        		game.onResume();
-        	}
-        }
-    };
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,15 +33,58 @@ public class MainActivity extends Activity {
         mCanvasSurfaceView = (CanvasSurfaceView) findViewById(R.id.glsurfaceview);
         mPauseMenu = findViewById(R.id.pausedMenu);
         // when user clicks on Pause button -> game is resumed
-        mPauseMenu.setOnClickListener(sResumeGameListener);
+        inflatePauseMenu();
         game = new Game(this);
         // load the game
         game.load(this);
         mCanvasSurfaceView.setRenderer(game.getRenderer());
     }
     
-    
-    /** Recycles all of the bitmaps loaded in onCreate(). */
+    /* Load up the necessary elements for the pause menu*/
+    private void inflatePauseMenu() {
+    	Typeface font = Typeface.createFromAsset(
+        		getAssets(), Constants.MAIN_MENU_FONT_ASSET);  
+        
+        Button resumeButton = (Button)findViewById(R.id.pause_resumeButton);
+        resumeButton.setTypeface(font);
+        resumeButton.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v) {
+        		hidePauseMessage();
+        		game.onResume();
+        	}
+        });
+        
+        Button restartButton = (Button)findViewById(R.id.pause_restartButton);
+        restartButton.setTypeface(font);
+        restartButton.setOnClickListener(new OnClickListener() {
+        	
+        	public void onClick(View v) {
+        		// TODO level restart
+        	}
+        });
+        
+        Button optionsButton = (Button)findViewById(R.id.pause_optionsButton);
+        optionsButton.setTypeface(font);
+        optionsButton.setOnClickListener(new OnClickListener() {
+        	
+        	public void onClick(View v) {
+        		Intent OptionsIntent = new Intent(MainActivity.this, OptionsActivity.class);
+        		startActivity(OptionsIntent);
+        	}
+        });
+        
+        Button quitButton = (Button)findViewById(R.id.pause_quitButton);
+        quitButton.setTypeface(font);
+        quitButton.setOnClickListener(new OnClickListener() {
+        	
+        	public void onClick(View v) {
+        		finish();
+        	}
+        });
+	}
+
+
+	/** Recycles all of the bitmaps loaded in onCreate(). */
     @Override
     protected void onDestroy() {
         super.onDestroy();

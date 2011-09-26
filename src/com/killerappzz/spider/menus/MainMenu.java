@@ -22,7 +22,7 @@ public class MainMenu extends Activity {
         Typeface font = Typeface.createFromAsset(
         		getAssets(), Constants.MAIN_MENU_FONT_ASSET);  
         
-        Button newGameButton = (Button)findViewById(R.id.newGameButton);
+        Button newGameButton = (Button)findViewById(R.id.main_newGameButton);
         newGameButton.setTypeface(font);
         newGameButton.setOnClickListener(new OnClickListener() {
         	
@@ -32,7 +32,7 @@ public class MainMenu extends Activity {
         	}
         });
         
-        Button ContinueGameButton = (Button)findViewById(R.id.continueGameButton);
+        Button ContinueGameButton = (Button)findViewById(R.id.main_continueGameButton);
         ContinueGameButton.setTypeface(font);
         ContinueGameButton.setOnClickListener(new OnClickListener() {
         	
@@ -41,7 +41,7 @@ public class MainMenu extends Activity {
         	}
         });
         
-        Button optionsButton = (Button)findViewById(R.id.optionsButton);
+        Button optionsButton = (Button)findViewById(R.id.main_optionsButton);
         optionsButton.setTypeface(font);
         optionsButton.setOnClickListener(new OnClickListener() {
         	
@@ -51,7 +51,7 @@ public class MainMenu extends Activity {
         	}
         });
         
-        Button quitButton = (Button)findViewById(R.id.quitButton);
+        Button quitButton = (Button)findViewById(R.id.main_quitButton);
         quitButton.setTypeface(font);
         quitButton.setOnClickListener(new OnClickListener() {
         	
