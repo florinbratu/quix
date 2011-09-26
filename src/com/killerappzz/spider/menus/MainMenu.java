@@ -1,10 +1,12 @@
 package com.killerappzz.spider.menus;
 
+import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.MainActivity;
 import com.killerappzz.spider.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +19,11 @@ public class MainMenu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainmenu);
         
+        Typeface font = Typeface.createFromAsset(
+        		getAssets(), Constants.MAIN_MENU_FONT_ASSET);  
+        
         Button newGameButton = (Button)findViewById(R.id.newGameButton);
+        newGameButton.setTypeface(font);
         newGameButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
@@ -27,6 +33,7 @@ public class MainMenu extends Activity {
         });
         
         Button ContinueGameButton = (Button)findViewById(R.id.continueGameButton);
+        ContinueGameButton.setTypeface(font);
         ContinueGameButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
@@ -35,6 +42,7 @@ public class MainMenu extends Activity {
         });
         
         Button optionsButton = (Button)findViewById(R.id.optionsButton);
+        optionsButton.setTypeface(font);
         optionsButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
@@ -44,6 +52,7 @@ public class MainMenu extends Activity {
         });
         
         Button quitButton = (Button)findViewById(R.id.quitButton);
+        quitButton.setTypeface(font);
         quitButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {

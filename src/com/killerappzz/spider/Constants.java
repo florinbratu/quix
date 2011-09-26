@@ -17,6 +17,9 @@ public interface Constants {
 	public static final int DEFAULT_SPIDER_SPEED_FACTOR = 4;
 	public static final int DEFAULT_BAT_SPEED_FACTOR = 5;
 	
+	/* main menu look and feel */
+	public static final String MAIN_MENU_FONT_ASSET = "fonts/commando.ttf";
+	
 	/*
 	 * look and feel-ul darei lasate de spider
 	 */
