@@ -31,7 +31,7 @@
 	    
 	    <Button
 	        android:id="@+id/main_newGameButton"
-	        android:text="New Game"
+	        android:text="@string/main_newGameButton"
 	        android:textSize="18dp"
 	        android:shadowColor="#347C17"  
         	android:shadowRadius="1.5"  
@@ -44,7 +44,7 @@
 	    
 	    <Button
 	        android:id="@+id/main_continueGameButton"
-	        android:text="Continue Game"
+	        android:text="@string/main_continueGameButton"
 	        android:textSize="18dp"
 	        android:shadowColor="#347C17"  
         	android:shadowRadius="1.5"  
@@ -58,7 +58,7 @@
 	        
 	    <Button
 	        android:id="@+id/main_optionsButton"
-	        android:text="Options"
+	        android:text="@string/main_optionsButton"
 	        android:textSize="18dp"
 	        android:shadowColor="#347C17"  
         	android:shadowRadius="1.5"  
@@ -72,7 +72,7 @@
 	    
 	    <Button
 	        android:id="@+id/main_quitButton"
-	        android:text="Exit"
+	        android:text="@string/main_quitButton"
 	        android:textSize="18dp"
 	        android:shadowColor="#347C17"  
         	android:shadowRadius="1.5"  

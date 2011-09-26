@@ -2,9 +2,23 @@
 <resources>
     <string name="app_name">Spider Web</string>
     
+    <!-- quit menu -->
     <string name="quit_game_dialog_title">Quit Game</string>
 	<string name="quit_game_dialog_ok">Quit</string>
 	<string name="quit_game_dialog_cancel">Cancel</string>
 	<string name="quit_game_dialog_message">Return to main menu?</string>
+	
+	<!-- main menu -->
+	<string name="main_newGameButton">New Game</string>
+	<string name="main_continueGameButton">Continue Game</string>
+	<string name="main_optionsButton">Options</string>
+	<string name="main_quitButton">Exit</string>
+	
+	<!-- pause menu -->
+	<string name="pausedMenuText">PAUSED</string>
+	<string name="pause_resumeButton">Resume</string>
+	<string name="pause_restartButton">Restart</string>
+	<string name="pause_optionsButton">Options</string>
+	<string name="pause_quitButton">Exit</string>
     
 </resources>
