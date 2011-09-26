@@ -12,12 +12,76 @@
 	    android:layout_height="fill_parent"
 	/>
 	
-   <!-- the Pause menu -->
-   <ImageView 
-          android:id="@+id/pausedMenu"
+   <!-- the Pause menu -->  
+    <LinearLayout
+    		android:id="@+id/pausedMenu"
+	     	android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical" 
+			android:layout_gravity="center"
+	     	android:visibility="gone">
+	     	
+	    <ImageView 
+          android:id="@+id/pausedMenuText"
           android:src="@drawable/ui_paused"
           android:layout_height="wrap_content" 
           android:layout_width="wrap_content" 
-          android:layout_gravity="center"
-          android:visibility="gone"/>
+          android:layout_gravity="center" />
+	    
+	    <Button
+	        android:id="@+id/resumeButton"
+	        android:text="Resume"
+	        android:textSize="18dp"
+	        android:shadowColor="#347C17"  
+        	android:shadowRadius="1.5"  
+        	android:shadowDx="1"  
+        	android:shadowDy="1"  
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:background="@layout/mainmenu_item" />
+	    
+	    <Button
+	        android:id="@+id/restartButton"
+	        android:text="Restart"
+	        android:textSize="18dp"
+	        android:shadowColor="#347C17"  
+        	android:shadowRadius="1.5"  
+        	android:shadowDx="1"  
+        	android:shadowDy="1"  
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingTop="10dp"
+	        android:background="@layout/mainmenu_item" />
+	        
+	    <Button
+	        android:id="@+id/optionsButton"
+	        android:text="Options"
+	        android:textSize="18dp"
+	        android:shadowColor="#347C17"  
+        	android:shadowRadius="1.5"  
+        	android:shadowDx="1"  
+        	android:shadowDy="1"  
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingTop="10dp"
+	        android:background="@layout/mainmenu_item" />
+	    
+	    <Button
+	        android:id="@+id/quitButton"
+	        android:text="Exit"
+	        android:textSize="18dp"
+	        android:shadowColor="#347C17"  
+        	android:shadowRadius="1.5"  
+        	android:shadowDx="1"  
+        	android:shadowDy="1"  
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingTop="10dp"
+	        android:background="@layout/mainmenu_item" />     
+	 </LinearLayout>
+     
 </FrameLayout>
