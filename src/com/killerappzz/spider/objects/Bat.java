@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.engine.GameData;
+import com.killerappzz.spider.engine.GameData.EndGameCondition;
 import com.killerappzz.spider.geometry.Edge2D;
 import com.killerappzz.spider.geometry.Point2D;
 
@@ -78,7 +79,7 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 			 * some land onto which the Bat was present!
 			 * In this case, we are victorious!!!
 			 * */
-			data.victory();
+			data.victory(EndGameCondition.SPIDER_TRAP);
 		}
 	}
 	

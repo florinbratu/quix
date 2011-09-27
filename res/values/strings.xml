@@ -25,5 +25,9 @@
 	<string name="gameOverMenuText">GAME OVER</string>
 	<string name="gameOver_restartButton">Try again</string>
 	<string name="gameOver_quitButton">Exit</string>
+	<string name="gameOver_death">Player died</string>
+	<string name="gameOver_timeout">Time expired</string>
+	<string name="victory_surface">Required surface has been captured</string>
+	<string name="victory_spiderTrapped">The bat has been trapped inside the spider nest</string>
     
 </resources>

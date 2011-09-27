@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.R;
 
 /**
  * Game-related info.
@@ -37,6 +38,24 @@ public class GameData implements Parcelable{
 	 * - spider has no more life points
 	 * - TODO time limit exceeded
 	 *  */
+	public enum EndGameCondition {
+		NONE,
+		// lose
+		DEATH,
+		TIMEOUT,
+		// victory
+		SURFACE,
+		SPIDER_TRAP;
+		
+		public static final int descriptionStrings[] = new int[] {
+			0,
+			R.string.gameOver_death,
+			R.string.gameOver_timeout,
+			R.string.victory_surface,
+			R.string.victory_spiderTrapped
+		};
+	}
+	private EndGameCondition endReason;
 	
 	public GameData() {
 		this.claimedArea = 0;
@@ -45,6 +64,7 @@ public class GameData implements Parcelable{
 		this.lifes = Constants.MAX_LIFES;
 		this.gameOver = false;
 		this.victory = false;
+		this.endReason = EndGameCondition.NONE;
 	}
 	
 	public GameData(GameData orig) {
@@ -55,6 +75,7 @@ public class GameData implements Parcelable{
 		this.lifes = orig.lifes;
 		this.gameOver = orig.gameOver;
 		this.victory = orig.victory;
+		this.endReason = orig.endReason;
 	}
 
 	public void addClaimedArea(float claimed) {
@@ -78,7 +99,7 @@ public class GameData implements Parcelable{
 		updateScoreForGain();
 		this.claimedArea = area;
 		if(getClaimedPercentile() > Constants.MAX_SURFACE) 
-			victory();
+			victory(EndGameCondition.SURFACE);
 	}
 
 	/**
@@ -147,7 +168,7 @@ public class GameData implements Parcelable{
 	public void lostLife() {
 		this.lifes--;
 		if(this.lifes == 0) 
-			death();
+			death(EndGameCondition.DEATH);
 	}
 	
 	public boolean gameOver() {
@@ -158,14 +179,20 @@ public class GameData implements Parcelable{
 		return this.victory;
 	}
 
-	public void death() {
+	public void death(EndGameCondition endCond) {
 		this.gameOver = true;
 		this.victory = false;
+		this.endReason = endCond;
 	}
 	
-	public void victory() {
+	public void victory(EndGameCondition endCond) {
 		this.gameOver = true;
 		this.victory = true;
+		this.endReason = endCond;
+	}
+	
+	public EndGameCondition getEndGameReason() {
+		return endReason;
 	}
 
 	// update at each frame
@@ -178,6 +205,7 @@ public class GameData implements Parcelable{
 		this.lifes = omolog.lifes;
 		this.gameOver = omolog.gameOver;
 		this.victory = omolog.victory;
+		this.endReason = omolog.endReason;
 	}
 
 	@Override
@@ -194,6 +222,7 @@ public class GameData implements Parcelable{
 		dest.writeFloat(time.totalTime);
 		dest.writeInt(lifes);
 		dest.writeBooleanArray(new boolean[]{gameOver,victory});
+		dest.writeInt(this.endReason.ordinal());
 	}
 	
 	public static final Parcelable.Creator<GameData> CREATOR
@@ -219,6 +248,7 @@ public class GameData implements Parcelable{
 		in.readBooleanArray(array);
 		this.gameOver = array[0];
 		this.victory = array[1];
+		this.endReason = EndGameCondition.values()[in.readInt()];
 	}
-	
+
 }

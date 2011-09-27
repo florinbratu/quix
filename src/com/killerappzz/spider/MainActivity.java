@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.killerappzz.spider.engine.Game;
 import com.killerappzz.spider.engine.GameData;
 import com.killerappzz.spider.engine.GameFlowEvent;
+import com.killerappzz.spider.engine.GameData.EndGameCondition;
 import com.killerappzz.spider.menus.OptionsActivity;
 import com.killerappzz.spider.menus.VictoryActivity;
 import com.killerappzz.spider.rendering.CanvasSurfaceView;
@@ -27,6 +28,7 @@ public class MainActivity extends Activity {
     private CanvasSurfaceView mCanvasSurfaceView;
     private View mPauseMenu = null;
     private View mGameOverMenu = null;
+    private TextView gameOverMenuDescription;
     private Game game;
     private long mLastTouchTime = 0L;
     private long mLastRollTime = 0L;
@@ -57,7 +59,7 @@ public class MainActivity extends Activity {
     	TextView gameOverMenuTitle = (TextView)findViewById(R.id.gameOverMenuText);
     	gameOverMenuTitle.setTypeface(font);
     	
-    	TextView gameOverMenuDescription = (TextView)findViewById(R.id.gameOverMenuDescription);
+    	gameOverMenuDescription = (TextView)findViewById(R.id.gameOverMenuDescription);
     	gameOverMenuDescription.setTypeface(font);
         
         Button restartButton = (Button)findViewById(R.id.gameOver_restartButton);
@@ -237,6 +239,9 @@ public class MainActivity extends Activity {
 	
 	private void showGameOverMenu() {
     	if (mGameOverMenu != null) {
+    		gameOverMenuDescription.setText(
+    				EndGameCondition.descriptionStrings[
+    				    game.getController().getData().getEndGameReason().ordinal()]);
     		mGameOverMenu.setVisibility(View.VISIBLE);
             mGameOverMenu.setClickable(true);
     	}
