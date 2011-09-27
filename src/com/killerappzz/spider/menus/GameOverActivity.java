@@ -1,10 +1,11 @@
 package com.killerappzz.spider.menus;
 
-import com.killerappzz.spider.engine.GameData;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.killerappzz.spider.R;
+import com.killerappzz.spider.engine.GameData;
 
 /**
  * This one is displayed when game finished, 
@@ -21,6 +22,7 @@ public class GameOverActivity extends Activity {
 		// retrieve game data
 		final Intent callingIntent = getIntent();
 		GameData data = (GameData)callingIntent.getParcelableExtra(GameData.class.getPackage().getName());
-		// TODO add interface!
+		// TODO sexy game over. rip from Replica Island
+		setContentView(R.layout.game_over);
 	}
 }

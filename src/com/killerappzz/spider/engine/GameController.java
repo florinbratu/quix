@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
 
 import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.MainActivity;
 import com.killerappzz.spider.R;
 import com.killerappzz.spider.objects.Background;
 import com.killerappzz.spider.objects.Banner;
@@ -39,12 +40,15 @@ public class GameController extends SimpleOnGestureListener{
 	private BitmapFactory.Options bitmapOpts;
 	// the Vibrator - for haptic feedback
 	private Vibrator vibrator;
+	// all possible Game events
+	private GameFlowEvent[] gameEvents;
 	
-	public GameController(ObjectManager manager) {
+	public GameController(MainActivity parentActivity, ObjectManager manager) {
 		this.manager = manager;
 		this.bitmapOpts = new BitmapFactory.Options();
 		this.data = new GameData();
 		this.collisionHandler = new CollisionSystem();
+		this.gameEvents = GameFlowEvent.allEvents(parentActivity);
 	}
 	
 	/**
@@ -144,6 +148,14 @@ public class GameController extends SimpleOnGestureListener{
 	
 	public void handleCollisions() {
 		this.collisionHandler.handleCollisions();
+	}
+	
+	/* handle game related events like game over, restart etc.
+	 * @see MainActivity#onGameFlowEvent 
+	 * */
+	public void handleEvents() {
+		if(data.gameOver())
+			gameEvents[GameFlowEvent.EVENT_GAME_OVER].post();
 	}
 
 	public void prepareRendering() {

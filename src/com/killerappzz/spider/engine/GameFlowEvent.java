@@ -16,11 +16,10 @@
  
 package com.killerappzz.spider.engine;
 
+import android.util.Log;
+
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.MainActivity;
-
-import android.content.Context;
-import android.util.Log;
 
 public class GameFlowEvent implements Runnable {
 	public static final int EVENT_INVALID = -1;
@@ -28,33 +27,34 @@ public class GameFlowEvent implements Runnable {
     public static final int EVENT_GAME_OVER = 1;
     public static final int EVENT_GO_TO_NEXT_LEVEL = 2;
     
-    private int mEventCode;
-    private MainActivity mMainActivity;
+    public static GameFlowEvent[] allEvents(MainActivity activity) {
+		return new GameFlowEvent[]{
+			new GameFlowEvent(activity, EVENT_RESTART_LEVEL),
+			new GameFlowEvent(activity, EVENT_GAME_OVER),
+			new GameFlowEvent(activity, EVENT_GO_TO_NEXT_LEVEL),
+		};
+	}
     
-    public void post(int event, int index, Context context) {
-    	if (context instanceof MainActivity) {
-        	Log.d(Constants.LOG_TAG, "Post Game Flow Event: " + event);
-            mEventCode = event;
-            mMainActivity = (MainActivity)context;
-            mMainActivity.runOnUiThread(this);
-        }
+    private final int mEventCode;
+    private final MainActivity mMainActivity;
+    
+    public GameFlowEvent(MainActivity activity, int event) {
+    	this.mMainActivity = activity;
+    	this.mEventCode = event;
     }
     
-    public void postImmediate(int event, Context context) {
-        if (context instanceof MainActivity) {
-        	Log.d(Constants.LOG_TAG, "Execute Immediate Game Flow Event: " + event);
-            mEventCode = event;
-            mMainActivity = (MainActivity)context;
-            mMainActivity.onGameFlowEvent(mEventCode);
-        }
+    public void post() {
+    	Log.d(Constants.LOG_TAG, "Post Game Flow Event: " + mEventCode);
+    	mMainActivity.runOnUiThread(this);
+    }
+    
+    public void postImmediate() {
+    	run();
     }
     
     public void run() {
-        if (mMainActivity != null) {
-        	Log.d(Constants.LOG_TAG, "Execute Game Flow Event: " + mEventCode);
-            mMainActivity.onGameFlowEvent(mEventCode);
-            mMainActivity = null;
-        }
+        Log.d(Constants.LOG_TAG, "Execute Game Flow Event: " + mEventCode);
+        mMainActivity.onGameFlowEvent(mEventCode);
     }
 
 }

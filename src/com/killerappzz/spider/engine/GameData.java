@@ -149,6 +149,10 @@ public class GameData implements Parcelable{
 		if(this.lifes == 0) 
 			death();
 	}
+	
+	public boolean gameOver() {
+		return this.gameOver;
+	}
 
 	public void death() {
 		this.gameOver = true;

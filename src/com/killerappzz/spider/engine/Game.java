@@ -1,11 +1,11 @@
 package com.killerappzz.spider.engine;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 
+import com.killerappzz.spider.MainActivity;
 import com.killerappzz.spider.ProfileRecorder;
 import com.killerappzz.spider.objects.ObjectManager;
 import com.killerappzz.spider.rendering.GameRenderer;
@@ -31,7 +31,7 @@ public class Game {
     private GestureDetector touchHandler;
 	private long mLastTime;
 	
-	public Game(Activity parentActivity) {
+	public Game(MainActivity parentActivity) {
 		// We need to know the width and height of the display pretty soon,
         // so grab the information now.
         DisplayMetrics dm = new DisplayMetrics();
@@ -46,7 +46,7 @@ public class Game {
         renderer = new GameRenderer(this);
         // the object manager reference. will be shared between the game thread and the renderer thread
         manager = new ObjectManager(renderer);
-        controller = new GameController(manager);
+        controller = new GameController(parentActivity, manager);
 		
 		engine = new Engine(this);
 		touchHandler = new GestureDetector(parentActivity, controller);
@@ -66,6 +66,8 @@ public class Game {
 		this.controller.updatePositions(timeDeltaSeconds);
 		// handle collisions
 		this.controller.handleCollisions();
+		// handle game events
+		this.controller.handleEvents();
 	}
 
 	private float getTimeDelta() {
