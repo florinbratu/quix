@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.util.Log;
 
 import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.engine.GameData;
 import com.killerappzz.spider.geometry.Edge2D;
 import com.killerappzz.spider.geometry.Point2D;
 
@@ -23,16 +24,20 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	private final Edge2D movementVector;
     // the bounding box
     private final RectF boundingBox = new RectF();
+    // game data. for victory notification! ;)
+    private final GameData data;
 
 	public Bat(Context context, Options bitmapOptions, int resourceId,
-			int scrW, int scrH, int framesNo, int fps) {
+			int scrW, int scrH, int framesNo, int fps, GameData data) {
 		super(context, bitmapOptions, resourceId, scrW, scrH, framesNo, fps);
 		this.movementVector = new Edge2D.Float();
+		this.data = data;
 	}
 	
 	public Bat(Bat orig) {
 		super(orig);
 		this.movementVector = new Edge2D.Float();
+		this.data = orig.data;
 	}
 	
 	@Override
@@ -73,8 +78,7 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 			 * some land onto which the Bat was present!
 			 * In this case, we are victorious!!!
 			 * */
-			// TODO Victory!!!
-			Log.d(Constants.LOG_TAG, "Victory!!!");
+			data.victory();
 		}
 	}
 	
@@ -152,6 +156,13 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 	
 	public Edge2D getMovementVector() {
 		return movementVector;
+	}
+	
+	@Override
+	public void update(DrawableObject omolog) {
+		super.update(omolog);
+		Bat omologBat = (Bat)omolog;
+    	this.data.update(omologBat.data);
 	}
 
 }

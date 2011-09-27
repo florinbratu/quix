@@ -80,7 +80,7 @@ public class GameController extends SimpleOnGestureListener{
         // Make the bad bat
         Bat bat = new Bat(context, bitmapOpts, 
         		R.drawable.bat, screenWidth, screenHeight, 
-        		Constants.BAT_ANIMATION_FRAMES_COUNT, Constants.BAT_ANIMATION_FPS);
+        		Constants.BAT_ANIMATION_FRAMES_COUNT, Constants.BAT_ANIMATION_FPS, data);
         int centerY = (screenHeight - (int)bat.height) / 2;
         bat.setPosition(centerX, centerY);
         bat.setZ(2);

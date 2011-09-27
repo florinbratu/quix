@@ -20,12 +20,26 @@ public class GameData {
 	private TimeHandler time;
 	// the total number of lives
 	private int lifes;
+	// game over indicator
+	private boolean gameOver;
+	// if game over - success flag
+	private boolean victory;
+	/* Victory conditions:
+	 * - more than 75% claimed surface
+	 * - spider traps bat inside its net
+	 * - TODO score points acquired
+	 * Lose conditions:
+	 * - spider has no more life points
+	 * - TODO time limit exceeded
+	 *  */
 	
 	public GameData() {
 		this.claimedArea = 0;
 		this.score = 0;
 		this.time = new TimeHandler();
 		this.lifes = Constants.MAX_LIFES;
+		this.gameOver = false;
+		this.victory = false;
 	}
 	
 	public GameData(GameData orig) {
@@ -34,6 +48,8 @@ public class GameData {
 		this.score = orig.score;
 		this.time = new TimeHandler(orig.time);
 		this.lifes = orig.lifes;
+		this.gameOver = orig.gameOver;
+		this.victory = orig.victory;
 	}
 
 	public void addClaimedArea(float claimed) {
@@ -56,6 +72,8 @@ public class GameData {
 		this.gain = (long)(area - this.claimedArea);
 		updateScoreForGain();
 		this.claimedArea = area;
+		if(getClaimedPercentile() > Constants.MAX_SURFACE) 
+			victory();
 	}
 
 	/**
@@ -116,13 +134,25 @@ public class GameData {
 			this.totalTime = orig.totalTime;
 		}
 	}
-
+	
 	public int getLifesCount() {
 		return lifes;
 	}
 	
 	public void lostLife() {
 		this.lifes--;
+		if(this.lifes == 0) 
+			death();
+	}
+
+	public void death() {
+		this.gameOver = true;
+		this.victory = false;
+	}
+	
+	public void victory() {
+		this.gameOver = true;
+		this.victory = true;
 	}
 
 	// update at each frame
@@ -133,6 +163,7 @@ public class GameData {
 		this.gain = omolog.gain;
 		this.time.update(omolog.time);
 		this.lifes = omolog.lifes;
- 
+		this.gameOver = omolog.gameOver;
+		this.victory = omolog.victory;
 	}
 }
