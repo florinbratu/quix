@@ -23,14 +23,16 @@ import com.killerappzz.spider.MainActivity;
 
 public class GameFlowEvent implements Runnable {
 	public static final int EVENT_INVALID = -1;
-    public static final int EVENT_RESTART_LEVEL = 0;
-    public static final int EVENT_GAME_OVER = 1;
-    public static final int EVENT_GO_TO_NEXT_LEVEL = 2;
+	public static final int EVENT_GAME_OVER = 0;
+	public static final int EVENT_VICTORY = 1;
+    public static final int EVENT_RESTART_LEVEL = 2;
+    public static final int EVENT_GO_TO_NEXT_LEVEL = 3;
     
     public static GameFlowEvent[] allEvents(MainActivity activity) {
 		return new GameFlowEvent[]{
-			new GameFlowEvent(activity, EVENT_RESTART_LEVEL),
 			new GameFlowEvent(activity, EVENT_GAME_OVER),
+			new GameFlowEvent(activity, EVENT_VICTORY),
+			new GameFlowEvent(activity, EVENT_RESTART_LEVEL),
 			new GameFlowEvent(activity, EVENT_GO_TO_NEXT_LEVEL),
 		};
 	}

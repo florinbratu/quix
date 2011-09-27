@@ -20,6 +20,7 @@ import com.killerappzz.spider.engine.GameData;
 import com.killerappzz.spider.engine.GameFlowEvent;
 import com.killerappzz.spider.menus.GameOverActivity;
 import com.killerappzz.spider.menus.OptionsActivity;
+import com.killerappzz.spider.menus.VictoryActivity;
 import com.killerappzz.spider.rendering.CanvasSurfaceView;
 
 public class MainActivity extends Activity {
@@ -227,10 +228,19 @@ public class MainActivity extends Activity {
      *  function. @see replicaisland the AndouKun#onGameFlowEvent method 
      */
 	public void onGameFlowEvent(int eventCode) {
+		Intent i;
 		switch (eventCode) {
 			case GameFlowEvent.EVENT_GAME_OVER: 
 				game.stop();
-				Intent i = new Intent(this, GameOverActivity.class);
+				i = new Intent(this, GameOverActivity.class);
+				// send the game data object to the activity
+				i.putExtra(GameData.class.getPackage().getName(), game.getController().getData());
+                startActivity(i);
+				finish();
+				break;
+			case GameFlowEvent.EVENT_VICTORY: 
+				game.stop();
+				i = new Intent(this, VictoryActivity.class);
 				// send the game data object to the activity
 				i.putExtra(GameData.class.getPackage().getName(), game.getController().getData());
                 startActivity(i);

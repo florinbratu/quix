@@ -35,8 +35,14 @@
         		android:screenOrientation="landscape" 
 	   			android:configChanges="keyboardHidden|orientation"/>
 	   	
-	   	<!-- game over screen -->
+	   	<!-- game over menu -->
 	   	<activity android:name=".menus.GameOverActivity"
+				  android:screenOrientation="landscape" 
+	   			  android:configChanges="keyboardHidden|orientation"/>
+	   
+	    <!-- victory screen -->
+	    <!-- game over screen -->
+	   	<activity android:name=".menus.VictoryActivity"
 				  android:screenOrientation="landscape" 
 	   			  android:configChanges="keyboardHidden|orientation"/>
 	   	

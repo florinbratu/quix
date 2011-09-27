@@ -20,5 +20,10 @@
 	<string name="pause_restartButton">Restart</string>
 	<string name="pause_optionsButton">Options</string>
 	<string name="pause_quitButton">Exit</string>
+	
+	<!-- game over menu -->
+	<string name="gameOverMenuText">GAME OVER</string>
+	<string name="gameOver_restartButton">Try again</string>
+	<string name="gameOver_quitButton">Exit</string>
     
 </resources>

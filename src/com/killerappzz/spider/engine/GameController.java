@@ -154,8 +154,12 @@ public class GameController extends SimpleOnGestureListener{
 	 * @see MainActivity#onGameFlowEvent 
 	 * */
 	public void handleEvents() {
-		if(data.gameOver())
-			gameEvents[GameFlowEvent.EVENT_GAME_OVER].post();
+		if(data.gameOver()) {
+			if(data.victorious())
+				gameEvents[GameFlowEvent.EVENT_VICTORY].post();
+			else
+				gameEvents[GameFlowEvent.EVENT_GAME_OVER].post();
+		}
 	}
 
 	public void prepareRendering() {

@@ -153,6 +153,10 @@ public class GameData implements Parcelable{
 	public boolean gameOver() {
 		return this.gameOver;
 	}
+	
+	public boolean victorious() {
+		return this.victory;
+	}
 
 	public void death() {
 		this.gameOver = true;

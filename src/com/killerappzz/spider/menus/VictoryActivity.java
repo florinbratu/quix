@@ -1,20 +1,19 @@
 package com.killerappzz.spider.menus;
 
+import com.killerappzz.spider.R;
+import com.killerappzz.spider.engine.GameData;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.killerappzz.spider.R;
-import com.killerappzz.spider.engine.GameData;
-
 /**
- * This one is displayed when player fails to accomplish
- * the goals of the current level
+ * Mark the succesful completion of one level
  * 
  * @author fbratu
  *
  */
-public class GameOverActivity extends Activity {
+public class VictoryActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +21,8 @@ public class GameOverActivity extends Activity {
 		// retrieve game data
 		final Intent callingIntent = getIntent();
 		GameData data = (GameData)callingIntent.getParcelableExtra(GameData.class.getPackage().getName());
-		// TODO game over should be like paused, but less options
-		setContentView(R.layout.game_over);
+		// TODO sexy game over. rip from Replica Island
+		setContentView(R.layout.victory);
 	}
+	
 }
