@@ -3,6 +3,7 @@ package com.killerappzz.spider.menus;
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.R;
 import com.killerappzz.spider.engine.GameData;
+import com.killerappzz.spider.engine.GameData.EndGameCondition;
 
 import android.app.Activity;
 import android.content.Context;
@@ -37,6 +38,12 @@ public class VictoryActivity extends Activity {
 		Typeface font = Typeface.createFromAsset(
         		getAssets(), Constants.VICTORY_SCREEN_FONT_ASSET);
 		
+		// update description text
+		TextView description = (TextView)findViewById(R.id.victoryScreenDescription);
+		description.setText(EndGameCondition.
+				descriptionStrings[data.getEndGameReason().ordinal()]);
+		
+		// update buttons
 		Button exitButton = (Button)findViewById(R.id.victoryScreen_exit);
 		exitButton.setTypeface(font);
 		exitButton.setOnClickListener(new OnClickListener() {

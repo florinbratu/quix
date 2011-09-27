@@ -74,7 +74,7 @@ public interface Constants {
 	/* victory screen */
 	public static final int INCREMENT_DELAY_MS = 2000;
 	public static final String VICTORY_SCREEN_FONT_ASSET = "fonts/SF_Collegiate.ttf";
-	public static final int VICTORY_SCREEN_SCORE_INCREMENT = 1000;
+	public static final int VICTORY_SCREEN_SCORE_INCREMENT = 2000;
 	public static final int VICTORY_SCREEN_TIME_INCREMENT = 10;
 
 	/**
