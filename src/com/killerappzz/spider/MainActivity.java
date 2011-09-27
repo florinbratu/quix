@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.killerappzz.spider.engine.Game;
 import com.killerappzz.spider.engine.GameData;
 import com.killerappzz.spider.engine.GameFlowEvent;
-import com.killerappzz.spider.menus.GameOverActivity;
 import com.killerappzz.spider.menus.OptionsActivity;
 import com.killerappzz.spider.menus.VictoryActivity;
 import com.killerappzz.spider.rendering.CanvasSurfaceView;
@@ -27,6 +26,7 @@ public class MainActivity extends Activity {
 	
     private CanvasSurfaceView mCanvasSurfaceView;
     private View mPauseMenu = null;
+    private View mGameOverMenu = null;
     private Game game;
     private long mLastTouchTime = 0L;
     private long mLastRollTime = 0L;
@@ -38,15 +38,49 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         mCanvasSurfaceView = (CanvasSurfaceView) findViewById(R.id.glsurfaceview);
         mPauseMenu = findViewById(R.id.pausedMenu);
-        // when user clicks on Pause button -> game is resumed
+        mGameOverMenu = findViewById(R.id.gameOverMenu);
+        // runtime config for Pause menu
         inflatePauseMenu();
+        // runtime config for GameOver menu
+        inflateGameOverMenu();
         game = new Game(this);
         // load the game
         game.load(this);
         mCanvasSurfaceView.setRenderer(game.getRenderer());
     }
     
-    /* Load up the necessary elements for the pause menu*/
+    /* Load up the necessary elements for the game over menu*/
+    private void inflateGameOverMenu() {
+    	Typeface font = Typeface.createFromAsset(
+        		getAssets(), Constants.MAIN_MENU_FONT_ASSET);  
+    	
+    	TextView gameOverMenuTitle = (TextView)findViewById(R.id.gameOverMenuText);
+    	gameOverMenuTitle.setTypeface(font);
+    	
+    	TextView gameOverMenuDescription = (TextView)findViewById(R.id.gameOverMenuDescription);
+    	gameOverMenuDescription.setTypeface(font);
+        
+        Button restartButton = (Button)findViewById(R.id.gameOver_restartButton);
+        restartButton.setTypeface(font);
+        restartButton.setOnClickListener(new OnClickListener() {
+        	
+        	public void onClick(View v) {
+        		hideGameOverMenu();
+        		// TODO level restart
+        	}
+        });
+        
+        Button quitButton = (Button)findViewById(R.id.gameOver_quitButton);
+        quitButton.setTypeface(font);
+        quitButton.setOnClickListener(new OnClickListener() {
+        	
+        	public void onClick(View v) {
+        		finish();
+        	}
+        });
+	}
+
+	/* Load up the necessary elements for the pause menu*/
     private void inflatePauseMenu() {
     	Typeface font = Typeface.createFromAsset(
         		getAssets(), Constants.MAIN_MENU_FONT_ASSET);  
@@ -200,6 +234,20 @@ public class MainActivity extends Activity {
     		mPauseMenu.setClickable(false);
     	}
 	}
+	
+	private void showGameOverMenu() {
+    	if (mGameOverMenu != null) {
+    		mGameOverMenu.setVisibility(View.VISIBLE);
+            mGameOverMenu.setClickable(true);
+    	}
+	}
+
+	private void hideGameOverMenu() {
+		if (mGameOverMenu != null) {
+    		mGameOverMenu.setVisibility(View.GONE);
+    		mGameOverMenu.setClickable(false);
+    	}
+	}
 
 	/*
      * Here's where we need to create za Exit menu 
@@ -231,12 +279,8 @@ public class MainActivity extends Activity {
 		Intent i;
 		switch (eventCode) {
 			case GameFlowEvent.EVENT_GAME_OVER: 
-				game.stop();
-				i = new Intent(this, GameOverActivity.class);
-				// send the game data object to the activity
-				i.putExtra(GameData.class.getPackage().getName(), game.getController().getData());
-                startActivity(i);
-				finish();
+				showGameOverMenu();
+	        	game.onPause();
 				break;
 			case GameFlowEvent.EVENT_VICTORY: 
 				game.stop();

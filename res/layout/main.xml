@@ -90,5 +90,71 @@
 	        android:paddingTop="10dp"
 	        android:background="@layout/mainmenu_item" />     
 	 </LinearLayout>
+	 
+	 <!-- the Game Over menu -->  
+    <LinearLayout
+    		android:id="@+id/gameOverMenu"
+	     	android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical" 
+			android:layout_gravity="center"
+	     	android:visibility="gone">
+            
+         <TextView  
+	    	android:id="@+id/gameOverMenuText"
+	        android:layout_height="wrap_content" 
+	        android:layout_width="wrap_content" 
+	        android:layout_gravity="center"  
+	        android:text="@string/gameOverMenuText"
+	        android:textColor="#ffffff"
+	        android:textSize="32dp"
+	        android:shadowColor="#000000"  
+	       	android:shadowRadius="2"  
+	       	android:shadowDx="1"  
+	       	android:shadowDy="1"   
+		    />
+		    
+	    <TextView  
+	    	android:id="@+id/gameOverMenuDescription"
+	        android:layout_height="wrap_content" 
+	        android:layout_width="wrap_content" 
+	        android:layout_gravity="center"  
+	        android:text="TODO"
+	        android:textColor="#ffffff"
+	        android:textSize="24dp"
+	        android:shadowColor="#000000"  
+	       	android:shadowRadius="2"  
+	       	android:shadowDx="1"  
+	       	android:shadowDy="1"   
+	    	/>   
+	    
+	     <Button
+	        android:id="@+id/gameOver_restartButton"
+	        android:text="@string/gameOver_restartButton"
+	        android:textSize="18dp"
+	        android:shadowColor="#347C17"  
+	       	android:shadowRadius="1.5"  
+	       	android:shadowDx="1"  
+	       	android:shadowDy="1"  
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingTop="10dp"
+	        android:background="@layout/mainmenu_item" />
+	    
+	    <Button
+	        android:id="@+id/gameOver_quitButton"
+	        android:text="@string/gameOver_quitButton"
+	        android:textSize="18dp"
+	        android:shadowColor="#347C17"  
+	       	android:shadowRadius="1.5"  
+	       	android:shadowDx="1"  
+	       	android:shadowDy="1"  
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingTop="10dp"
+	        android:background="@layout/mainmenu_item" />     
+	 </LinearLayout>
      
 </FrameLayout>
