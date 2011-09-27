@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.killerappzz.spider.engine.Game;
+import com.killerappzz.spider.engine.GameFlowEvent;
+import com.killerappzz.spider.menus.GameOverActivity;
 import com.killerappzz.spider.menus.OptionsActivity;
 import com.killerappzz.spider.rendering.CanvasSurfaceView;
 
@@ -217,5 +220,26 @@ public class MainActivity extends Activity {
         }
         return dialog;
     }
+    /*
+     *  When the game thread needs to stop its own execution (to go to a new level, or restart the
+     *  current level), it registers a runnable on the main thread which orders the action via this
+     *  function. @see replicaisland the AndouKun#onGameFlowEvent method 
+     */
+	public void onGameFlowEvent(int eventCode) {
+		switch (eventCode) {
+			case GameFlowEvent.EVENT_GAME_OVER: 
+				game.stop();
+				Intent i = new Intent(this, GameOverActivity.class);
+                startActivity(i);
+				finish();
+				break;
+			case GameFlowEvent.EVENT_RESTART_LEVEL:
+				game.restartLevel();
+				break;
+			default:
+				Log.e(Constants.LOG_TAG, "Unrecognized event code: " + eventCode);
+				break;
+		}
+	}
 
 }

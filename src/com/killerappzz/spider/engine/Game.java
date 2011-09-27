@@ -125,4 +125,9 @@ public class Game {
 		return engine.isPaused();
 	}
 
+	public void restartLevel() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
