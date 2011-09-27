@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.killerappzz.spider.engine.Game;
+import com.killerappzz.spider.engine.GameData;
 import com.killerappzz.spider.engine.GameFlowEvent;
 import com.killerappzz.spider.menus.GameOverActivity;
 import com.killerappzz.spider.menus.OptionsActivity;
@@ -230,6 +231,8 @@ public class MainActivity extends Activity {
 			case GameFlowEvent.EVENT_GAME_OVER: 
 				game.stop();
 				Intent i = new Intent(this, GameOverActivity.class);
+				// send the game data object to the activity
+				i.putExtra(GameData.class.getPackage().getName(), game.getController().getData());
                 startActivity(i);
 				finish();
 				break;

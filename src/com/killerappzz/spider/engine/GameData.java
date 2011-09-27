@@ -1,14 +1,19 @@
 package com.killerappzz.spider.engine;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.killerappzz.spider.Constants;
 
 /**
- * Game-related info
+ * Game-related info.
+ * We use the parcelable shit to pass it 
+ * between activities(ex game over activity)
  * 
  * @author florin
  *
  */
-public class GameData {
+public class GameData implements Parcelable{
 	// the area
 	private float claimedArea;
 	private float totalClaimedArea;
@@ -99,7 +104,7 @@ public class GameData {
 	public int getSeconds() {return this.time.secs;}
 	public int getDeciSeconds() {return this.time.deciSecs;}
 	
-	private class TimeHandler {
+	private class TimeHandler{
 		public int deciSecs;
 		public int secs;
 		public int mins;
@@ -166,4 +171,46 @@ public class GameData {
 		this.gameOver = omolog.gameOver;
 		this.victory = omolog.victory;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeFloat(claimedArea);
+		dest.writeFloat(totalClaimedArea);
+		dest.writeLong(score);
+		dest.writeLong(gain);
+		dest.writeFloat(time.totalTime);
+		dest.writeInt(lifes);
+		dest.writeBooleanArray(new boolean[]{gameOver,victory});
+	}
+	
+	public static final Parcelable.Creator<GameData> CREATOR
+		= new Parcelable.Creator<GameData>() {
+		public GameData createFromParcel(Parcel in) {
+			return new GameData(in);
+		}
+
+		public GameData[] newArray(int size) {
+			return new GameData[size];
+		}
+	};
+	
+	private GameData(Parcel in) {
+		this.claimedArea = in.readFloat();
+		this.totalClaimedArea = in.readFloat();
+		this.score = in.readLong();
+		this.gain = in.readLong();
+		this.time = new TimeHandler();
+		this.time.totalTime = in.readFloat();
+		this.lifes = in.readInt();
+		boolean array[] = new boolean[2];
+		in.readBooleanArray(array);
+		this.gameOver = array[0];
+		this.victory = array[1];
+	}
+	
 }

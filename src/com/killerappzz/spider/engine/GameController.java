@@ -153,5 +153,9 @@ public class GameController extends SimpleOnGestureListener{
 	public void updateScreen(int width, int height) {
 		data.setTotalArea( (width - spider.width) * (height - spider.height) );
 	}
+	
+	public GameData getData() {
+		return data;
+	}
 
 }
