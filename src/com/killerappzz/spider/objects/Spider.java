@@ -206,6 +206,8 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	private void respawn() {
 		this.blink = false;
 		this.stopMovement();
+		// decrease number of lives
+		this.data.lostLife();
 		// set position to last position
 		if(this.trailingPath.isEmpty()) 
 			setPosition(this.lastX, this.lastY);
@@ -272,9 +274,9 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	@Override
 	public void receive(ICollider collider) {
 		Log.d(Constants.LOG_TAG, "Receive collision from: " + collider);
-		// if already dead => do nothing!
 		// collision bat => spider
 		if(collider instanceof Bat) {
+			// if already dead => do nothing!
 			if(movement.equals(Movement.CLAIM)) {
 				// let the collider do its collision thing
 				collider.collide(this);

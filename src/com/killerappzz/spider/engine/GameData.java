@@ -120,6 +120,10 @@ public class GameData {
 	public int getLifesCount() {
 		return lifes;
 	}
+	
+	public void lostLife() {
+		this.lifes--;
+	}
 
 	// update at each frame
 	public void update(GameData omolog) {
