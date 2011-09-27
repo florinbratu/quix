@@ -27,7 +27,16 @@
 	<string name="gameOver_quitButton">Exit</string>
 	<string name="gameOver_death">Player died</string>
 	<string name="gameOver_timeout">Time expired</string>
-	<string name="victory_surface">Required surface has been captured</string>
-	<string name="victory_spiderTrapped">The bat has been trapped inside the spider nest</string>
+	<string name="victory_surface">The required surface has been captured</string>
+	<string name="victory_spiderTrapped">The bat has been trapped inside the spider web</string>
+	
+	<!-- victory screen -->
+	<string name="victory_screen_title">Congratulations!</string>
+	<string name="game_results_surface_claimed">Claimed surface:</string>
+	<string name="game_results_total_score">Score:</string>
+	<string name="game_results_total_play_time">Total play time:</string>
+	<string name="victory_screen_exit_button">Main menu</string>
+	<string name="victory_screen_restart_button">Replay</string>
+	<string name="victory_screen_next_level_button">Next level</string>
     
 </resources>

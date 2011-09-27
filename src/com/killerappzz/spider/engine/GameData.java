@@ -124,6 +124,7 @@ public class GameData implements Parcelable{
 	public int getMinutes() {return this.time.mins;}
 	public int getSeconds() {return this.time.secs;}
 	public int getDeciSeconds() {return this.time.deciSecs;}
+	public float getTotalTime() {return this.time.totalTime;}
 	
 	private class TimeHandler{
 		public int deciSecs;

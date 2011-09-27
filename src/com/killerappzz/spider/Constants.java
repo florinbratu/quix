@@ -70,6 +70,12 @@ public interface Constants {
 	/* spider death configuration */
 	public static final float SPIDER_DEATH_BLINK_RATE = 0.3f; // seconds
 	public static final float SPIDER_DEATH_PERIOD = 3.0f; // seconds
+	
+	/* victory screen */
+	public static final int INCREMENT_DELAY_MS = 2000;
+	public static final String VICTORY_SCREEN_FONT_ASSET = "fonts/SF_Collegiate.ttf";
+	public static final int VICTORY_SCREEN_SCORE_INCREMENT = 1000;
+	public static final int VICTORY_SCREEN_TIME_INCREMENT = 10;
 
 	/**
 	 * The sprites will be available only for certain
