@@ -156,5 +156,66 @@
 	        android:paddingTop="10dp"
 	        android:background="@layout/mainmenu_item" />     
 	 </LinearLayout>
+	 
+	 <!-- the sexy Quit dialog -->
+	 <LinearLayout
+    		android:id="@+id/quitGameDialog"
+	     	android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical" 
+			android:layout_gravity="center"
+	     	android:visibility="gone">
+	     	
+	     	<TextView  
+		    	android:id="@+id/quitGameDialogTitle"
+		        android:layout_height="wrap_content" 
+		        android:layout_width="wrap_content" 
+		        android:layout_gravity="center"  
+		        android:text="@string/quit_game_dialog_title"
+		        android:textColor="#ffffff"
+		        android:textSize="32dp"
+		        android:shadowColor="#000000"  
+		       	android:shadowRadius="2"  
+		       	android:shadowDx="1"  
+		       	android:shadowDy="1"   
+		    />
+		    
+		    <LinearLayout 
+		    	android:orientation="horizontal" 
+		    	android:layout_width="fill_parent" 
+		    	android:layout_height="wrap_content" 
+		    	android:layout_gravity="bottom|center_vertical">
+		    <Button
+		        android:id="@+id/quitGame_OK"
+		        android:text="@string/quit_game_dialog_ok"
+		        android:textSize="18dp"
+		        android:shadowColor="#347C17"  
+		       	android:shadowRadius="1.5"  
+		       	android:shadowDx="1"  
+		       	android:shadowDy="1"  
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal"
+		        android:paddingTop="10dp"
+		        android:background="@layout/mainmenu_item" 
+		    />
+		    
+		    <Button
+		        android:id="@+id/quitGame_cancel"
+		        android:text="@string/quit_game_dialog_cancel"
+		        android:textSize="18dp"
+		        android:shadowColor="#347C17"  
+		       	android:shadowRadius="1.5"  
+		       	android:shadowDx="1"  
+		       	android:shadowDy="1"  
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal"
+		        android:paddingTop="10dp"
+		        android:background="@layout/mainmenu_item" 
+		    />     
+		    </LinearLayout>
+		    
+	 </LinearLayout>
      
 </FrameLayout>

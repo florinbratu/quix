@@ -1,9 +1,6 @@
 package com.killerappzz.spider;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -17,8 +14,8 @@ import android.widget.TextView;
 
 import com.killerappzz.spider.engine.Game;
 import com.killerappzz.spider.engine.GameData;
-import com.killerappzz.spider.engine.GameFlowEvent;
 import com.killerappzz.spider.engine.GameData.EndGameCondition;
+import com.killerappzz.spider.engine.GameFlowEvent;
 import com.killerappzz.spider.menus.OptionsActivity;
 import com.killerappzz.spider.menus.VictoryActivity;
 import com.killerappzz.spider.rendering.CanvasSurfaceView;
@@ -28,6 +25,7 @@ public class MainActivity extends Activity {
     private CanvasSurfaceView mCanvasSurfaceView;
     private View mPauseMenu = null;
     private View mGameOverMenu = null;
+    private View mQuitGameDialog = null;
     private TextView gameOverMenuDescription;
     private Game game;
     private long mLastTouchTime = 0L;
@@ -41,21 +39,51 @@ public class MainActivity extends Activity {
         mCanvasSurfaceView = (CanvasSurfaceView) findViewById(R.id.glsurfaceview);
         mPauseMenu = findViewById(R.id.pausedMenu);
         mGameOverMenu = findViewById(R.id.gameOverMenu);
+        mQuitGameDialog = findViewById(R.id.quitGameDialog);
+        Typeface font = Typeface.createFromAsset(
+        		getAssets(), Constants.MAIN_MENU_FONT_ASSET);
         // runtime config for Pause menu
-        inflatePauseMenu();
+        inflatePauseMenu(font);
         // runtime config for GameOver menu
-        inflateGameOverMenu();
+        inflateGameOverMenu(font);
+        // runtime config for Quit Game menu
+        inflateQuitGameMenu(font);
         game = new Game(this);
         // load the game
         game.load(this);
         mCanvasSurfaceView.setRenderer(game.getRenderer());
     }
     
-    /* Load up the necessary elements for the game over menu*/
-    private void inflateGameOverMenu() {
-    	Typeface font = Typeface.createFromAsset(
-        		getAssets(), Constants.MAIN_MENU_FONT_ASSET);  
+    /* Load up the necessary elements for the quit game menu*/
+    private void inflateQuitGameMenu(Typeface font) {
+    	TextView quitGameDialogTitle = (TextView)findViewById(R.id.quitGameDialogTitle);
+    	quitGameDialogTitle.setTypeface(font);
     	
+        Button cancelButton = (Button)findViewById(R.id.quitGame_cancel);
+        cancelButton.setTypeface(font);
+        cancelButton.setOnClickListener(new OnClickListener() {
+        	
+        	public void onClick(View v) {
+        		if(mQuitGameDialog != null) {
+        			mQuitGameDialog.setVisibility(View.GONE);
+        			game.onResume();
+        		}
+        	}
+        });
+        
+        Button quitButton = (Button)findViewById(R.id.quitGame_OK);
+        quitButton.setTypeface(font);
+        quitButton.setOnClickListener(new OnClickListener() {
+        	
+        	public void onClick(View v) {
+        		// this activity is done
+        		finish();
+        	}
+        });		
+	}
+
+	/* Load up the necessary elements for the game over menu*/
+    private void inflateGameOverMenu(Typeface font) {
     	TextView gameOverMenuTitle = (TextView)findViewById(R.id.gameOverMenuText);
     	gameOverMenuTitle.setTypeface(font);
     	
@@ -83,10 +111,7 @@ public class MainActivity extends Activity {
 	}
 
 	/* Load up the necessary elements for the pause menu*/
-    private void inflatePauseMenu() {
-    	Typeface font = Typeface.createFromAsset(
-        		getAssets(), Constants.MAIN_MENU_FONT_ASSET);  
-    	
+    private void inflatePauseMenu(Typeface font) {
     	TextView pausedTitle = (TextView)findViewById(R.id.pausedMenuText);
     	pausedTitle.setTypeface(font);
         
@@ -198,7 +223,11 @@ public class MainActivity extends Activity {
 			final long time = System.currentTimeMillis();
     		if (time - mLastRollTime > Constants.ROLL_TO_FACE_BUTTON_DELAY &&
     				time - mLastTouchTime > Constants.ROLL_TO_FACE_BUTTON_DELAY) {
-    			showDialog(Constants.QUIT_GAME_DIALOG_ID);
+    			// show quit game dialog
+    			if(mQuitGameDialog != null) {
+    				mQuitGameDialog.setVisibility(View.VISIBLE);
+    				game.onPause();
+    			}
     			result = true;
     		}
     	} else if (keyCode == KeyEvent.KEYCODE_MENU) {
@@ -247,38 +276,15 @@ public class MainActivity extends Activity {
     				EndGameCondition.descriptionStrings[
     				    game.getController().getData().getEndGameReason().ordinal()]);
     		mGameOverMenu.setVisibility(View.VISIBLE);
-            mGameOverMenu.setClickable(true);
     	}
 	}
 
 	private void hideGameOverMenu() {
 		if (mGameOverMenu != null) {
     		mGameOverMenu.setVisibility(View.GONE);
-    		mGameOverMenu.setClickable(false);
     	}
 	}
 
-	/*
-     * Here's where we need to create za Exit menu 
-     */
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        Dialog dialog = null;
-        if (id == Constants.QUIT_GAME_DIALOG_ID) {
-        	
-            dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.quit_game_dialog_title)
-                .setPositiveButton(R.string.quit_game_dialog_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    	finish();
-                    }
-                })
-                .setNegativeButton(R.string.quit_game_dialog_cancel, null)
-                .setMessage(R.string.quit_game_dialog_message)
-                .create();
-        }
-        return dialog;
-    }
     /*
      *  When the game thread needs to stop its own execution (to go to a new level, or restart the
      *  current level), it registers a runnable on the main thread which orders the action via this
