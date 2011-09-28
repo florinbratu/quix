@@ -26,9 +26,6 @@ public class Engine{
     public void start() {
         if (!mRunning) {
             assert mGame == null;
-            // Now's a good time to run the GC.
-            Runtime r = Runtime.getRuntime();
-            r.gc();
             Log.d(Constants.LOG_TAG, "Engine start!");
             mGame = new Thread(mGameThread);
             mGame.setName("Engine");

@@ -174,6 +174,9 @@ public class MainActivity extends Activity {
     protected void onPause() {
     	game.onPause();
     	super.onPause();
+    	// Now's a good time to run the GC.
+        Runtime r = Runtime.getRuntime();
+        r.gc();
     }
     
     @Override
@@ -294,6 +297,9 @@ public class MainActivity extends Activity {
 				i.putExtra(GameData.class.getPackage().getName(), game.getController().getData());
                 startActivity(i);
 				finish();
+				// another good moment to run the GC.
+	            Runtime r = Runtime.getRuntime();
+	            r.gc();
 				break;
 			case GameFlowEvent.EVENT_RESTART_LEVEL:
 				game.restartLevel();
