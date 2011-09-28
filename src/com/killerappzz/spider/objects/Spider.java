@@ -56,6 +56,8 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
     private boolean blink = false;
     // the bounding box
     private final RectF boundingBox = new RectF();
+    // the Bat
+    private Bat bat;
     
     public Spider(Spider orig) {
     	super(orig);
@@ -90,6 +92,10 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 	
 	public void setScoreGain(ScoreGain score) {
 		this.score = score;
+	}
+	
+	public void setBat(Bat bat) {
+		this.bat = bat;
 	}
 	
 	@Override
@@ -196,6 +202,8 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 		this.claimedPath.merge(boundedPath);
 		// recalculate area!
 		this.data.setClaimedArea(this.claimedPath.area());
+		// increment bat speed according to the gained surface
+		this.bat.speed += this.data.batSpeedIncrement(this.bat.speed);
 		// display the score. if zero score, don't even bother!
 		if(data.getGain() != 0)
 			score.display((float)boundedPath.getCenter().getX(), (float)boundedPath.getCenter().getY());

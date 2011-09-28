@@ -105,6 +105,16 @@ public class GameData implements Parcelable{
 		if(getClaimedPercentile() > Constants.MAX_SURFACE) 
 			victory(EndGameCondition.SURFACE);
 	}
+	
+	/* Speed is calculated with the following formula:
+	 * speed = ( 1 + gain/totalArea ) * initialSpeed
+	 * 
+	 * In this case, the incremental speed formula is given below:
+	 * */
+	public float batSpeedIncrement(float speed) {
+		return (gain / totalClaimedArea) * // current delta
+				(speed / ( 1 + (claimedArea - gain) / totalClaimedArea )); // old speed
+	}
 
 	/**
 	 * Update the score after we gained some field.
