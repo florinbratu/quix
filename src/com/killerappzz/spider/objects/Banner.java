@@ -136,4 +136,9 @@ public class Banner extends DrawableObject{
 		Banner omologBanner = (Banner)omolog;
 		this.data.update(omologBanner.data);
 	}
+
+	@Override
+	public void reset() {
+		// banner draws its state from the GameData => nothing changes
+	}
 }

@@ -79,4 +79,9 @@ public class Sprite extends DrawableObject {
     	return new Sprite(this);
     }
     
+    @Override
+	public void reset() {
+		// nothing to be done at this level
+	}
+    
 }

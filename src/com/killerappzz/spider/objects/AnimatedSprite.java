@@ -126,5 +126,14 @@ public abstract class AnimatedSprite extends Sprite {
     	this.sourceRect.set(omologSprite.sourceRect);
     	this.frameTicker = omologSprite.frameTicker;
     }
-
+    
+	@Override
+    public void reset() {
+		this.currentFrame = 0;
+		this.frameTicker = 0;
+		this.sourceRect.set(0, 0, (int)this.width, (int)this.height);
+		// initial direction: north
+		this.movementDirection = Direction.NORTH;
+    }
+    
 }

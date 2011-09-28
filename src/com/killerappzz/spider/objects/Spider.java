@@ -296,4 +296,19 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 		return this.boundingBox;
 	}
 	
+    @Override
+	public void reset() {
+		super.reset();
+		this.trailingPath.rewind();
+		this.claimedPath.rewind();
+		this.lastX = this.lastY = -1;
+		this.movement = Movement.NONE;
+		this.deathTicker = 0;
+		this.deathTime = 0;
+		this.blink = false;
+		int centerX = (screenWidth - (int)this.width) / 2;
+        setPosition(centerX, 0);
+        this.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
+	}
+	
 }

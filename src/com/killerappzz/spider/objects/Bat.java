@@ -165,5 +165,15 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 		Bat omologBat = (Bat)omolog;
     	this.data.update(omologBat.data);
 	}
+	
+	@Override
+	public void reset() {
+		super.reset();
+		int centerX = (screenWidth - (int)this.width) / 2;
+		int centerY = (screenHeight - (int)this.height) / 2;
+		setPosition(centerX, centerY);
+        this.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_BAT_SPEED_FACTOR;
+        startMovement();
+	}
 
 }

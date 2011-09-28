@@ -85,6 +85,7 @@ public class GameController extends SimpleOnGestureListener{
         Bat bat = new Bat(context, bitmapOpts, 
         		R.drawable.bat, screenWidth, screenHeight, 
         		Constants.BAT_ANIMATION_FRAMES_COUNT, Constants.BAT_ANIMATION_FPS, data);
+        centerX = (screenWidth - (int)bat.width) / 2;
         int centerY = (screenHeight - (int)bat.height) / 2;
         bat.setPosition(centerX, centerY);
         bat.setZ(2);

@@ -59,6 +59,18 @@ public class Game {
         engine.start();
 	}
 	
+	/* restart current level */
+	public void restartLevel() {
+		// stop the game
+		engine.stop();
+		// reset all objects to their initial state
+		this.manager.reset();
+		// reset game state
+		controller.getData().reset();
+		// restart the game
+		engine.start();
+	}
+	
 	// game logic update
 	public void update(float deltaTimeSeconds) {
 		final float timeDeltaSeconds = getTimeDelta();
@@ -125,11 +137,6 @@ public class Game {
 
 	public boolean isPaused() {
 		return engine.isPaused();
-	}
-
-	public void restartLevel() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -169,6 +169,8 @@ public abstract class DrawableObject implements Cloneable{
     
     public abstract void draw(Canvas canvas);
     public abstract void cleanup();
+    // object state reset. useful for level restart for instance
+    public abstract void reset();
     // cloning
     public abstract DrawableObject clone();
     // drawing optimization. this will be called at each frame 

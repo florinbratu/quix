@@ -58,6 +58,10 @@ public class GameData implements Parcelable{
 	private EndGameCondition endReason;
 	
 	public GameData() {
+		reset();
+	}
+	
+	public void reset() {
 		this.claimedArea = 0;
 		this.score = 0;
 		this.time = new TimeHandler();

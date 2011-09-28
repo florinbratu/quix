@@ -98,4 +98,9 @@ public class ScoreGain extends DrawableObject{
 		this.data.update(omologGain.data);
 	}
 
+	@Override
+	public void reset() {
+		// not concerned 
+	}
+
 }

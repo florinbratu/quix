@@ -78,4 +78,10 @@ public class ObjectManager {
 		}
 	}
 
+	public void reset() {
+		for(DrawableObject obj : this.objects) {
+			obj.reset();
+		}
+	}
+
 }

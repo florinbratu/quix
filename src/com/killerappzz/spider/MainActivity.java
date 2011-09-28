@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
         	
         	public void onClick(View v) {
         		hideGameOverMenu();
-        		// TODO level restart
+        		game.restartLevel();
         	}
         });
         
@@ -104,7 +104,8 @@ public class MainActivity extends Activity {
         restartButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
-        		// TODO level restart
+        		hidePauseMessage();
+        		game.restartLevel();
         	}
         });
         
