@@ -82,14 +82,14 @@ public class GameController extends SimpleOnGestureListener{
         this.collisionHandler.registerCollidee(spider);
         
         // Make the bad bat
+        float batInitialSpeed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_BAT_SPEED_FACTOR;
         Bat bat = new Bat(context, bitmapOpts, 
         		R.drawable.bat, screenWidth, screenHeight, 
-        		Constants.BAT_ANIMATION_FRAMES_COUNT, Constants.BAT_ANIMATION_FPS, data);
+        		Constants.BAT_ANIMATION_FRAMES_COUNT, Constants.BAT_ANIMATION_FPS, data, batInitialSpeed);
         centerX = (screenWidth - (int)bat.width) / 2;
         int centerY = (screenHeight - (int)bat.height) / 2;
         bat.setPosition(centerX, centerY);
         bat.setZ(2);
-        bat.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_BAT_SPEED_FACTOR;
         bat.startMovement();
         this.manager.add(bat);
         this.spider.setBat(bat);

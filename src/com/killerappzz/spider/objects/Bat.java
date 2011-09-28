@@ -27,18 +27,22 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
     private final RectF boundingBox = new RectF();
     // game data. for victory notification! ;)
     private final GameData data;
+    private final float initialSpeed;
 
 	public Bat(Context context, Options bitmapOptions, int resourceId,
-			int scrW, int scrH, int framesNo, int fps, GameData data) {
+			int scrW, int scrH, int framesNo, int fps, GameData data, float initialSpeed) {
 		super(context, bitmapOptions, resourceId, scrW, scrH, framesNo, fps);
 		this.movementVector = new Edge2D.Float();
 		this.data = data;
+		this.initialSpeed = initialSpeed;
+		this.speed = this.initialSpeed;
 	}
 	
 	public Bat(Bat orig) {
 		super(orig);
 		this.movementVector = new Edge2D.Float();
 		this.data = orig.data;
+		this.initialSpeed = orig.initialSpeed;
 	}
 	
 	@Override
@@ -172,8 +176,14 @@ public class Bat extends AnimatedSprite implements IBounceable, ICollider{
 		int centerX = (screenWidth - (int)this.width) / 2;
 		int centerY = (screenHeight - (int)this.height) / 2;
 		setPosition(centerX, centerY);
-        this.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_BAT_SPEED_FACTOR;
+        this.speed = this.initialSpeed;
         startMovement();
+	}
+
+	/* Increment the bat speed according to the surface gain
+	 * */
+	public void incrementSpeedBySurface(float claimedPercentile) {
+		this.speed = (1 + claimedPercentile / 100) * this.initialSpeed;
 	}
 
 }

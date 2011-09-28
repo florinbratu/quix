@@ -203,7 +203,7 @@ public class Spider extends AnimatedSprite implements IBounceable, ICollidee{
 		// recalculate area!
 		this.data.setClaimedArea(this.claimedPath.area());
 		// increment bat speed according to the gained surface
-		this.bat.speed += this.data.batSpeedIncrement(this.bat.speed);
+		this.bat.incrementSpeedBySurface(data.getClaimedPercentile());
 		// display the score. if zero score, don't even bother!
 		if(data.getGain() != 0)
 			score.display((float)boundedPath.getCenter().getX(), (float)boundedPath.getCenter().getY());
