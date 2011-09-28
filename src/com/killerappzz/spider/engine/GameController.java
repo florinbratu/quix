@@ -92,6 +92,7 @@ public class GameController extends SimpleOnGestureListener{
         bat.speed = 0.5f * (screenWidth + screenHeight) / Constants.DEFAULT_BAT_SPEED_FACTOR;
         bat.startMovement();
         this.manager.add(bat);
+        this.spider.setBat(bat);
         // register as collisions "giver"
         this.collisionHandler.registerCollider(bat);
         

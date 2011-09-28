@@ -1,6 +1,7 @@
 package com.killerappzz.spider.menus;
 
 import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.MainActivity;
 import com.killerappzz.spider.R;
 import com.killerappzz.spider.engine.GameData;
 import com.killerappzz.spider.engine.GameData.EndGameCondition;
@@ -49,6 +50,8 @@ public class VictoryActivity extends Activity {
 		exitButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
+        		// goto main menu
+        		// assumes(does not check) that on top of activity stack we have the main menu activity
         		finish();
         	}
         });
@@ -58,7 +61,9 @@ public class VictoryActivity extends Activity {
 		restartButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
-        		// TODO level restart
+        		Intent i = new Intent(VictoryActivity.this, MainActivity.class);
+                startActivity(i);
+                finish();
         	}
         });
 		
@@ -68,6 +73,9 @@ public class VictoryActivity extends Activity {
         	
         	public void onClick(View v) {
         		// TODO goto next level
+        		Intent i = new Intent(VictoryActivity.this, MainActivity.class);
+                startActivity(i);
+                finish();
         	}
         });
 		
