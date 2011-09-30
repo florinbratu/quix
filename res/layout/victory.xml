@@ -58,7 +58,7 @@
 	    
 	    <!-- Claimed surface -->
 		<RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
-				<TextView android:id="@+id/game_results_surface_claimed" android:text="@string/game_results_surface_claimed" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textColor="#000000" android:textSize="20dp"/>
+				<TextView android:id="@+id/game_results_surface_claimed" android:layout_marginLeft="10dip" android:text="@string/game_results_surface_claimed" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textColor="#000000" android:textSize="20dp"/>
 				<view 
 					class = "com.killerappzz.spider.menus.VictoryActivity$IncrementingTextView"
 					android:id ="@+id/surface_percent" 
@@ -74,7 +74,7 @@
 		
 		<!-- Total score -->
 		<RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
-			<TextView android:id="@+id/game_results_total_score" android:text="@string/game_results_total_score" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textColor="#000000" android:textSize="20dp"/>
+			<TextView android:id="@+id/game_results_total_score" android:layout_marginLeft="10dip" android:text="@string/game_results_total_score" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textColor="#000000" android:textSize="20dp"/>
 			<view 				
 				class = "com.killerappzz.spider.menus.VictoryActivity$IncrementingTextView"
 				android:id ="@+id/total_score" 
@@ -90,7 +90,7 @@
 		
 		<!-- Total play time -->
 		<RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
-			<TextView android:id="@+id/game_results_total_play_time" android:text="@string/game_results_total_play_time" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textColor="#000000" android:textSize="20dp"/>
+			<TextView android:id="@+id/game_results_total_play_time" android:layout_marginLeft="10dip" android:text="@string/game_results_total_play_time" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textColor="#000000" android:textSize="20dp"/>
 			<view 
 				class = "com.killerappzz.spider.menus.VictoryActivity$IncrementingTextView"
 				android:id ="@+id/total_play_time" 
