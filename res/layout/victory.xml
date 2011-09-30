@@ -114,11 +114,11 @@
            android:layout_alignParentBottom="true">
 	
 		<!-- control buttons at the bottom -->
-		<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_gravity="bottom|center_vertical">
-			<Button android:id ="@+id/victoryScreen_exit" android:text="@string/victory_screen_exit_button" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:background="@layout/mainmenu_item" />
-			<Button android:id ="@+id/victoryScreen_restart" android:text="@string/victory_screen_restart_button" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:background="@layout/mainmenu_item" />
-			<Button android:id ="@+id/victoryScreen_nextLevel" android:text="@string/victory_screen_next_level_button" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:background="@layout/mainmenu_item" />
-		</LinearLayout>
+		<RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_gravity="bottom|center_vertical">
+			<Button android:layout_alignParentLeft="true" android:id ="@+id/victoryScreen_exit" android:text="@string/victory_screen_exit_button" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:background="@layout/mainmenu_item" />
+			<Button android:layout_centerInParent="true" android:id ="@+id/victoryScreen_restart" android:text="@string/victory_screen_restart_button" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:background="@layout/mainmenu_item" />
+			<Button android:layout_alignParentRight="true" android:id ="@+id/victoryScreen_nextLevel" android:text="@string/victory_screen_next_level_button" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:background="@layout/mainmenu_item" />
+		</RelativeLayout>
 	</LinearLayout>
 		
 </RelativeLayout>
