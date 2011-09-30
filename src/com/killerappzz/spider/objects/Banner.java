@@ -33,15 +33,15 @@ public class Banner extends DrawableObject{
 	private final int width;
 	private final int height;
 	
-	private final Paint scorePaint;
-	private final Paint timeTextPaint;
-	private final Paint surfaceTextPaint;
-	private final Paint livesTextPaint;
+	private Paint scorePaint;
+	private Paint timeTextPaint;
+	private Paint surfaceTextPaint;
+	private Paint livesTextPaint;
 
 	// banner layout parameters
 	private final int spaceToBorder;
-	private final int spaceBetweenText;
-	private final int fontSize;
+	private final int spaceBetweenText; 
+	private int fontSize;
 	// the image for Life
 	private final Sprite lifeImg;
 	
@@ -55,25 +55,29 @@ public class Banner extends DrawableObject{
 		this.data = data;
 		this.width = width;
 		this.height = height;
-		this.fontSize = this.height / 2;
+		
 		// the Banner font
 		Customization.statsFont(Typeface.createFromAsset(
 				context.getAssets(), statsFontName));
-		this.scorePaint = Customization.getScorePaint(fontSize);
-		this.timeTextPaint = Customization.getTimeTextPaint(fontSize);
-		this.surfaceTextPaint = Customization.getSurfaceTextPaint(fontSize);
-		this.livesTextPaint = Customization.getLivesTextPaint(fontSize);
-		float totalTextSize = precomputeTextSize();
-		if(totalTextSize > this.width) {
-			// TODO need to decrease font size
-		} 
+		// setup font size
+		this.fontSize = this.height / 2;
+		float totalTextSize;
+		do {
+			this.scorePaint = Customization.getScorePaint(fontSize);
+			this.timeTextPaint = Customization.getTimeTextPaint(fontSize);
+			this.surfaceTextPaint = Customization.getSurfaceTextPaint(fontSize);
+			this.livesTextPaint = Customization.getLivesTextPaint(fontSize);
+			totalTextSize = precomputeTextSize();
+			if(totalTextSize > (this.width * Constants.STATISTICS_BANNER_TOLERANCE_PERCENTILE) / 100) 
+				this.fontSize -= Constants.STATISTICS_BANNER_FONT_DECREMENT;
+		} while( totalTextSize > (this.width * Constants.STATISTICS_BANNER_TOLERANCE_PERCENTILE) / 100 );
 		float freeScreen = (float)this.width - totalTextSize;
 		this.spaceToBorder = (int)(freeScreen / ( 2.0f + 2.0f * Constants.FREE_SPACE_INTER_TO_BORDER_RATIO ));
 		this.spaceBetweenText = this.spaceToBorder * Constants.FREE_SPACE_INTER_TO_BORDER_RATIO;
 		// the Life image
 		this.lifeImg = new Sprite(context, bitmapOptions, resourceId, width, screenHeight);
 	}
-	
+
 	public Banner(Banner orig) {
 		super(orig);
 		this.width = orig.width;

@@ -35,6 +35,9 @@ public interface Constants {
 	/*
 	 * statistic banner look and feel
 	 */
+	// tolerance percentile for the statistics banner text fill up
+	public static final int STATISTICS_BANNER_TOLERANCE_PERCENTILE = 90;
+	public static final int STATISTICS_BANNER_FONT_DECREMENT = 2;
 	public static final String STATS_FONT_ASSET = "fonts/Starcraft Normal.ttf";
 	public static final String SCORE_TEXT = "Score: ";
 	public static final String MAX_SCORE = "1000000";
